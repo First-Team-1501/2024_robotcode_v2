@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import swervelib.parser.SwerveParser;
 import com.ctre.phoenix.led.CANdle;
-import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.FireAnimation;
 import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.LarsonAnimation;
