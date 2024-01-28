@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -46,6 +45,8 @@ public class RobotContainer
     // Configure the trigger bindings
     configureBindings();
 
+    /* 
+
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
                                                                    () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
                                                                                                 OperatorConstants.LEFT_Y_DEADBAND),
@@ -57,6 +58,8 @@ public class RobotContainer
                                                                    driverXbox::getAButtonPressed,
                                                                    driverXbox::getXButtonPressed,
                                                                    driverXbox::getBButtonPressed);
+
+    */
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -78,10 +81,14 @@ public class RobotContainer
     // controls are front-left positive
     // left stick controls translation
     // right stick controls the angular velocity of the robot
+
+    /*
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> rotationController.getRawAxis(0));
+
+        */
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> MathUtil.applyDeadband(((driverXbox.getLeftY() < .5) ? (driverXbox.getLeftY()*2) : 1), OperatorConstants.LEFT_Y_DEADBAND),
