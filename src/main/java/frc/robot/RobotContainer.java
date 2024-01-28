@@ -67,14 +67,12 @@ public class RobotContainer
     // left stick controls translation
     // right stick controls the desired angle NOT angular rotation
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> MathUtil.applyDeadband(driverController.getY()*2, OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverController.getX()*2, OperatorConstants.LEFT_X_DEADBAND),
         () -> MathUtil.applyDeadband(rotationController.getRawAxis(0), OperatorConstants.RIGHT_X_DEADBAND));
 
-        /* USE THIS FOR NEW JOYSTICKS
-        () -> MathUtil.applyDeadband(((driverController.getY() < .5) ? (driverController.getY()*2) : 1), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(((driverController.getX() < .5) ? (driverController.getX()*2) : 1), OperatorConstants.LEFT_X_DEADBAND),
-         */
+    
+         
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
