@@ -66,7 +66,12 @@ public class RobotContainer
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> rotationController.getRawAxis(0));
+        () -> MathUtil.applyDeadband(rotationController.getRawAxis(0), OperatorConstants.RIGHT_X_DEADBAND));
+
+        /* USE THIS FOR NEW JOYSTICKS
+        () -> MathUtil.applyDeadband(((driverController.getY() < .5) ? (driverController.getY()*2) : 1), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(((driverController.getX() < .5) ? (driverController.getX()*2) : 1), OperatorConstants.LEFT_X_DEADBAND),
+         */
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -74,13 +79,13 @@ public class RobotContainer
     // left stick controls translation
     // right stick controls the angular velocity of the robot
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRawAxis(2));
+        () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> rotationController.getRawAxis(0));
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> MathUtil.applyDeadband(((driverXbox.getLeftY() < .5) ? (driverXbox.getLeftY()*2) : 1), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(((driverXbox.getLeftX() < .5) ? (driverXbox.getLeftY()*2) : 1), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getRawAxis(2));
 
     drivebase.setDefaultCommand(
@@ -98,7 +103,6 @@ public class RobotContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
     new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
     new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
@@ -112,7 +116,7 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Path", true);
+    return drivebase.getAutonomousCommand("Path1", true);
   }
 
   public void setDriveMode()
