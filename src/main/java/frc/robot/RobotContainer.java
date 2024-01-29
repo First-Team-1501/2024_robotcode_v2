@@ -25,10 +25,10 @@ import java.io.File;
  */
 public class RobotContainer
 {
-
+//CHANGED SwerveSystem function from child:"swerve/neo" to "swerve"
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         "swerve/neo"));
+                                                                         "swerve"));
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   CommandJoystick driverController = new CommandJoystick(0);
