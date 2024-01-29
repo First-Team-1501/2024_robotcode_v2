@@ -45,4 +45,5 @@ For any queries or assistance, please contact Jake Garlits at jtgarlits@gmail.co
 
 ## Acknowledgments
 Special thanks to BroncoBotz3481 for the YAGSL Swerve Drive code.
+
 Gratitude to our sponsors, mentors, and everyone who supports Team 1501 THRUST
