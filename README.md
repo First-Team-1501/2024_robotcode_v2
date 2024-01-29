@@ -18,7 +18,9 @@ The robot is operated using a combination of control devices:
 - One Xbox Controller
 - A Custom Button Board
 ## Drive System
-The drive code is based on the YAGSL Swerve Drive, initially developed by BroncoBotz3481. This system provides agile and precise movement control, essential for competition performance.
+The drive code is based on the YAGSL Swerve Drive, initially developed by BroncoBotz3481. 
+
+This system provides agile and precise movement control, essential for competition performance.
 
 ## Getting Started
 ### Prerequisites
