@@ -20,10 +20,6 @@ public class Intake {
     private CANSparkMax m_topIntake;
     private CANSparkMax m_bottomIntake;
 
-    //DECLARE INTAKE ELEVATOR
-    private CANSparkMax m_intakeElevator;
-    //potential REV Thourough Bore Encoder >>HERE<<
-
     //DECLARE Photoeyes
     private DigitalInput pe_notePresent;
     private DigitalInput pe_noteInQueue;
@@ -113,10 +109,47 @@ public class Intake {
 
 
 
-        
+        //      INITIALIZE PHOTOEYES
+        pe_noteInQueue = new DigitalInput(2);
+        pe_notePresent = new DigitalInput(1);
 
+    }//End Constructor for Intake
+
+
+
+
+    //FIX? the photoeye functions below are assuming the sensor returns false when a piece is present
+
+    //returns true if piece present, else it returns false
+    public boolean piecePresent()
+    { 
+        
+        if (!pe_notePresent.get())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }//end if...piecePresent Method
+
+    }//end piecePresent method
+
+    
+    //returns true if piece in queue
+    public boolean pieceInQueue()
+    {
+       if (!pe_noteInQueue.get())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }//end if...pieceInQue Method
     }
 
+    //end of photoeye sensing
 
     
 

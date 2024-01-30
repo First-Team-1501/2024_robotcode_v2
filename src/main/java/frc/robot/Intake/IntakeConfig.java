@@ -90,7 +90,7 @@ public class IntakeConfig {
     //Climber -> .25 output speed
 
     //Ramp Rate
-    public static double bottom_openRampRate = 0; //Time in seconds (1 is good for percent based stuff) (percent mode)
+    public static double bottom_openRampRate = 1; //Time in seconds (1 is good for percent based stuff) (percent mode)
     public static double bottom_closedRampRate = 0; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     //Follower ID
@@ -120,5 +120,14 @@ public class IntakeConfig {
     public static double bottom_analogVelocityConversion = 1;
     public static int bottom_analogSensorMore = 0; // 0 = absolute; 1 = relative
     public static int bottom_analogInverted = 0;
+
+
+
+    // **Running Speeds for Top in All instances
+
+    public static double top_intakeInSpeed = 1;
+    public static double top_intakeOutSpeed = -1;
+
+
 
 }
