@@ -48,6 +48,11 @@ public class Intake {
         //Ramp Rate
         m_topIntake.setOpenLoopRampRate(IntakeConfig.top_openRampRate);
         m_topIntake.setClosedLoopRampRate(IntakeConfig.top_closedRampRate);
+        
+        // Is Follower needed for Top Or Bottom Intake?
+
+        //Inverted
+        m_topIntake.setInverted(IntakeConfig.top_kInverted);
 
         //current limits
         m_topIntake.setSmartCurrentLimit(IntakeConfig.top_smartCurrentStallLimit, IntakeConfig.top_smartCurrentFreeLimit);
@@ -66,9 +71,12 @@ public class Intake {
         
         //TODO: Maybe add HOLLOW BORE
 
+        //BURN FLASH!!
+        m_topIntake.burnFlash();
 
 
-            //INITIALIZE & CONFIGURE m_bottomIntake
+
+        //INITIALIZE & CONFIGURE m_bottomIntake
             
         m_bottomIntake = new CANSparkMax(IntakeConfig.bottom_ID, IntakeConfig.bottom_motorType);
         m_bottomIntake.setIdleMode(IntakeConfig.bottom_idleMode);
@@ -90,6 +98,11 @@ public class Intake {
         m_bottomIntake.setOpenLoopRampRate(IntakeConfig.bottom_openRampRate);
         m_bottomIntake.setClosedLoopRampRate(IntakeConfig.bottom_closedRampRate);
 
+        // Is Follower needed for Top Or Bottom Intake?
+
+        //Inverted
+        m_bottomIntake.setInverted(IntakeConfig.bottom_kInverted);
+
         //current limits
         m_bottomIntake.setSmartCurrentLimit(IntakeConfig.bottom_smartCurrentStallLimit, IntakeConfig.bottom_smartCurrentFreeLimit);
         
@@ -107,6 +120,8 @@ public class Intake {
         
         //TODO: Maybe add HOLLOW BORE
 
+        //BURN FLASH!
+        m_bottomIntake.burnFlash();
 
 
         //      INITIALIZE PHOTOEYES
@@ -121,7 +136,7 @@ public class Intake {
     //FIX? the photoeye functions below are assuming the sensor returns false when a piece is present
 
     //returns true if piece present, else it returns false
-    public boolean piecePresent()
+    public boolean is_piecePresent()
     { 
         
         if (!pe_notePresent.get())
@@ -137,7 +152,7 @@ public class Intake {
 
     
     //returns true if piece in queue
-    public boolean pieceInQueue()
+    public boolean is_pieceInQueue()
     {
        if (!pe_noteInQueue.get())
         {
@@ -147,11 +162,61 @@ public class Intake {
         {
             return false;
         }//end if...pieceInQue Method
-    }
+    }//end pieceInQueue method
 
     //end of photoeye sensing
 
+
+    //**RUN TOP INTAKE Commands */
+
+    //RUN Top intake IN
+    public void run_topIntake()
+    {
+        m_topIntake.set(IntakeConfig.top_inSpeed);
+        
+    }//end run top intake method
+
+
+    //STOP Top intake method
+    public void stop_topIntake()
+    {
+        m_topIntake.set(0);
+    }//end stop top intake method
+
+    //OUT Top intake method
+    public void out_topIntake()
+    {
+        m_topIntake.set(IntakeConfig.top_outSpeed);
+
+    }//end top out method
+
+
+
+    //**RUN TOP INTAKE Commands */
+
     
+    //RUN Bottom intake method
+    public void run_bottomIntake()
+    {
+        
+        m_bottomIntake.set(IntakeConfig.bottom_inSpeed);
+
+    }//end RUN Bottom intake in method
+
+    //STOP Bottom intake method
+    public void stop_bottomIntake()
+    {
+        m_bottomIntake.set(0);
+    }//end STOP intake method
+
+    //OUT Bottom intake
+    public void out_bottomIntake()
+    {
+        m_bottomIntake.set(IntakeConfig.bottom_outSpeed);
+    }//end Out intake Method
+
+
+
 
 
 

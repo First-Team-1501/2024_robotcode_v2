@@ -125,8 +125,13 @@ public class IntakeConfig {
 
     // **Running Speeds for Top in All instances
 
-    public static double top_intakeInSpeed = 1;
-    public static double top_intakeOutSpeed = -1;
+    public static double top_inSpeed = 1;
+    public static double top_outSpeed = -1;
+
+    // **Running Speeds for Bottom in All instances
+
+    public static double bottom_inSpeed = 1;
+    public static double bottom_outSpeed = -1;
 
 
 
