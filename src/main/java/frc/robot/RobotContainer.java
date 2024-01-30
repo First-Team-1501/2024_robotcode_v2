@@ -82,14 +82,13 @@ public class RobotContainer
     // left stick controls translation
     // right stick controls the angular velocity of the robot
 
-    /*
+    
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> rotationController.getRawAxis(0));
-
-        */
-
+        
+ 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> MathUtil.applyDeadband(((driverXbox.getLeftY() < .5) ? (driverXbox.getLeftY()*2) : 1), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(((driverXbox.getLeftX() < .5) ? (driverXbox.getLeftY()*2) : 1), OperatorConstants.LEFT_X_DEADBAND),
