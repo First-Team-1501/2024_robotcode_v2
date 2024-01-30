@@ -38,7 +38,7 @@ public class IntakeConfig {
     public static int top_followerID = 0;
 
     //Inverted
-    public static int top_kInverted = 0;
+    public static Boolean top_kInverted = null;
 
     //Current Limits
     public static int top_smartCurrentStallLimit = 20;  //40 for big neo, 20 for small neo
@@ -60,7 +60,7 @@ public class IntakeConfig {
 
     
 
-    // **** INTAKE TOP CONFIG ****
+    // **** INTAKE BOTTOM CONFIG ****
 
     //CAN bus ID
     public static int bottom_ID = 21;
