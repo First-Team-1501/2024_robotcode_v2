@@ -38,7 +38,7 @@ public class IntakeConfig {
     public static int top_followerID = 0;
 
     //Inverted
-    public static Boolean top_kInverted = null;
+    public static Boolean top_kInverted = false;
 
     //Current Limits
     public static int top_smartCurrentStallLimit = 20;  //40 for big neo, 20 for small neo
@@ -48,9 +48,13 @@ public class IntakeConfig {
     public static double top_positionConversionFactor = 1; //360 / gear ratio
     public static double top_velocityConversionFactor = 1;
 
-    //Soft Limits
-    public static double top_softLimitFwd = 0;
-    public static double top_softLimitRev = 0;
+    //Soft Limits Forward
+    public static Boolean top_softLimitFwdEnabled = true;
+    public static float top_softLimitFwd = 0;
+
+    //Soft Limits Reverse
+    public static Boolean top_softLimitRevEnabled = true;
+    public static float top_softLimitRev = 0;
 
     //Analog for Hollow Bore
     public static double top_analogPositionConversion = 1;
@@ -93,7 +97,7 @@ public class IntakeConfig {
     public static int bottom_followerID = 0;
 
     //Inverted
-    public static int bottom_kInverted = 0;
+    public static Boolean bottom_kInverted = true;
 
     //Current Limits
     public static int bottom_smartCurrentStallLimit = 20;  //40 for big neo, 20 for small neo
@@ -103,9 +107,13 @@ public class IntakeConfig {
     public static double bottom_positionConversionFactor = 1; //360 / gear ratio
     public static double bottom_velocityConversionFactor = 1;
 
-    //Soft Limits
-    public static double bottom_softLimitFwd = 0;
-    public static double bottom_softLimitRev = 0;
+    //Soft Limits Forward
+    public static Boolean bottom_softLimitFwdEnabled = true;
+    public static float bottom_softLimitFwd = 0;
+
+    //Soft Limits Reverse
+    public static Boolean bottom_softLimitRevEnabled = true;
+    public static float bottom_softLimitRev = 0;
 
     //Analog for Hollow Bore
     public static double bottom_analogPositionConversion = 1;
