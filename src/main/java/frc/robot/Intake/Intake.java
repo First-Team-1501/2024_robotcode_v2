@@ -151,7 +151,7 @@ public class Intake {
     }//end piecePresent method
 
     
-    //returns true if piece in queue
+    //returns true if piece in queue, else false
     public boolean is_pieceInQueue()
     {
        if (!pe_noteInQueue.get())
@@ -214,10 +214,6 @@ public class Intake {
     {
         m_bottomIntake.set(IntakeConfig.bottom_outSpeed);
     }//end Out intake Method
-
-
-
-
 
 
 
