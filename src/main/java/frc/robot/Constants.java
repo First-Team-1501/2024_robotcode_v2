@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.XboxController;
 import swervelib.math.Matter;
 import swervelib.parser.PIDFConfig;
 
@@ -25,8 +26,9 @@ public final class Constants
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
 
   public static final class Auton
-  {
 
+
+  {
     public static final PIDFConfig TranslationPID = new PIDFConfig(0.7, 0, 0);
     public static final PIDFConfig angleAutoPID   = new PIDFConfig(0.6, 0, 0.01);
 
@@ -35,18 +37,33 @@ public final class Constants
 
   public static final class Drivebase
   {
-
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
-
+ 
   public static class OperatorConstants
   {
-
     // Joystick Deadband
     public static final double LEFT_X_DEADBAND  = 0.01;
     public static final double LEFT_Y_DEADBAND  = 0.01;
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
   }
+
+
+    // LED Constants
+    public static final int CANdleID = 50;
+    public static final int JoystickId = 2;
+    public static final int IncrementAnimButton = XboxController.Button.kRightBumper.value;
+    public static final int DecrementAnimButton = XboxController.Button.kLeftBumper.value;
+    public static final int BlockButton = XboxController.Button.kStart.value;
+    public static final int MaxBrightnessAngle = 90;
+    public static final int MidBrightnessAngle = 180;
+    public static final int ZeroBrightnessAngle = 270;
+    public static final int VbatButton = XboxController.Button.kA.value;
+    public static final int V5Button = XboxController.Button.kB.value;
+    public static final int CurrentButton = XboxController.Button.kX.value;
+    public static final int TemperatureButton = XboxController.Button.kY.value;
+
+
 }
