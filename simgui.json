@@ -79,9 +79,25 @@
   },
   "NetworkTables": {
     "transitory": {
+      "LiveWindow": {
+        "open": true
+      },
+      "PathPlanner": {
+        "open": true
+      },
+      "Shuffleboard": {
+        ".metadata": {
+          "open": true
+        },
+        ".recording": {
+          "open": true
+        }
+      },
       "SmartDashboard": {
         "Field": {
-          "open": true
+          "double[]##v_/SmartDashboard/Field/Robot": {
+            "open": true
+          }
         },
         "open": true,
         "swerve": {

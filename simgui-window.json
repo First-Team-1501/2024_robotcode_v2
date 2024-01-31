@@ -6,12 +6,12 @@
     "GLOBAL": {
       "fps": "120",
       "height": "907",
-      "maximized": "0",
+      "maximized": "1",
       "style": "0",
       "userScale": "2",
       "width": "1582",
-      "xpos": "129",
-      "ypos": "61"
+      "xpos": "0",
+      "ypos": "23"
     }
   },
   "Window": {
@@ -37,12 +37,12 @@
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "387,157",
-      "Size": "750,185"
+      "Pos": "1113,96",
+      "Size": "750,774"
     },
     "###NetworkTables Info": {
       "Collapsed": "0",
-      "Pos": "386,7",
+      "Pos": "353,-11",
       "Size": "750,145"
     },
     "###Other Devices": {
