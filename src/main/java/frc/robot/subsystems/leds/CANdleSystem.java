@@ -15,10 +15,10 @@ import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
 import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 import com.ctre.phoenix.led.TwinkleOffAnimation.TwinkleOffPercent;
-
+import com.ctre.phoenix.led.FireAnimation;
 public class CANdleSystem extends SubsystemBase {
     private final CANdle m_candle = new CANdle(Constants.CANdleID, "canivore");
-    private final int LedCount = 300;
+    private final int LedCount = 100;
     private XboxController joystick;
 
     private Animation m_toAnimate = null;
@@ -44,16 +44,16 @@ public class CANdleSystem extends SubsystemBase {
         configAll.statusLedOffWhenActive = true;
         configAll.disableWhenLOS = false;
         configAll.stripType = LEDStripType.GRB;
-        configAll.brightnessScalar = 0.1;
+        configAll.brightnessScalar = 1;
         configAll.vBatOutputMode = VBatOutputMode.Modulated;
         m_candle.configAllSettings(configAll, 100);
     }
 
     public void incrementAnimation() {
         switch(m_currentAnimation) {
-            case ColorFlow: changeAnimation(AnimationTypes.Fire); break;
-            case Fire: changeAnimation(AnimationTypes.Larson); break;
-            case Larson: changeAnimation(AnimationTypes.Rainbow); break;
+            //case ColorFlow: changeAnimation(AnimationTypes.Fire); break;
+           // case Fire: changeAnimation(AnimationTypes.Larson); break;
+            /**case Larson: changeAnimation(AnimationTypes.Rainbow); break;
             case Rainbow: changeAnimation(AnimationTypes.RgbFade); break;
             case RgbFade: changeAnimation(AnimationTypes.SingleFade); break;
             case SingleFade: changeAnimation(AnimationTypes.Strobe); break;
@@ -61,13 +61,14 @@ public class CANdleSystem extends SubsystemBase {
             case Twinkle: changeAnimation(AnimationTypes.TwinkleOff); break;
             case TwinkleOff: changeAnimation(AnimationTypes.ColorFlow); break;
             case SetAll: changeAnimation(AnimationTypes.ColorFlow); break;
+            */
         }
     }
     public void decrementAnimation() {
         switch(m_currentAnimation) {
-            case ColorFlow: changeAnimation(AnimationTypes.TwinkleOff); break;
-            case Fire: changeAnimation(AnimationTypes.ColorFlow); break;
-            case Larson: changeAnimation(AnimationTypes.Fire); break;
+            //case ColorFlow: changeAnimation(AnimationTypes.TwinkleOff); break;
+            //case Fire: changeAnimation(AnimationTypes.ColorFlow); break;
+            /**case Larson: changeAnimation(AnimationTypes.Fire); break;
             case Rainbow: changeAnimation(AnimationTypes.Larson); break;
             case RgbFade: changeAnimation(AnimationTypes.Rainbow); break;
             case SingleFade: changeAnimation(AnimationTypes.RgbFade); break;
@@ -75,6 +76,7 @@ public class CANdleSystem extends SubsystemBase {
             case Twinkle: changeAnimation(AnimationTypes.Strobe); break;
             case TwinkleOff: changeAnimation(AnimationTypes.Twinkle); break;
             case SetAll: changeAnimation(AnimationTypes.ColorFlow); break;
+            */
         }
     }
     public void setColors() {
@@ -97,16 +99,16 @@ public class CANdleSystem extends SubsystemBase {
         switch(toChange)
         {
             case ColorFlow:
-                m_toAnimate = new ColorFlowAnimation(128, 20, 70, 0, 0.7, LedCount, Direction.Forward);
+               m_toAnimate = new ColorFlowAnimation(93, 13, 14, 0, 0.7, LedCount, Direction.Forward);
                 break;
             case Fire:
                 m_toAnimate = new FireAnimation(0.5, 0.7, LedCount, 0.7, 0.5);
                 break;
             case Larson:
-                m_toAnimate = new LarsonAnimation(0, 255, 46, 0, 1, LedCount, BounceMode.Front, 3);
+                m_toAnimate = new LarsonAnimation(255, 0, 0, 0, 0.5, LedCount, BounceMode.Center, 7);
                 break;
             case Rainbow:
-                m_toAnimate = new RainbowAnimation(1, 0.1, LedCount);
+                m_toAnimate = new RainbowAnimation(1, 1, LedCount);
                 break;
             case RgbFade:
                 m_toAnimate = new RgbFadeAnimation(0.7, 0.4, LedCount);
@@ -126,6 +128,7 @@ public class CANdleSystem extends SubsystemBase {
             case SetAll:
                 m_toAnimate = null;
                 break;
+                
         }
         System.out.println("Changed to " + m_currentAnimation.toString());
     }

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.io.File;
 import java.io.IOException;
 import swervelib.parser.SwerveParser;
+//import frc.robot.subsystems.leds;
 //Comment out Ross's old LED code for a minute
 //import com.ctre.phoenix.led.CANdle;
 //import com.ctre.phoenix.led.FireAnimation;
@@ -57,7 +58,7 @@ public class Robot extends TimedRobot
   {
     //Comment out Ross's old LED code for a minute
     //candle1.animate(fAnimation);
-    
+    //m_CANdle.animate(Fire);
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();

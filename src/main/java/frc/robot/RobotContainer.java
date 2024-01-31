@@ -19,7 +19,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+
+import com.fasterxml.jackson.databind.ser.std.CalendarSerializer;
+
 import frc.robot.subsystems.leds.CANdleSystem;
+import frc.robot.subsystems.leds.CANdleSystem.AnimationTypes;
 import frc.robot.commands.leds.CANdleConfigCommands;
 import frc.robot.commands.leds.CANdlePrintCommands;
 
@@ -101,7 +105,12 @@ public class RobotContainer
 
     drivebase.setDefaultCommand(
         !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
-
+    
+    
+    //Initialize & set default CANdle settings
+    CANdleSystem candleLEDs = new CANdleSystem(driverXbox);
+    candleLEDs.changeAnimation(AnimationTypes.Rainbow);
+    candleLEDs.configBrightness(100);
 
 
   }
@@ -120,14 +129,14 @@ public class RobotContainer
     new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
 
-   // LED 
-    new JoystickButton(driverXbox, Constants.BlockButton).onTrue(new RunCommand(m_candleSubsystem::setColors, m_candleSubsystem));
+   // LED Buttons to try
+    //new JoystickButton(driverXbox, Constants.BlockButton).onTrue(new RunCommand(m_candleSubsystem::setColors, m_candleSubsystem));
     new JoystickButton(driverXbox, Constants.IncrementAnimButton).onTrue(new RunCommand(m_candleSubsystem::incrementAnimation, m_candleSubsystem));
     new JoystickButton(driverXbox, Constants.DecrementAnimButton).onTrue(new RunCommand(m_candleSubsystem::decrementAnimation, m_candleSubsystem));
-
-    new POVButton(driverXbox, Constants.MaxBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 1.0));
-    new POVButton(driverXbox, Constants.MidBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 0.3));
-    new POVButton(driverXbox, Constants.ZeroBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 0));
+    //This seems to work the best. Ross wrote this.
+    //new POVButton(driverXbox, Constants.MaxBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 1.0));
+    //new POVButton(driverXbox, Constants.MidBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 0.3));
+    //new POVButton(driverXbox, Constants.ZeroBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 0));
 
     new JoystickButton(driverXbox, Constants.VbatButton).onTrue(new CANdlePrintCommands.PrintVBat(m_candleSubsystem));
     new JoystickButton(driverXbox, Constants.V5Button).onTrue(new CANdlePrintCommands.Print5V(m_candleSubsystem));
@@ -155,5 +164,15 @@ public class RobotContainer
   public void setMotorBrake(boolean brake)
   {
     drivebase.setMotorBrake(brake);
+  }
+  
+  
+  public void autonomousInit()
+  {
+    CANdleSystem candleLEDs = new CANdleSystem(driverXbox);
+    candleLEDs.configBrightness(100);
+    candleLEDs.changeAnimation(AnimationTypes.Rainbow);
+  
+
   }
 }
