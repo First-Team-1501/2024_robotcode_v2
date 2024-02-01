@@ -1,5 +1,6 @@
 package frc.robot.Intake;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -61,6 +62,9 @@ public class IntakeConfig {
     public static double top_analogVelocityConversion = 1;
     public static int top_analogSensorMore = 0; // 0 = absolute; 1 = relative
     public static int top_analogInverted = 0;
+
+    
+
 
     
 
