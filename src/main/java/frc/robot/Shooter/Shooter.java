@@ -1,8 +1,10 @@
 package frc.robot.Shooter;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
 
 import frc.robot.Shooter.ShooterConfig;
 
@@ -65,6 +67,10 @@ public class Shooter {
         
         //TODO: Maybe add HOLLOW BORE
 
+        //control type
+        m_leftShooter.getPIDController().setReference(m_leftShooter.getEncoder().getPosition(), ControlType.kPosition);
+
+
         //BURN FLASH!!
         m_leftShooter.burnFlash();
 
@@ -114,9 +120,36 @@ public class Shooter {
         
         //TODO: Maybe add HOLLOW BORE
 
+        //control type
+        m_rightShooter.getPIDController().setReference(m_rightShooter.getEncoder().getPosition(), ControlType.kPosition);
+
+
         //BURN FLASH!
         m_rightShooter.burnFlash();
 
     }//End Constructor for Shooter
+
+
+    //get velocity
+    public double getVelocity()
+    {
+        return getVelocity();
+
+    }//end get velocity
+
+
+    //set velocity
+    public void setVelocity(double velocity)
+    {
+        getPIDController().setSmartMotionMaxVelocity(velocity, 0);
+    }//end set velocity
+
+    //auto-generated stub
+    private SparkPIDController getPIDController() 
+    {
+        return getPIDController();
+    }
+
+
 
 }

@@ -1,5 +1,6 @@
 package frc.robot.Shooter;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -60,6 +61,10 @@ public class ShooterConfig {
     public static int left_analogSensorMore = 0; // 0 = absolute; 1 = relative
     public static int left_analogInverted = 0;
 
+        //left control method
+    public static ControlType left_controlType = ControlType.kVelocity;
+
+
 
 
     // **** RIGHT SHOOTER CONFIG ****
@@ -118,5 +123,9 @@ public class ShooterConfig {
     public static double right_analogVelocityConversion = 1;
     public static int right_analogSensorMore = 0; // 0 = absolute; 1 = relative
     public static int right_analogInverted = 0;
+
+
+    //right control method
+    public static ControlType right_controlType = ControlType.kVelocity;
 
 }
