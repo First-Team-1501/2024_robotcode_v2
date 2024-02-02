@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -12,10 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.io.File;
 import java.io.IOException;
 import swervelib.parser.SwerveParser;
-import com.ctre.phoenix.led.CANdle;
-import com.ctre.phoenix.led.FireAnimation;
-import com.ctre.phoenix.led.RainbowAnimation;
-import com.ctre.phoenix.led.LarsonAnimation;
+//import frc.robot.subsystems.leds;
+//Comment out Ross's old LED code for a minute
+//import com.ctre.phoenix.led.CANdle;
+//import com.ctre.phoenix.led.FireAnimation;
+//import com.ctre.phoenix.led.RainbowAnimation;
+//import com.ctre.phoenix.led.LarsonAnimation;
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
  * described in the TimedRobot documentation. If you change the name of this class or the package after creating this
@@ -23,19 +25,19 @@ import com.ctre.phoenix.led.LarsonAnimation;
  */
 public class Robot extends TimedRobot
 {
+   //Comment out Ross's old LED code for a minute
   //creates the CANdle
-  CANdle candle1 = new CANdle(50);
+  //CANdle candle1 = new CANdle(50);
   //creates a fire animation for the candle.
-  FireAnimation fAnimation = new FireAnimation();
+  //FireAnimation fAnimation = new FireAnimation();
   //creates a rainbow animation for the candle.
-  RainbowAnimation rAnimation = new RainbowAnimation();
+  //RainbowAnimation rAnimation = new RainbowAnimation();
   //creates a larson animation for the candle.
-  LarsonAnimation lAnimation = new LarsonAnimation(255, 255, 255);
+  //LarsonAnimation lAnimation = new LarsonAnimation(255, 255, 255);
+
   private static Robot   instance;
   private        Command m_autonomousCommand;
-
   private RobotContainer m_robotContainer;
-
   private Timer disabledTimer;
 
   public Robot()
@@ -54,8 +56,9 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit()
   {
-    candle1.animate(fAnimation);
-    
+    //Comment out Ross's old LED code for a minute
+    //candle1.animate(fAnimation);
+    //m_CANdle.animate(Fire);
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -109,7 +112,8 @@ public class Robot extends TimedRobot
   @Override
   public void autonomousInit()
   {
-    candle1.animate(lAnimation);
+     //Comment out Ross's old LED code for a minute
+    //candle1.animate(lAnimation);
     m_robotContainer.setMotorBrake(true);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -131,7 +135,9 @@ public class Robot extends TimedRobot
   @Override
   public void teleopInit()
   {
-    candle1.animate(rAnimation);
+    //Comment out Ross's old LED code for a minute
+    //candle1.animate(rAnimation); 
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
