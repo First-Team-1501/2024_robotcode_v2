@@ -26,11 +26,16 @@ public class NoteIntake extends Command
     @Override
     public void initialize() 
     {
-
         
-    }
+        //Start the intake
+        s_intake.run_bottomIntake();
+        s_intake.run_topIntake();
 
+    }//end initialize
 
+    @Override
+    public void execute() { }
 
+    //TODO add finished
 
 }
