@@ -1,5 +1,6 @@
 package frc.robot.Shooter;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -36,7 +37,7 @@ public class ShooterConfig {
     public static int left_followerID = 0; //Follower ID
 
     //Inverted
-    public static int left_kInverted = 0;
+    public static boolean left_kInverted = false;
 
     //Current Limits
     public static int left_smartCurrentStallLimit = 20;  //40 for big neo, 20 for small neo
@@ -47,14 +48,22 @@ public class ShooterConfig {
     public static double left_velocityConversionFactor = 1;
 
     //Soft Limits
-    public static double left_softLimitFwd = 0;
-    public static double left_softLimitRev = 0;
+    public static float left_softLimitFwd = 0;
+    public static float left_softLimitRev = 0;
+
+        //Soft Limits Enabled
+    public static boolean left_softLimitFwdEnabled = true;
+    public static boolean left_softLimitRevEnabled = true;    
 
     //Analog for Hollow Bore
     public static double left_analogPositionConversion = 1;
     public static double left_analogVelocityConversion = 1;
     public static int left_analogSensorMore = 0; // 0 = absolute; 1 = relative
     public static int left_analogInverted = 0;
+
+        //left control method
+    public static ControlType left_controlType = ControlType.kVelocity;
+
 
 
 
@@ -89,7 +98,7 @@ public class ShooterConfig {
     public static int right_followerID = 0;
 
     //Inverted
-    public static int right_kInverted = 0;
+    public static boolean right_kInverted = true;
 
     //Current Limits
     public static int right_smartCurrentStallLimit = 20;  //40 for big neo, 20 for small neo
@@ -100,13 +109,23 @@ public class ShooterConfig {
     public static double right_velocityConversionFactor = 1;
 
     //Soft Limits
-    public static double right_softLimitFwd = 0;
-    public static double right_softLimitRev = 0;
+    public static float right_softLimitFwd = 0;
+    public static float right_softLimitRev = 0;
+
+        //Soft Limits Enabled
+    public static boolean right_softLimitFwdEnabled = true;
+    public static boolean right_softLimitRevEnabled = true;    
+
+
 
     //Analog for Hollow Bore
     public static double right_analogPositionConversion = 1;
     public static double right_analogVelocityConversion = 1;
     public static int right_analogSensorMore = 0; // 0 = absolute; 1 = relative
     public static int right_analogInverted = 0;
+
+
+    //right control method
+    public static ControlType right_controlType = ControlType.kVelocity;
 
 }

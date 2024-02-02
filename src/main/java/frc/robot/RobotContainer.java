@@ -34,9 +34,12 @@ import frc.robot.commands.leds.CANdlePrintCommands;
  */
 public class RobotContainer
 {
+  
+//CHANGED SwerveSystem function from child:"swerve/neo" to "swerve"
+
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         "swerve/neo"));
+                                                                         "swerve"));
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   CommandJoystick driverController = new CommandJoystick(0);
@@ -76,14 +79,13 @@ public class RobotContainer
 
       // The MINUS Sign is REQUIRED to FIX Inversion Issue - This is the JoyStick Control for the 2024 Robot
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
+
         () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -MathUtil.applyDeadband(rotationController.getRawAxis(0), OperatorConstants.RIGHT_X_DEADBAND));
 
-        /* USE THIS FOR NEW JOYSTICKS
-        () -> MathUtil.applyDeadband(((driverController.getY() < .5) ? (driverController.getY()*2) : 1), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(((driverController.getX() < .5) ? (driverController.getX()*2) : 1), OperatorConstants.LEFT_X_DEADBAND),
-         */
+    
+         
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
