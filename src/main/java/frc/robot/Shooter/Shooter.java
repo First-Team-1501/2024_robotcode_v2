@@ -9,7 +9,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import frc.robot.Shooter.ShooterConfig;
 
 public class Shooter extends SubsystemBase{
     

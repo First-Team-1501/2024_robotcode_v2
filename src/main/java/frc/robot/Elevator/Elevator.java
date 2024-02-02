@@ -9,8 +9,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import frc.robot.Elevator.ElevatorConfig;
-import frc.robot.Elevator.ElevatorPositions;
 
 public class Elevator extends SubsystemBase{
     
