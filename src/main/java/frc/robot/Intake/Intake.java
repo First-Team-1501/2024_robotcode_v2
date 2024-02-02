@@ -214,5 +214,29 @@ public class Intake extends SubsystemBase{
     }//end Out intake Method
 
 
+    //Run Intake IN
+    public void run_intake()
+    {
+        run_topIntake();
+        run_bottomIntake();
+    }//end run Intake IN
+
+    //Stop Intake IN
+    public void stop_intake()
+    {
+        stop_topIntake();
+        stop_bottomIntake();
+    }//end Intake
+
+    //Out Intake
+    public void out_intake()
+    {
+        out_bottomIntake();
+        out_topIntake();
+    }
+
+
+
+
 
 }
