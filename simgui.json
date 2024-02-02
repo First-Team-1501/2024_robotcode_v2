@@ -1,22 +1,7 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "SPARK MAX [2]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [4]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [5]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [7]": {
+      "Pigeon 2 (v6)[10]": {
         "header": {
           "open": true
         }
@@ -61,6 +46,7 @@
       "/LiveWindow/Ungrouped/Pigeon 2 [13]": "Gyro",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Pigeon 2 (v6) [10]": "Gyro",
       "/SmartDashboard/Pigeon 2 (v6) [13]": "Gyro",
       "/SmartDashboard/Pigeon 2 [13]": "Gyro",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
@@ -93,9 +79,25 @@
   },
   "NetworkTables": {
     "transitory": {
+      "LiveWindow": {
+        "open": true
+      },
+      "PathPlanner": {
+        "open": true
+      },
+      "Shuffleboard": {
+        ".metadata": {
+          "open": true
+        },
+        ".recording": {
+          "open": true
+        }
+      },
       "SmartDashboard": {
         "Field": {
-          "open": true
+          "double[]##v_/SmartDashboard/Field/Robot": {
+            "open": true
+          }
         },
         "open": true,
         "swerve": {
