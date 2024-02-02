@@ -1,5 +1,7 @@
 package frc.robot.Stabilizer;
 
-public class Stabilizer {
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class Stabilizer extends SubsystemBase{
     
 }

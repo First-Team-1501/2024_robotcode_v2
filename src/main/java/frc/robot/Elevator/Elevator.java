@@ -2,6 +2,9 @@ package frc.robot.Elevator;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -9,7 +12,7 @@ import com.revrobotics.SparkPIDController;
 import frc.robot.Elevator.ElevatorConfig;
 import frc.robot.Elevator.ElevatorPositions;
 
-public class Elevator {
+public class Elevator extends SubsystemBase{
     
     //Elevator will be position mode
 

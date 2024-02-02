@@ -2,13 +2,16 @@ package frc.robot.Shooter;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import frc.robot.Shooter.ShooterConfig;
 
-public class Shooter {
+public class Shooter extends SubsystemBase{
     
     //Shooter will be velocity mode (if we can get it working, if not then percent mode)
 
