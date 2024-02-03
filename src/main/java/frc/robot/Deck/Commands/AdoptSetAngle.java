@@ -10,42 +10,47 @@ public class AdoptSetAngle extends Command
 
 
     private Deck s_deck;
-    private double deg_Position;
+    private double target_deg;
+    private boolean finished = false;
 
     public AdoptSetAngle(Deck s_deck, PositionList position)
     {
         this.s_deck = s_deck;
         switch (position) {
             case CLOSEUP:
-                deg_Position = DeckPositions.closeup;
+                target_deg = DeckPositions.closeup;
                 break;
 
 
 
             case PODIUM:
-                deg_Position = DeckPositions.podium;
+                target_deg = DeckPositions.podium;
                 break;
             
 
             case BACKLINE:
-                deg_Position = DeckPositions.backline;
+                target_deg = DeckPositions.backline;
                 break;
 
 
 
             case INTAKE:
-                deg_Position = DeckPositions.intake;
+                target_deg = DeckPositions.intake;
                 break;
             
             
             
             case HOME:
-                deg_Position = DeckPositions.home;
+                target_deg = DeckPositions.home;
+                break;
+            
+            case CLIMB:
+                target_deg = DeckPositions.climb;
                 break;
             
         
             default:
-                deg_Position = DeckPositions.intake;
+                target_deg = DeckPositions.intake;
                 break;
 
 
@@ -55,6 +60,7 @@ public class AdoptSetAngle extends Command
 
 
         addRequirements(s_deck);
+        finished = false;
         
     }//constructor
 
@@ -63,9 +69,30 @@ public class AdoptSetAngle extends Command
     public void initialize() {
         //TODO: is Finished, execute, and end methods
         
-        s_deck.setPosition(deg_Position);
+        s_deck.setPosition(target_deg);
         
     }
+
+    @Override
+    public void execute() {
+        // TODO Auto-generated method stub
+        //if difference between target position
+        finished = Math.abs(target_deg - s_deck.getPosition()) < DeckPositions.tolerance;
+        
+    }
+
+    @Override
+    public boolean isFinished() {
+        return finished;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    
 
 
 
