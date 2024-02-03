@@ -141,15 +141,27 @@ public class Shooter extends SubsystemBase{
 
 
     //set velocity
-    public void setVelocity(double velocity)
+    public void setVelocity(CANSparkMax motor, double shooterVelocity)
     {
-        getPIDController().setSmartMotionMaxVelocity(velocity, 0);
+        motor.getPIDController().setSmartMotionMaxVelocity(shooterVelocity, 0);
     }//end set velocity
 
     //auto-generated stub
     private SparkPIDController getPIDController() 
     {
         return getPIDController();
+    }
+
+    public void shoot(double leftShooterVelocity, double rightShooterVelocity)
+    {
+        setVelocity(m_leftShooter, leftShooterVelocity);
+        setVelocity(m_rightShooter, rightShooterVelocity);
+
+    }
+    public void stop_shooter()
+    {
+        setVelocity(m_leftShooter, 0);
+        setVelocity(m_rightShooter, 0);
     }
 
 
