@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
 
 
 public class Shooter extends SubsystemBase{
@@ -141,15 +140,23 @@ public class Shooter extends SubsystemBase{
 
 
     //set velocity
-    public void setVelocity(double velocity)
+    public void setVelocity(CANSparkMax motor, double shooterVelocity)
     {
-        getPIDController().setSmartMotionMaxVelocity(velocity, 0);
+        motor.getPIDController().setSmartMotionMaxVelocity(shooterVelocity, 0);
     }//end set velocity
 
     //auto-generated stub
-    private SparkPIDController getPIDController() 
+
+    public void shoot(double leftShooterVelocity, double rightShooterVelocity)
     {
-        return getPIDController();
+        setVelocity(m_leftShooter, leftShooterVelocity);
+        setVelocity(m_rightShooter, rightShooterVelocity);
+
+    }
+    public void stop_shooter()
+    {
+        setVelocity(m_leftShooter, 0);
+        setVelocity(m_rightShooter, 0);
     }
 
 

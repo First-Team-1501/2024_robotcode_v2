@@ -1,23 +1,21 @@
-package frc.robot.Intake.Commands;
+package frc.robot.Shooter.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Intake.Intake;
+import frc.robot.Shooter.Shooter;
+import frc.robot.Shooter.ShooterVelocities;
 
-public class NoteIntake extends Command
+public class Shoot extends Command
 {
-    
-    private Intake s_intake;
+    private Shooter s_shooter;
     private boolean finished = false;
 
-    public NoteIntake(Intake s_intake)
+    public Shoot(Shooter s_shooter)
     {
-        
-        this.s_intake = s_intake;
-        addRequirements(s_intake);
+        this.s_shooter = s_shooter;
+        addRequirements(s_shooter);
         finished = false;
+    }//end shooter constructor
 
-    }
-    
     @Override
     public void initialize() 
     {}//end initialize
@@ -33,7 +31,7 @@ public class NoteIntake extends Command
         {
             finished = true;
         }*/
-        s_intake.run_intake();
+        s_shooter.shoot(ShooterVelocities.closeup_leftSpeed, ShooterVelocities.closeup_rightSpeed);
 
 
     }
@@ -42,7 +40,7 @@ public class NoteIntake extends Command
    @Override
    public void end(boolean interrupted) {
        // TODO Auto-generated method stub
-       s_intake.stop_intake();
+       s_shooter.stop_shooter();
    }
 
 
@@ -55,6 +53,5 @@ public class NoteIntake extends Command
         return finished;
     }
 
-
-
+    
 }
