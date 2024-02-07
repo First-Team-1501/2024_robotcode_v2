@@ -4,7 +4,9 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Deck.Commands.AdoptSetAngle;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
@@ -116,6 +118,13 @@ public class Deck extends SubsystemBase{
         pid_deckMaster.setReference(position, DeckConfig.controlType);
     }
 
+
+    @Override
+    public void periodic()
+    {
+        SmartDashboard.putBoolean("Deck AtPosition", AdoptSetAngle.finished);
+        SmartDashboard.putNumber("Deck Position", getPosition());
+    }
 
 
 

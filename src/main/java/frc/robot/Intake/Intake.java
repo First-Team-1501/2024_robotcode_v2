@@ -234,7 +234,12 @@ public class Intake extends SubsystemBase{
         out_bottomIntake();
         out_topIntake();
     }
-
+    
+    @Override
+    public void periodic()
+    {
+        
+    }
 
 
 

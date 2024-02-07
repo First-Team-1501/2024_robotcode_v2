@@ -11,7 +11,7 @@ public class AdoptSetAngle extends Command
 
     private Deck s_deck;
     private double target_deg;
-    private boolean finished = false;
+    public static boolean finished = false;
 
     public AdoptSetAngle(Deck s_deck, PositionList position)
     {

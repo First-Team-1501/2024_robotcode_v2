@@ -44,7 +44,7 @@ public class ElevatorConfig {
     public static int smartCurrentFreeLimit = 15; //30 for big neo, 15 for small neo
 
     //Conversion Factors
-    public static double positionConversionFactor = 1; //360 / gear ratio
+    public static double positionConversionFactor = 1/27/360; //
     public static double velocityConversionFactor = 1;
 
     //Soft Limits

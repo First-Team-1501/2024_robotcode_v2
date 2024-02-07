@@ -45,7 +45,7 @@ public class IntakeConfig {
     public static int top_smartCurrentFreeLimit = 15; //30 for big neo, 15 for small neo
 
     //Conversion Factors
-    public static double top_positionConversionFactor = 1; //360 / gear ratio
+    public static double top_positionConversionFactor = 1/9/360; //360 / gear ratio
     public static double top_velocityConversionFactor = 1;
 
     //Soft Limits Forward

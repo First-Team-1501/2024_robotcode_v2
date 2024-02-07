@@ -3,7 +3,9 @@ package frc.robot.Elevator;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Elevator.Commands.AdoptTargetDistance;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -109,5 +111,15 @@ public class Elevator extends SubsystemBase{
     {
         pid_deckMaster.setReference(position, ElevatorConfig.controlType);
     }
+
+
+    @Override
+    public void periodic()
+    {
+        SmartDashboard.putBoolean("Elevator AtPosition", AdoptTargetDistance.finished);
+        SmartDashboard.putNumber("Elevator Position", getPosition());
+    }
+
+
 
 }

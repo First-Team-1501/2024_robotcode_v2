@@ -9,7 +9,7 @@ public class AdoptTargetDistance extends Command{
     
     Elevator s_Elevator;
     private double target_dist;
-    private boolean finished = false;
+    public static boolean finished = false;
 
     
     public AdoptTargetDistance(Elevator s_Elevator, DistanceList distance)

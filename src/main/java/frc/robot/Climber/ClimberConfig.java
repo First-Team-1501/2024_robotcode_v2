@@ -60,7 +60,7 @@ public class ClimberConfig {
     public static float softLimitRev = 0;
 
     //Analog for Hollow Bore
-    public static double analogPositionConversion = 1;
+    public static double analogPositionConversion = (1/127)/360;//125:1 gear box, 16 small gear, 22 big gear = 0.00581818181/360
     public static double analogVelocityConversion = 1;
     public static int analogSensorMore = 0; // 0 = absolute; 1 = relative
     public static int analogInverted = 0;

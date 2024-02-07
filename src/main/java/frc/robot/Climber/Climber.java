@@ -3,6 +3,7 @@ package frc.robot.Climber;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
@@ -110,6 +111,12 @@ public class Climber extends SubsystemBase{
     public void setPosition(double position)
     {
         pid_climberMaster.setReference(position, ClimberConfig.controlType);
+    }
+
+    @Override
+    public void periodic()
+    {
+        SmartDashboard.putNumber("Climber Position", getPosition());
     }
 
 
