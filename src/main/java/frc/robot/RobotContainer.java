@@ -173,8 +173,8 @@ public class RobotContainer
 
   //  **OPERATOR BUTTONS** 
   //Deck Buttons
-    Trigger deck_RevCloseup = new Trigger(()->operatorXbox.getXButton());
-    deck_RevCloseup.whileTrue(new Shoot(s_SHOOTER).alongWith(new NoteIntake(s_INTAKE)));
+    Trigger deck_RevCloseup = new Trigger( () -> operatorXbox.getXButton() )
+      .whileTrue(new Shoot(s_SHOOTER).alongWith(new NoteIntake(s_INTAKE)));
 
 
 
