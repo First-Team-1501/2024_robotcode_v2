@@ -19,7 +19,7 @@ import com.ctre.phoenix.led.FireAnimation;
 public class CANdleSystem extends SubsystemBase {
     private final CANdle m_candle = new CANdle(Constants.CANdleID, "canivore");
     private final int LedCount = 100;
-    private XboxController joystick;
+    //private XboxController joystick;
 
     private Animation m_toAnimate = null;
 
@@ -38,7 +38,7 @@ public class CANdleSystem extends SubsystemBase {
     private AnimationTypes m_currentAnimation;
 
     public CANdleSystem(XboxController joy) {
-        this.joystick = joy;
+        //this.joystick = joy;
         changeAnimation(AnimationTypes.SetAll);
         CANdleConfiguration configAll = new CANdleConfiguration();
         configAll.statusLedOffWhenActive = true;
@@ -133,7 +133,7 @@ public class CANdleSystem extends SubsystemBase {
         System.out.println("Changed to " + m_currentAnimation.toString());
     }
 
-    @Override
+    /* @Override
     public void periodic() {
         // This method will be called once per scheduler run
         if(m_toAnimate == null) {
@@ -149,5 +149,5 @@ public class CANdleSystem extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
         // This method will be called once per scheduler run during simulation
-    }
+    } */
 }

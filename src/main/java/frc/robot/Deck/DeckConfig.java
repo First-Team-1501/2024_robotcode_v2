@@ -27,13 +27,15 @@ public class DeckConfig {
     public static double IZone = 0;
     public static double DFilter = 0;
 
+    //Idle Mode
+
     //Min + Max Output
     public static double outputMin = -0.5;
     public static double outputMax = 0.5;
 
     //Ramp Rate
     public static double openRampRate = 0; //Time in seconds (1 is good for percent based stuff) (percent mode)
-    public static double closedRampRate = 0; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
+    public static double closedRampRate = 1; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     //Follower ID
     public static int followerID = 31; //Slave ID
@@ -54,7 +56,7 @@ public class DeckConfig {
     public static boolean softLimitRevEnabled = true;
 
     //Soft Limits
-    public static float softLimitFwd = 0;
+    public static float softLimitFwd = 70;
     public static float softLimitRev = 0;
 
     //Analog for Hollow Bore

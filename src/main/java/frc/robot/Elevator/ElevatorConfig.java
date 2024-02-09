@@ -31,7 +31,7 @@ public class ElevatorConfig {
 
     //Ramp Rate
     public static double openRampRate = 0; //Time in seconds (1 is good for percent based stuff) (percent mode)
-    public static double closedRampRate = 0; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
+    public static double closedRampRate = 1; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     //Follower ID
     public static int followerID = 0;
@@ -48,7 +48,7 @@ public class ElevatorConfig {
     public static double velocityConversionFactor = 1;
 
     //Soft Limits
-    public static float softLimitFwd = 0;
+    public static float softLimitFwd = 10;
     public static float softLimitRev = 0;
 
         //Soft Limits Enabled

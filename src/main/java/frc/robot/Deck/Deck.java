@@ -17,7 +17,6 @@ public class Deck extends SubsystemBase{
 
     //declare deck Master & Slave
     private CANSparkMax m_deckMaster;
-    private CANSparkMax m_deckFollower;
     
     //declare deckmaster encoder
     private RelativeEncoder e_deckMaster;
@@ -31,7 +30,8 @@ public class Deck extends SubsystemBase{
 
         // **INITIALIZE MOTORS**
         m_deckMaster = new CANSparkMax(DeckConfig.ID, DeckConfig.motorType);
-        m_deckFollower = new CANSparkMax(DeckConfig.followerID, DeckConfig.motorType);
+        m_deckMaster.setIdleMode(DeckConfig.idleMode);
+        
                 
         //Master motor Encoder for ease of access
         e_deckMaster = m_deckMaster.getEncoder();
@@ -82,11 +82,6 @@ public class Deck extends SubsystemBase{
         m_deckMaster.burnFlash();
 
 
-        //m_deckFollower is follower and inverted
-        m_deckFollower.follow(m_deckMaster);
-        m_deckFollower.setInverted(DeckConfig.follow_isInverted);
-        //burn follower
-        m_deckFollower.burnFlash();
 
         //set position to startup
         m_deckMaster.getEncoder().setPosition(DeckPositions.zero);
@@ -124,6 +119,7 @@ public class Deck extends SubsystemBase{
     {
         SmartDashboard.putBoolean("Deck AtPosition", AdoptSetAngle.finished);
         SmartDashboard.putNumber("Deck Position", getPosition());
+        //System.out.println("DeckPeriodic run");
     }
 
 

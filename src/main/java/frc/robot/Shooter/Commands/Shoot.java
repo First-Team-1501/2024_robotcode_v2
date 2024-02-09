@@ -14,6 +14,7 @@ public class Shoot extends Command
         this.s_shooter = s_shooter;
         addRequirements(s_shooter);
         finished = false;
+        System.out.println("Shooter Constructor");
     }//end shooter constructor
 
     @Override
@@ -32,7 +33,7 @@ public class Shoot extends Command
             finished = true;
         }*/
         s_shooter.shoot(ShooterVelocities.closeup_leftSpeed, ShooterVelocities.closeup_rightSpeed);
-
+        System.out.println("shooter run");
 
     }
 
@@ -41,6 +42,7 @@ public class Shoot extends Command
    public void end(boolean interrupted) {
        // TODO Auto-generated method stub
        s_shooter.stop_shooter();
+       System.out.println("Shoot Stopped");
    }
 
 
@@ -49,8 +51,8 @@ public class Shoot extends Command
     public boolean isFinished() {
         // TODO Auto-generated method stub
 
-
-        return finished;
+        System.out.println("Shoot Finished");
+        return false;
     }
 
     

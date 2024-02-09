@@ -19,8 +19,8 @@ public class Intake extends SubsystemBase{
     private CANSparkMax m_bottomIntake;
 
     //DECLARE Photoeyes
-    private DigitalInput pe_notePresent;
-    private DigitalInput pe_noteInQueue;
+    //private DigitalInput pe_notePresent;
+    //private DigitalInput pe_noteInQueue;
 
     //CONSTRUCTOR INTAKE
     public Intake()
@@ -123,8 +123,8 @@ public class Intake extends SubsystemBase{
 
 
         //      INITIALIZE PHOTOEYES
-        pe_noteInQueue = new DigitalInput(2);
-        pe_notePresent = new DigitalInput(1);
+        //pe_noteInQueue = new DigitalInput(2);
+        //pe_notePresent = new DigitalInput(1);
 
     }//End Constructor for Intake
 
@@ -134,7 +134,7 @@ public class Intake extends SubsystemBase{
     //FIX? the photoeye functions below are assuming the sensor returns false when a piece is present
 
     //returns true if piece present, else it returns false
-    public boolean is_piecePresent()
+    /* public boolean is_piecePresent()
     { 
         
         if (!pe_notePresent.get())
@@ -146,10 +146,10 @@ public class Intake extends SubsystemBase{
             return false;
         }//end if...piecePresent Method
 
-    }//end piecePresent method
+    }//end piecePresent method */
 
     
-    //returns true if piece in queue, else false
+    /* //returns true if piece in queue, else false
     public boolean is_pieceInQueue()
     {
        if (!pe_noteInQueue.get())
@@ -161,7 +161,7 @@ public class Intake extends SubsystemBase{
             return false;
         }//end if...pieceInQue Method
     }//end pieceInQueue method
-
+ */
     //end of photoeye sensing
 
 

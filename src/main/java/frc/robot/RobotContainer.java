@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,7 +16,16 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Climber.Climber;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Deck.Deck;
+import frc.robot.Deck.PositionList;
+import frc.robot.Deck.Commands.AdoptSetAngle;
+import frc.robot.Elevator.Elevator;
+import frc.robot.Intake.Intake;
+import frc.robot.Intake.Commands.NoteIntake;
+import frc.robot.Shooter.Shooter;
+import frc.robot.Shooter.Commands.Shoot;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -32,30 +42,49 @@ import frc.robot.commands.leds.CANdlePrintCommands;
  */
 public class RobotContainer
 {
+
+  Climber s_CLIMBER;
+  Deck s_DECK;
+  Elevator s_ELEVATOR;
+  Intake s_INTAKE;
+  Shooter s_SHOOTER;
   
 //CHANGED SwerveSystem function from child:"swerve/neo" to "swerve"
 
   // The robot's subsystems and commands are defined here...
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         "swerve/neo"));
+  private final SwerveSubsystem drivebase;
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  CommandJoystick driverController = new CommandJoystick(0);
-  CommandJoystick rotationController = new CommandJoystick(1);
+  CommandJoystick driverController;
+  CommandJoystick rotationController;
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
-  XboxController driverXbox = new XboxController(2);
+  XboxController operatorXbox;
+  GenericHID buttonBoard;
+  
 
     // LED lights
-  private final CANdleSystem m_candleSubsystem = new CANdleSystem(driverXbox);
+  //private final CANdleSystem m_candleSubsystem = new CANdleSystem(operatorXbox);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer()
   {
-    // Configure the trigger bindings
-    configureBindings();
+    
+        //Initialize Subsystems
+    // The robot's subsystems and commands are defined here...
+   drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve/neo"));
+   System.out.println("Drivebase Initialized");
+                                                                      
+  // CommandJoystick rotationController = new CommandJoystick(1);
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  driverController = new CommandJoystick(0);
+  rotationController = new CommandJoystick(1);
+
+  // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
+  operatorXbox = new XboxController(2);
+  buttonBoard = new GenericHID(3);
 
     /* We will not be using "Angluar Velocity for this robot" 
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
@@ -99,18 +128,31 @@ public class RobotContainer
       */
         
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
-        () -> MathUtil.applyDeadband(((driverXbox.getLeftY() < .5) ? (driverXbox.getLeftY()*2) : 1), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(((driverXbox.getLeftX() < .5) ? (driverXbox.getLeftY()*2) : 1), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRawAxis(2));
+        () -> MathUtil.applyDeadband(((operatorXbox.getLeftY() < .5) ? (operatorXbox.getLeftY()*2) : 1), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(((operatorXbox.getLeftX() < .5) ? (operatorXbox.getLeftY()*2) : 1), OperatorConstants.LEFT_X_DEADBAND),
+        () -> operatorXbox.getRawAxis(2));
 
     drivebase.setDefaultCommand(
         !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
     
     
-    //Initialize & set default CANdle settings
-    CANdleSystem candleLEDs = new CANdleSystem(driverXbox);
+    /* //Initialize & set default CANdle settings
+    CANdleSystem candleLEDs = new CANdleSystem(operatorXbox);
     candleLEDs.changeAnimation(AnimationTypes.Rainbow);
-    candleLEDs.configBrightness(100);
+    candleLEDs.configBrightness(100); */
+
+    s_CLIMBER = new Climber();
+    s_DECK = new Deck();
+    s_ELEVATOR = new Elevator();
+    s_INTAKE = new Intake();
+    s_SHOOTER = new Shooter();
+    System.out.println("Subsystems initialized");
+
+    // Configure the trigger bindings
+    configureBindings();
+    System.out.println("Triggers Configured");
+
+
 
 
   }
@@ -125,23 +167,16 @@ public class RobotContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    new JoystickButton(operatorXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    new JoystickButton(operatorXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
 
-   // LED Buttons to try
-    //new JoystickButton(driverXbox, Constants.BlockButton).onTrue(new RunCommand(m_candleSubsystem::setColors, m_candleSubsystem));
-    new JoystickButton(driverXbox, Constants.IncrementAnimButton).onTrue(new RunCommand(m_candleSubsystem::incrementAnimation, m_candleSubsystem));
-    new JoystickButton(driverXbox, Constants.DecrementAnimButton).onTrue(new RunCommand(m_candleSubsystem::decrementAnimation, m_candleSubsystem));
-    //This seems to work the best. Ross wrote this.
-    //new POVButton(driverXbox, Constants.MaxBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 1.0));
-    //new POVButton(driverXbox, Constants.MidBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 0.3));
-    //new POVButton(driverXbox, Constants.ZeroBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 0));
+  //  **OPERATOR BUTTONS** 
+  //Deck Buttons
+    Trigger deck_RevCloseup = new Trigger(()->operatorXbox.getXButton());
+    deck_RevCloseup.whileTrue(new Shoot(s_SHOOTER).alongWith(new NoteIntake(s_INTAKE)));
 
-    new JoystickButton(driverXbox, Constants.VbatButton).onTrue(new CANdlePrintCommands.PrintVBat(m_candleSubsystem));
-    new JoystickButton(driverXbox, Constants.V5Button).onTrue(new CANdlePrintCommands.Print5V(m_candleSubsystem));
-    new JoystickButton(driverXbox, Constants.CurrentButton).onTrue(new CANdlePrintCommands.PrintCurrent(m_candleSubsystem));
-    new JoystickButton(driverXbox, Constants.TemperatureButton).onTrue(new CANdlePrintCommands.PrintTemperature(m_candleSubsystem));
+
 
   }
 
@@ -169,9 +204,9 @@ public class RobotContainer
   
   public void autonomousInit()
   {
-    CANdleSystem candleLEDs = new CANdleSystem(driverXbox);
-    candleLEDs.configBrightness(100);
-    candleLEDs.changeAnimation(AnimationTypes.Rainbow);
+    //CANdleSystem candleLEDs = new CANdleSystem(operatorXbox);
+    //candleLEDs.configBrightness(100);
+    //candleLEDs.changeAnimation(AnimationTypes.Rainbow);
   
 
   }

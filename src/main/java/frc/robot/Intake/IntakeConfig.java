@@ -31,7 +31,7 @@ public class IntakeConfig {
     //Climber -> .25 output speed
 
     //Ramp Rate
-    public static double top_openRampRate = 0; //Time in seconds (1 is good for percent based stuff) (percent mode)
+    public static double top_openRampRate = 1; //Time in seconds (1 is good for percent based stuff) (percent mode)
     public static double top_closedRampRate = 0; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     //Follower ID
@@ -49,11 +49,11 @@ public class IntakeConfig {
     public static double top_velocityConversionFactor = 1;
 
     //Soft Limits Forward
-    public static Boolean top_softLimitFwdEnabled = true;
+    public static Boolean top_softLimitFwdEnabled = false;
     public static float top_softLimitFwd = 0;
 
     //Soft Limits Reverse
-    public static Boolean top_softLimitRevEnabled = true;
+    public static Boolean top_softLimitRevEnabled = false;
     public static float top_softLimitRev = 0;
 
     //Analog for Hollow Bore
@@ -111,11 +111,11 @@ public class IntakeConfig {
     public static double bottom_velocityConversionFactor = 1;
 
     //Soft Limits Forward
-    public static Boolean bottom_softLimitFwdEnabled = true;
+    public static Boolean bottom_softLimitFwdEnabled = false;
     public static float bottom_softLimitFwd = 0;
 
     //Soft Limits Reverse
-    public static Boolean bottom_softLimitRevEnabled = true;
+    public static Boolean bottom_softLimitRevEnabled = false;
     public static float bottom_softLimitRev = 0;
 
     //Analog for Hollow Bore

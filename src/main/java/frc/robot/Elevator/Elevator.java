@@ -18,81 +18,81 @@ public class Elevator extends SubsystemBase{
 
     //Elevator will be position mode
 
-    //declare deck
-    private CANSparkMax m_deckMaster;
+    //declare elevator
+    private CANSparkMax m_elevatorMaster;
     
-    //declare deckmaster encoder
-    private RelativeEncoder e_deckMaster;
+    //declare elevatormaster encoder
+    private RelativeEncoder e_elevatorMaster;
 
     //declare master's pid controller
-    private SparkPIDController pid_deckMaster;
+    private SparkPIDController pid_elevatorMaster;
 
     //Elevator Constructor method
     public Elevator()
     {
 
         // **INITIALIZE MOTORS**
-        m_deckMaster = new CANSparkMax(ElevatorConfig.ID, ElevatorConfig.motorType);
+        m_elevatorMaster = new CANSparkMax(ElevatorConfig.ID, ElevatorConfig.motorType);
                 
         //Master motor Encoder for ease of access
-        e_deckMaster = m_deckMaster.getEncoder();
+        e_elevatorMaster = m_elevatorMaster.getEncoder();
 
-        //pid deck master
-        pid_deckMaster = m_deckMaster.getPIDController();
+        //pid elevator master
+        pid_elevatorMaster = m_elevatorMaster.getPIDController();
         
         //pid
-        pid_deckMaster.setP(ElevatorConfig.p);
-        pid_deckMaster.setI(ElevatorConfig.i);
-        pid_deckMaster.setD(ElevatorConfig.d);
-        pid_deckMaster.setIZone(ElevatorConfig.IZone);
-        pid_deckMaster.setDFilter(ElevatorConfig.DFilter);
+        pid_elevatorMaster.setP(ElevatorConfig.p);
+        pid_elevatorMaster.setI(ElevatorConfig.i);
+        pid_elevatorMaster.setD(ElevatorConfig.d);
+        pid_elevatorMaster.setIZone(ElevatorConfig.IZone);
+        pid_elevatorMaster.setDFilter(ElevatorConfig.DFilter);
         
         //min/max output
-        pid_deckMaster.setOutputRange(ElevatorConfig.outputMin, ElevatorConfig.outputMax);
+        pid_elevatorMaster.setOutputRange(ElevatorConfig.outputMin, ElevatorConfig.outputMax);
 
         //Ramp Rate
-        m_deckMaster.setOpenLoopRampRate(ElevatorConfig.openRampRate);
-        m_deckMaster.setClosedLoopRampRate(ElevatorConfig.closedRampRate);
+        m_elevatorMaster.setOpenLoopRampRate(ElevatorConfig.openRampRate);
+        m_elevatorMaster.setClosedLoopRampRate(ElevatorConfig.closedRampRate);
         
-        // Is Follower needed for Master deck?
+        // Is Follower needed for Master elevator?
 
         //Inverted
-        m_deckMaster.setInverted(ElevatorConfig.kInverted);
+        m_elevatorMaster.setInverted(ElevatorConfig.kInverted);
 
         //current limits
-        m_deckMaster.setSmartCurrentLimit(ElevatorConfig.smartCurrentStallLimit, ElevatorConfig.smartCurrentFreeLimit);
+        m_elevatorMaster.setSmartCurrentLimit(ElevatorConfig.smartCurrentStallLimit, ElevatorConfig.smartCurrentFreeLimit);
         
         //Conversion Factor
-        e_deckMaster.setPositionConversionFactor(ElevatorConfig.positionConversionFactor);
-        e_deckMaster.setVelocityConversionFactor(ElevatorConfig.velocityConversionFactor);
+        e_elevatorMaster.setPositionConversionFactor(ElevatorConfig.positionConversionFactor);
+        e_elevatorMaster.setVelocityConversionFactor(ElevatorConfig.velocityConversionFactor);
 
         //soft limits Forward
-        m_deckMaster.enableSoftLimit(SoftLimitDirection.kForward, ElevatorConfig.softLimitFwdEnabled);
-        m_deckMaster.setSoftLimit(SoftLimitDirection.kForward, ElevatorConfig.softLimitFwd);
+        m_elevatorMaster.enableSoftLimit(SoftLimitDirection.kForward, ElevatorConfig.softLimitFwdEnabled);
+        m_elevatorMaster.setSoftLimit(SoftLimitDirection.kForward, ElevatorConfig.softLimitFwd);
 
         //soft limits Reverse
-        m_deckMaster.enableSoftLimit(SoftLimitDirection.kReverse, ElevatorConfig.softLimitRevEnabled);
-        m_deckMaster.setSoftLimit(SoftLimitDirection.kReverse, ElevatorConfig.softLimitRev);
+        m_elevatorMaster.enableSoftLimit(SoftLimitDirection.kReverse, ElevatorConfig.softLimitRevEnabled);
+        m_elevatorMaster.setSoftLimit(SoftLimitDirection.kReverse, ElevatorConfig.softLimitRev);
         
         //TODO: Maybe add HOLLOW BORE
 
         //control type to position
-        pid_deckMaster.setReference(m_deckMaster.getEncoder().getPosition(), ControlType.kPosition);
+        pid_elevatorMaster.setReference(m_elevatorMaster.getEncoder().getPosition(), ControlType.kPosition);
 
         //BURN MASTER FLASH!!
-        m_deckMaster.burnFlash();
+        m_elevatorMaster.burnFlash();
 
         //set position to startup
-        m_deckMaster.getEncoder().setPosition(ElevatorPositions.zero);
+        m_elevatorMaster.getEncoder().setPosition(ElevatorPositions.zero);
         //control type to position
-        pid_deckMaster.setReference(m_deckMaster.getEncoder().getPosition(), ControlType.kPosition);
+        pid_elevatorMaster.setReference(m_elevatorMaster.getEncoder().getPosition(), ControlType.kPosition);
 
         //BURN MASTER FLASH!!
-        m_deckMaster.burnFlash();
+        m_elevatorMaster.burnFlash();
 
 
 
-    }//end deck constructor
+    }//end elevator constructor
 
 
 
@@ -101,7 +101,7 @@ public class Elevator extends SubsystemBase{
     //returns encoder position reading
     public double getPosition()
     {
-        return e_deckMaster.getPosition();
+        return e_elevatorMaster.getPosition();
 
     }//end getPosition
 
@@ -109,7 +109,7 @@ public class Elevator extends SubsystemBase{
     //sets the goal position that it will move to
     public void setPosition(double position)
     {
-        pid_deckMaster.setReference(position, ElevatorConfig.controlType);
+        pid_elevatorMaster.setReference(position, ElevatorConfig.controlType);
     }
 
 
