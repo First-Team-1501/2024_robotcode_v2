@@ -69,7 +69,7 @@ public class Shooter extends SubsystemBase{
         //TODO: Maybe add HOLLOW BORE
 
         //control type
-                m_leftShooter.getPIDController().setReference(m_leftShooter.getEncoder().getPosition(), ControlType.kVelocity);
+        m_leftShooter.getPIDController().setReference(0, ControlType.kVelocity);
 
 
         //BURN FLASH!!
