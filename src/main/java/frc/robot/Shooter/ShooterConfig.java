@@ -30,8 +30,8 @@ public class ShooterConfig {
     public static double left_outputMax = 1;
 
     //Ramp Rate
-    public static double left_openRampRate = 0.1; //Time in seconds (1 is good for percent based stuff) (percent mode)
-    public static double left_closedRampRate = 0.1; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
+    public static double left_openRampRate = 0.5; //Time in seconds (1 is good for percent based stuff) (percent mode)
+    public static double left_closedRampRate = 0.5; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     //Follower ID
     public static int left_followerID = 0; //Follower ID
@@ -91,8 +91,8 @@ public class ShooterConfig {
     public static double right_outputMax = 1;
 
     //Ramp Rate
-    public static double right_openRampRate = 0.1; //Time in seconds (1 is good for percent based stuff) (percent mode)
-    public static double right_closedRampRate = 0.1; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
+    public static double right_openRampRate = 0.5; //Time in seconds (1 is good for percent based stuff) (percent mode)
+    public static double right_closedRampRate = 0.5; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     //Follower ID
     public static int right_followerID = 0;

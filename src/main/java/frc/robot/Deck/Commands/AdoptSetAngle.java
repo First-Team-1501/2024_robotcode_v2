@@ -70,6 +70,8 @@ public class AdoptSetAngle extends Command
         //TODO: is Finished, execute, and end methods
         
         s_deck.setPosition(target_deg);
+        System.out.println("Position Set to: " + target_deg);
+
         
     }
 
@@ -78,11 +80,12 @@ public class AdoptSetAngle extends Command
         // TODO Auto-generated method stub
         //if difference between target position
         finished = Math.abs(target_deg - s_deck.getPosition()) < DeckPositions.tolerance;
-        
+        System.out.println("Check position");
     }
 
     @Override
     public boolean isFinished() {
+        System.out.println("Angle Over");
         return finished;
     }
 

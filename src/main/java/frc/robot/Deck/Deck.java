@@ -30,6 +30,8 @@ public class Deck extends SubsystemBase{
 
         // **INITIALIZE MOTORS**
         m_deckMaster = new CANSparkMax(DeckConfig.ID, DeckConfig.motorType);
+        
+
         m_deckMaster.setIdleMode(DeckConfig.idleMode);
         
                 
@@ -84,12 +86,12 @@ public class Deck extends SubsystemBase{
 
 
         //set position to startup
-        m_deckMaster.getEncoder().setPosition(DeckPositions.zero);
+        //m_deckMaster.getEncoder().setPosition(DeckPositions.zero);
+        e_deckMaster.setPosition(DeckPositions.zero);
         //control type to position
         pid_deckMaster.setReference(m_deckMaster.getEncoder().getPosition(), ControlType.kPosition);
 
-        //BURN MASTER FLASH!!
-        m_deckMaster.burnFlash();
+        
 
 
 
@@ -110,7 +112,7 @@ public class Deck extends SubsystemBase{
     //sets the goal position that it will move to
     public void setPosition(double position)
     {
-        pid_deckMaster.setReference(position, DeckConfig.controlType);
+        pid_deckMaster.setReference(DeckPositions.zero, DeckConfig.controlType);
     }
 
 

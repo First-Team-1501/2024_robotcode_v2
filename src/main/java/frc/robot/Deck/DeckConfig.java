@@ -30,12 +30,12 @@ public class DeckConfig {
     //Idle Mode
 
     //Min + Max Output
-    public static double outputMin = -0.5;
-    public static double outputMax = 0.5;
+    public static double outputMin = 0.75;
+    public static double outputMax = 0.75;
 
     //Ramp Rate
-    public static double openRampRate = 0; //Time in seconds (1 is good for percent based stuff) (percent mode)
-    public static double closedRampRate = 1; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
+    public static double openRampRate = 0.5; //Time in seconds (1 is good for percent based stuff) (percent mode)
+    public static double closedRampRate = .5; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     //Follower ID
     public static int followerID = 31; //Slave ID
@@ -44,11 +44,11 @@ public class DeckConfig {
     public static boolean kInverted = false;
 
     //Current Limits
-    public static int smartCurrentStallLimit = 20;  //40 for big neo, 20 for small neo
-    public static int smartCurrentFreeLimit = 15; //30 for big neo, 15 for small neo
+    public static int smartCurrentStallLimit = 40;  //40 for big neo, 20 for small neo
+    public static int smartCurrentFreeLimit = 30; //30 for big neo, 15 for small neo
 
     //Conversion Factors
-    public static double positionConversionFactor = (1/125)*(16/64)/360; //360 / gear ratio
+    public static double positionConversionFactor = 1;//1/125*64/16*360; //360 / gear ratio
     public static double velocityConversionFactor = 1;
 
     //Soft Limits Enabled
@@ -60,7 +60,7 @@ public class DeckConfig {
     public static float softLimitRev = 0;
 
     //Analog for Hollow Bore
-    public static double analogPositionConversion = (1/25)*(16/64)/360;//125:1 (0.008), 16 small, 64 T (0.25), (0.032)/360 / gear ratio
+    public static double analogPositionConversion = 1;  //1/125*16/64/360;//125:1 (0.008), 16 small, 64 T (0.25), (0.032)/360 / gear ratio
     public static double analogVelocityConversion = 1;
     public static int analogSensorMore = 0; // 0 = absolute; 1 = relative
     public static int analogInverted = 0;

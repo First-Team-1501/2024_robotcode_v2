@@ -167,15 +167,20 @@ public class RobotContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new JoystickButton(operatorXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    driverController.button(3).onTrue(new InstantCommand(drivebase::zeroGyro));
     new JoystickButton(operatorXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
 
   //  **OPERATOR BUTTONS** 
   //Deck Buttons
-    Trigger deck_RevCloseup = new Trigger( () -> operatorXbox.getXButton() )
-      .whileTrue(new Shoot(s_SHOOTER).alongWith(new NoteIntake(s_INTAKE)));
+    Trigger shooter_RevCloseup = new Trigger( () -> operatorXbox.getXButton() )
+      .whileTrue(new Shoot(s_SHOOTER, AdoptSetAngle.finished));
 
+    Trigger intake = new Trigger( () -> operatorXbox.getRightBumper())
+      .whileTrue(new NoteIntake(s_INTAKE));
+
+    Trigger deck_SetCloseup = new Trigger( () -> operatorXbox.getYButton() )
+      .onTrue(new AdoptSetAngle(s_DECK, PositionList.CLOSEUP));
 
 
   }

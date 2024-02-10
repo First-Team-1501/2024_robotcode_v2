@@ -140,17 +140,17 @@ public class Shooter extends SubsystemBase{
 
 
     //set velocity
-    public void setSpeed(CANSparkMax motor, double shooterVelocity)
+    public void setSpeed(CANSparkMax motor, double shooterSpeed)
     {
-        motor.set(shooterVelocity);
+        motor.set(shooterSpeed);
     }//end set velocity
 
     //auto-generated stub
 
-    public void shoot(double leftShooterVelocity, double rightShooterVelocity)
+    public void shoot(double leftShooterSpeed, double rightShooterSpeed)
     {
-        setSpeed(m_leftShooter, leftShooterVelocity);
-        setSpeed(m_rightShooter, rightShooterVelocity);
+        setSpeed(m_leftShooter, leftShooterSpeed);
+        setSpeed(m_rightShooter, rightShooterSpeed);
 
     }
     public void stop_shooter()

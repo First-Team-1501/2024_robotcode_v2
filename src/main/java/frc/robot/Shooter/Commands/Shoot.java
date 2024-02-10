@@ -2,14 +2,15 @@ package frc.robot.Shooter.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Shooter.Shooter;
-import frc.robot.Shooter.ShooterVelocities;
+import frc.robot.Shooter.ShooterSpeeds;
 
 public class Shoot extends Command
 {
     private Shooter s_shooter;
+    private boolean deckAtPosition;
     private boolean finished = false;
 
-    public Shoot(Shooter s_shooter)
+    public Shoot(Shooter s_shooter, boolean AtPosition)
     {
         this.s_shooter = s_shooter;
         addRequirements(s_shooter);
@@ -32,7 +33,8 @@ public class Shoot extends Command
         {
             finished = true;
         }*/
-        s_shooter.shoot(ShooterVelocities.closeup_leftSpeed, ShooterVelocities.closeup_rightSpeed);
+        
+        s_shooter.shoot(ShooterSpeeds.closeup_leftSpeed, ShooterSpeeds.closeup_rightSpeed);
         System.out.println("shooter run");
 
     }
