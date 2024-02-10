@@ -26,8 +26,8 @@ public class ElevatorConfig {
     public static double DFilter = 0;
 
     //Min + Max Output
-    public static double outputMin = -1;
-    public static double outputMax = 1;
+    public static double outputMin = -0.75;
+    public static double outputMax = 0.75;
 
     //Ramp Rate
     public static double openRampRate = 0; //Time in seconds (1 is good for percent based stuff) (percent mode)
@@ -37,18 +37,18 @@ public class ElevatorConfig {
     public static int followerID = 0;
 
     //Inverted
-    public static boolean kInverted = false;
+    public static boolean kInverted = true;
 
     //Current Limits
     public static int smartCurrentStallLimit = 20;  //40 for big neo, 20 for small neo
     public static int smartCurrentFreeLimit = 15; //30 for big neo, 15 for small neo
 
     //Conversion Factors
-    public static double positionConversionFactor = 1/27/360; //
+    public static double positionConversionFactor = 1; //
     public static double velocityConversionFactor = 1;
 
     //Soft Limits
-    public static float softLimitFwd = 10;
+    public static float softLimitFwd = 58;
     public static float softLimitRev = 0;
 
         //Soft Limits Enabled

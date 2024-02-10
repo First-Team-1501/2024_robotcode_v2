@@ -24,7 +24,9 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Deck.Deck;
 import frc.robot.Deck.PositionList;
 import frc.robot.Deck.Commands.AdoptSetAngle;
+import frc.robot.Elevator.DistanceList;
 import frc.robot.Elevator.Elevator;
+import frc.robot.Elevator.Commands.AdoptTargetDistance;
 import frc.robot.Intake.Intake;
 import frc.robot.Intake.Commands.NoteIntake;
 import frc.robot.Shooter.Shooter;
@@ -192,6 +194,11 @@ public class RobotContainer
     Trigger deck_SetHome = new Trigger(()-> operatorXbox.getAButton())
     .whileTrue(new AdoptSetAngle(s_DECK, PositionList.HOME));
 
+    Trigger elevatorOut = new Trigger( () -> buttonBoard.getRawButton(4))
+    .whileTrue(new AdoptTargetDistance(s_ELEVATOR, DistanceList.INTAKE));
+
+    Trigger elevatorIn = new Trigger( () -> buttonBoard.getRawButton(2))
+    .whileTrue(new AdoptTargetDistance(s_ELEVATOR, DistanceList.ZERO));
 
   }
 

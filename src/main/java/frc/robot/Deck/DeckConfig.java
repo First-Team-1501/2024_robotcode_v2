@@ -56,7 +56,7 @@ public class DeckConfig {
     public static boolean softLimitRevEnabled = true;
 
     //Soft Limits
-    public static float softLimitFwd = 70;
+    public static float softLimitFwd = 75;
     public static float softLimitRev = 0;
 
     //Analog for Hollow Bore

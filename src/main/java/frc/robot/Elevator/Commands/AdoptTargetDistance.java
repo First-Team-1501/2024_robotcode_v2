@@ -59,6 +59,8 @@ public class AdoptTargetDistance extends Command{
                 target_dist = ElevatorPositions.home;
                 break;
         }
+        finished = false;
+        System.out.println("Elevator position initialized");
 
 
     }//end constructor
@@ -67,6 +69,8 @@ public class AdoptTargetDistance extends Command{
     public void initialize() 
     {
         s_Elevator.setPosition(target_dist);
+        System.out.println("Elevator position set");
+
     }
 
 
@@ -74,15 +78,18 @@ public class AdoptTargetDistance extends Command{
     public void execute() 
     {
         finished = Math.abs(target_dist-s_Elevator.getPosition())<ElevatorPositions.tolerance;
+        System.out.println("Elevator position checked");
+
     }
     @Override
     public boolean isFinished() {
         return finished;
+
     }
 
     @Override
     public void end(boolean interrupted) {
-        
+        System.out.println("Elevator At position");
     }
 
 

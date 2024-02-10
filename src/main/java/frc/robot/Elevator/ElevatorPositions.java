@@ -8,7 +8,7 @@ public class ElevatorPositions {
 
     public static final double zero = 0;
     public static final double home = 0;
-    public static final double intake = 0;
+    public static final double intake = 58;
     public static final double amp = 0;
     public static final double climb = 0;
     public static final double trap_aim = 0;
