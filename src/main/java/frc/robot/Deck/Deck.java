@@ -65,7 +65,6 @@ public class Deck extends SubsystemBase{
         
         //Conversion Factor
         e_deckMaster.setPositionConversionFactor(DeckConfig.positionConversionFactor);
-        e_deckMaster.setVelocityConversionFactor(DeckConfig.velocityConversionFactor);
 
         //soft limits Forward
         m_deckMaster.enableSoftLimit(SoftLimitDirection.kForward, DeckConfig.softLimitFwdEnabled);
@@ -74,22 +73,15 @@ public class Deck extends SubsystemBase{
         //soft limits Reverse
         m_deckMaster.enableSoftLimit(SoftLimitDirection.kReverse, DeckConfig.softLimitRevEnabled);
         m_deckMaster.setSoftLimit(SoftLimitDirection.kReverse, DeckConfig.softLimitRev);
-        
-        //TODO: Maybe add HOLLOW BORE
 
-        //control type to position
-        pid_deckMaster.setReference(m_deckMaster.getEncoder().getPosition(), ControlType.kPosition);
+        //ATTEMPT: set position as 0
+        e_deckMaster.setPosition(DeckPositions.zero);
 
         //BURN MASTER FLASH!!
         m_deckMaster.burnFlash();
-
-
-
-        //set position to startup
-        //m_deckMaster.getEncoder().setPosition(DeckPositions.zero);
-        e_deckMaster.setPosition(DeckPositions.zero);
+        
         //control type to position
-        pid_deckMaster.setReference(m_deckMaster.getEncoder().getPosition(), ControlType.kPosition);
+        pid_deckMaster.setReference(e_deckMaster.getPosition(), ControlType.kPosition);
 
         
 
@@ -110,7 +102,7 @@ public class Deck extends SubsystemBase{
 
 
     //sets the goal position that it will move to
-    public void setPosition(double position)
+    public void setAngle(double position)
     {
         pid_deckMaster.setReference(DeckPositions.zero, DeckConfig.controlType);
     }

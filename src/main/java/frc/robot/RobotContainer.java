@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -152,6 +155,11 @@ public class RobotContainer
     configureBindings();
     System.out.println("Triggers Configured");
 
+    //First code for the Camera server.
+    CameraServer.startAutomaticCapture();
+    //CvSink cvSink = CameraServer.getVideo();
+    //CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
+
 
 
 
@@ -180,7 +188,9 @@ public class RobotContainer
       .whileTrue(new NoteIntake(s_INTAKE));
 
     Trigger deck_SetCloseup = new Trigger( () -> operatorXbox.getYButton() )
-      .onTrue(new AdoptSetAngle(s_DECK, PositionList.CLOSEUP));
+      .whileTrue(new AdoptSetAngle(s_DECK, PositionList.CLOSEUP));
+    Trigger deck_SetHome = new Trigger(()-> operatorXbox.getAButton())
+    .whileTrue(new AdoptSetAngle(s_DECK, PositionList.HOME));
 
 
   }

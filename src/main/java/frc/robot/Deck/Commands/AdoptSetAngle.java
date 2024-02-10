@@ -69,8 +69,9 @@ public class AdoptSetAngle extends Command
     public void initialize() {
         //TODO: is Finished, execute, and end methods
         
-        s_deck.setPosition(target_deg);
+        s_deck.setAngle(target_deg);
         System.out.println("Position Set to: " + target_deg);
+        
 
         
     }

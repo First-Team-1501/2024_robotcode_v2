@@ -7,7 +7,6 @@ import frc.robot.Shooter.ShooterSpeeds;
 public class Shoot extends Command
 {
     private Shooter s_shooter;
-    private boolean deckAtPosition;
     private boolean finished = false;
 
     public Shoot(Shooter s_shooter, boolean AtPosition)

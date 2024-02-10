@@ -23,7 +23,7 @@ public class DeckConfig {
     public static double p = 0.01; //.01 good start value
     public static double i = 0;
     public static double d = 0;
-    public static double f = 0;
+    public static double f = 0.1;
     public static double IZone = 0;
     public static double DFilter = 0;
 
