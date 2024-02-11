@@ -30,11 +30,11 @@ public class ElevatorConfig {
     public static double outputMax = 0.75;
 
     //Ramp Rate
-    public static double openRampRate = 0; //Time in seconds (1 is good for percent based stuff) (percent mode)
+    public static double openRampRate = 0.5; //Time in seconds (1 is good for percent based stuff) (percent mode)
     public static double closedRampRate = 1; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     //Follower ID
-    public static int followerID = 0;
+    public static int followerID = 0; //no follower
 
     //Inverted
     public static boolean kInverted = true;
@@ -44,7 +44,7 @@ public class ElevatorConfig {
     public static int smartCurrentFreeLimit = 15; //30 for big neo, 15 for small neo
 
     //Conversion Factors
-    public static double positionConversionFactor = 1; //
+    public static double positionConversionFactor = 1; 
     public static double velocityConversionFactor = 1;
 
     //Soft Limits

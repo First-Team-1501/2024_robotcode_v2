@@ -61,7 +61,7 @@ public class AdoptTargetDistance extends Command{
         }
         finished = false;
         System.out.println("Elevator position initialized");
-
+        addRequirements(s_Elevator);
 
     }//end constructor
 

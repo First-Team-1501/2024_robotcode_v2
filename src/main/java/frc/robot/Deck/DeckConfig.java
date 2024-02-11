@@ -30,7 +30,7 @@ public class DeckConfig {
     //Idle Mode
 
     //Min + Max Output
-    public static double outputMin = 0.75;
+    public static double outputMin = -0.75;
     public static double outputMax = 0.75;
 
     //Ramp Rate
@@ -38,7 +38,7 @@ public class DeckConfig {
     public static double closedRampRate = .5; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     //Follower ID
-    public static int followerID = 31; //Slave ID
+    public static int followerID = 31; //Slave ID//no follower
 
     //Inverted
     public static boolean kInverted = false;
@@ -48,7 +48,7 @@ public class DeckConfig {
     public static int smartCurrentFreeLimit = 30; //30 for big neo, 15 for small neo
 
     //Conversion Factors
-    public static double positionConversionFactor = 1;//1/125*64/16*360; //360 / gear ratio
+    public static double positionConversionFactor = 1;
     public static double velocityConversionFactor = 1;
 
     //Soft Limits Enabled
@@ -66,7 +66,7 @@ public class DeckConfig {
     public static int analogInverted = 0;
 
     //Follower Inversion
-    public static boolean follow_isInverted = true;
+    public static boolean follow_isInverted = true; //no follower
 
     //Master ControlType
     public static ControlType controlType = ControlType.kPosition;

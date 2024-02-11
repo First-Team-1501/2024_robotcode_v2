@@ -14,7 +14,6 @@ import com.revrobotics.SparkPIDController;
 
 public class Elevator extends SubsystemBase{
     
-    //Elevator will be position mode
 
     //Elevator will be position mode
 
@@ -33,6 +32,7 @@ public class Elevator extends SubsystemBase{
 
         // **INITIALIZE MOTORS**
         m_elevatorMaster = new CANSparkMax(ElevatorConfig.ID, ElevatorConfig.motorType);
+        m_elevatorMaster.setIdleMode(ElevatorConfig.idleMode);
                 
         //Master motor Encoder for ease of access
         e_elevatorMaster = m_elevatorMaster.getEncoder();

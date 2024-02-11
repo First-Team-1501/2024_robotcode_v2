@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Deck.Commands.AdoptSetAngle;
+import frc.robot.Elevator.ElevatorConfig;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
@@ -66,6 +67,8 @@ public class Deck extends SubsystemBase{
         
         //Conversion Factor
         e_deckMaster.setPositionConversionFactor(DeckConfig.positionConversionFactor);
+        e_deckMaster.setVelocityConversionFactor(ElevatorConfig.velocityConversionFactor);
+
 
         //soft limits Forward
         m_deckMaster.enableSoftLimit(SoftLimitDirection.kForward, DeckConfig.softLimitFwdEnabled);
@@ -76,7 +79,6 @@ public class Deck extends SubsystemBase{
         m_deckMaster.setSoftLimit(SoftLimitDirection.kReverse, DeckConfig.softLimitRev);
 
         //ATTEMPT: set position as 0
-        e_deckMaster.setPosition(DeckPositions.zero);
 
         
         
@@ -85,8 +87,10 @@ public class Deck extends SubsystemBase{
 
         //BURN MASTER FLASH!!
         m_deckMaster.burnFlash();
+        e_deckMaster.setPosition(DeckPositions.zero);
+        pid_deckMaster.setReference(m_deckMaster.getEncoder().getPosition(), ControlType.kPosition);
 
-
+        m_deckMaster.burnFlash();
 
     }//end deck constructor
 
@@ -105,7 +109,7 @@ public class Deck extends SubsystemBase{
     //sets the goal position that it will move to
     public void setAngle(double position)
     {
-        pid_deckMaster.setReference(DeckPositions.zero, DeckConfig.controlType);
+        pid_deckMaster.setReference(position, DeckConfig.controlType);
     }
 
 
