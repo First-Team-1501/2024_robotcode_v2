@@ -11,7 +11,7 @@ public class DeckConfig {
     // Deck motors are master/slave so all configs will be the same
 
     //CAN bus ID
-    public static int ID = 30; //Master ID
+    public static int ID = 23; //Master ID
 
     //Type configs
     public static MotorType motorType = MotorType.kBrushless;
