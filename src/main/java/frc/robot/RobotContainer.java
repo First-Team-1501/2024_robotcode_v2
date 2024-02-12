@@ -205,6 +205,9 @@ public class RobotContainer
     Trigger outtake = new Trigger( () -> operatorXbox.getLeftBumper())
     .whileTrue(new NoteOuttake(s_INTAKE));
 
+    Trigger deck_SetIntake = new Trigger(()-> operatorXbox.getBButton())
+    .whileTrue(new AdoptSetAngle(s_DECK, PositionList.INTAKE));
+
   }
 
   /**
