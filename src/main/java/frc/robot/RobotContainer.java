@@ -29,6 +29,7 @@ import frc.robot.Elevator.Elevator;
 import frc.robot.Elevator.Commands.AdoptTargetDistance;
 import frc.robot.Intake.Intake;
 import frc.robot.Intake.Commands.NoteIntake;
+import frc.robot.Intake.Commands.NoteOuttake;
 import frc.robot.Shooter.Shooter;
 import frc.robot.Shooter.Commands.Shoot;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -191,7 +192,8 @@ public class RobotContainer
 
     Trigger deck_SetCloseup = new Trigger( () -> operatorXbox.getYButton() )
       .whileTrue(new AdoptSetAngle(s_DECK, PositionList.CLOSEUP));
-    Trigger deck_SetHome = new Trigger(()-> operatorXbox.getAButton())
+    
+      Trigger deck_SetHome = new Trigger(()-> operatorXbox.getAButton())
     .whileTrue(new AdoptSetAngle(s_DECK, PositionList.HOME));
 
     Trigger elevatorOut = new Trigger( () -> buttonBoard.getRawButton(4))
@@ -199,6 +201,9 @@ public class RobotContainer
 
     Trigger elevatorIn = new Trigger( () -> buttonBoard.getRawButton(2))
     .whileTrue(new AdoptTargetDistance(s_ELEVATOR, DistanceList.ZERO));
+    //Trigger deck_Intake = new Trigger( ()-> operatorXbox.)
+    Trigger outtake = new Trigger( () -> operatorXbox.getLeftBumper())
+    .whileTrue(new NoteOuttake(s_INTAKE));
 
   }
 
