@@ -230,6 +230,9 @@ public class RobotContainer
       .andThen(new AdoptTargetDistance(s_ELEVATOR, s_DECK, DistanceList.HOME)
       .andThen(new AdoptSetAngle(s_DECK, PositionList.HOME)))));
 
+    Trigger deck_SetIntake = new Trigger(()-> operatorXbox.getBButton())
+    .whileTrue(new AdoptSetAngle(s_DECK, PositionList.INTAKE));
+
   }
 
   /**
