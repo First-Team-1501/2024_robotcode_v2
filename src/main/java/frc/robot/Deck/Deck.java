@@ -24,7 +24,9 @@ public class Deck extends SubsystemBase{
 
     //declare master's pid controller
     private SparkPIDController pid_deckMaster;
-    private double deckPosition;
+    public PositionList deckPosition;
+
+    public boolean onBattery;
 
     //Deck Constructor method
     public Deck()
@@ -118,8 +120,7 @@ public class Deck extends SubsystemBase{
     {
         SmartDashboard.putBoolean("Deck AtPosition", AdoptSetAngle.finished);
         SmartDashboard.putNumber("Deck Position", getPosition());
-        //System.out.println("DeckPeriodic run");
-        deckPosition = getPosition();
+       
     }
 
 

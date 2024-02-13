@@ -6,6 +6,12 @@ public class ShooterSpeeds {
     public static double closeup_leftSpeed = 80;
     public static double closeup_rightSpeed = 100;
 
+    //podium speed
+    public static double podium_leftSpeed = 80;
+    public static double podium_rightSpeed = 100;
 
+    //closeup speed
+    public static double backline_leftSpeed = 80;
+    public static double backline_rightSpeed = 100;
 
 }

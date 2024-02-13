@@ -135,6 +135,11 @@ public class IntakeConfig {
 
     public static double bottom_inSpeed = 1;
     public static double bottom_outSpeed = -1;
+    
+
+    //SENSOR CHANNELS
+    public static int pe_noteInQueueID = 1;
+    public static int pe_notePresentID = 2;
 
 
 

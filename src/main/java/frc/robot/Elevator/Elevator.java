@@ -26,6 +26,10 @@ public class Elevator extends SubsystemBase{
     //declare master's pid controller
     private SparkPIDController pid_elevatorMaster;
 
+    //whether intake is out or in
+    public boolean intakeOut = false;
+
+
     //Elevator Constructor method
     public Elevator()
     {

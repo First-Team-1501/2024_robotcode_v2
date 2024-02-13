@@ -16,11 +16,27 @@ public class AdoptSetAngle extends Command
     public AdoptSetAngle(Deck s_deck, PositionList position)
     {
         this.s_deck = s_deck;
+        s_deck.deckPosition = position;
+
+        //switch for deciding if deck is in risk of hitting battery
         switch (position) {
+            case CLOSEUP:
+            case INTAKE:
+            case HOME:
+                s_deck.onBattery = true;
+                break;
+        
+            default:
+                s_deck.onBattery = false;
+                break;
+        }
+
+        //switch for setting position
+        switch (position) 
+        {
             case CLOSEUP:
                 target_deg = DeckPositions.closeup;
                 break;
-
 
 
             case PODIUM:
@@ -33,24 +49,34 @@ public class AdoptSetAngle extends Command
                 break;
 
 
-
             case INTAKE:
                 target_deg = DeckPositions.intake;
                 break;
             
             
-            
             case HOME:
                 target_deg = DeckPositions.home;
                 break;
+
             
             case CLIMB:
                 target_deg = DeckPositions.climb;
                 break;
+
+            
+            case PRE_INTAKE:
+                target_deg = DeckPositions.pre_intake;
+                break;
+
+
+            case OUTTAKE:
+                target_deg = DeckPositions.outtake;
+                break;
             
         
+
             default:
-                target_deg = DeckPositions.intake;
+                target_deg = DeckPositions.pre_intake;
                 break;
 
 

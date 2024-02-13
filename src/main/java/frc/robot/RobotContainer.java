@@ -31,7 +31,8 @@ import frc.robot.Intake.Intake;
 import frc.robot.Intake.Commands.NoteIntake;
 import frc.robot.Intake.Commands.NoteOuttake;
 import frc.robot.Shooter.Shooter;
-import frc.robot.Shooter.Commands.Shoot;
+import frc.robot.Shooter.ShotList;
+import frc.robot.Shooter.Commands.RevShooter;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -185,25 +186,49 @@ public class RobotContainer
   //  **OPERATOR BUTTONS** 
   //Deck Buttons
     Trigger shooter_RevCloseup = new Trigger( () -> operatorXbox.getXButton() )
-      .whileTrue(new Shoot(s_SHOOTER, AdoptSetAngle.finished));
+      .whileTrue(new AdoptSetAngle(s_DECK, PositionList.CLOSEUP)
+        .andThen(new RevShooter(s_SHOOTER, ShotList.CLOSEUP)));
+    
+    Trigger shooter_RevPodium = new Trigger(() -> operatorXbox.getRawButton(0))
+      .whileTrue(new AdoptSetAngle(s_DECK, PositionList.PODIUM)
+        .andThen(new RevShooter(s_SHOOTER, ShotList.PODIUM)));
 
-    Trigger intake = new Trigger( () -> operatorXbox.getRightBumper())
+    Trigger shooter_RevBackline = new Trigger(() -> operatorXbox.getRawButton(0))
+      .whileTrue(new AdoptSetAngle(s_DECK, PositionList.BACKLINE)
+      .andThen(new RevShooter(s_SHOOTER, ShotList.BACKLINE)));
+
+    /* Trigger intake_Intake = new Trigger( () -> operatorXbox.getRightBumper())
       .whileTrue(new NoteIntake(s_INTAKE));
 
     Trigger deck_SetCloseup = new Trigger( () -> operatorXbox.getYButton() )
-      .whileTrue(new AdoptSetAngle(s_DECK, PositionList.CLOSEUP));
+      .whileTrue(new AdoptSetAngle(s_DECK, PositionList.CLOSEUP)); */
     
-      Trigger deck_SetHome = new Trigger(()-> operatorXbox.getAButton())
+    Trigger deck_SetHome = new Trigger(()-> operatorXbox.getAButton())
     .whileTrue(new AdoptSetAngle(s_DECK, PositionList.HOME));
 
     Trigger elevatorOut = new Trigger( () -> buttonBoard.getRawButton(4))
-    .whileTrue(new AdoptTargetDistance(s_ELEVATOR, DistanceList.INTAKE));
+    .whileTrue(new AdoptTargetDistance(s_ELEVATOR, s_DECK, DistanceList.INTAKE));
 
     Trigger elevatorIn = new Trigger( () -> buttonBoard.getRawButton(2))
-    .whileTrue(new AdoptTargetDistance(s_ELEVATOR, DistanceList.ZERO));
-    //Trigger deck_Intake = new Trigger( ()-> operatorXbox.)
+    .whileTrue(new AdoptTargetDistance(s_ELEVATOR, s_DECK, DistanceList.ZERO));
+   
+    //Run outtake
     Trigger outtake = new Trigger( () -> operatorXbox.getLeftBumper())
-    .whileTrue(new NoteOuttake(s_INTAKE));
+    .whileTrue(new AdoptSetAngle(s_DECK, PositionList.PRE_INTAKE)
+      .andThen(new NoteOuttake(s_INTAKE)))
+    .toggleOnFalse(getAutonomousCommand());
+
+    //Position Deck for Pre-intake, Extend Arm, Deck to Intake   *Add back with outtake
+    Trigger intake = new Trigger( ()-> buttonBoard.getRawButton(3))
+    //when pressed, position, then run intake until interupted
+    .whileTrue(new AdoptSetAngle(s_DECK, PositionList.PRE_INTAKE)
+      .andThen(new AdoptTargetDistance(s_ELEVATOR, s_DECK, DistanceList.INTAKE)
+      .andThen(new AdoptSetAngle(s_DECK, PositionList.INTAKE)
+      .andThen(new NoteIntake(s_INTAKE)))))
+    .toggleOnFalse(new AdoptSetAngle(s_DECK, PositionList.PRE_INTAKE)
+      .andThen(new AdoptSetAngle(s_DECK, PositionList.PRE_INTAKE)
+      .andThen(new AdoptTargetDistance(s_ELEVATOR, s_DECK, DistanceList.HOME)
+      .andThen(new AdoptSetAngle(s_DECK, PositionList.HOME)))));
 
   }
 
