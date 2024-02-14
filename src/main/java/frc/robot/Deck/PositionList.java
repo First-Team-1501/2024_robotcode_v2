@@ -6,7 +6,9 @@ public enum PositionList {
     BACKLINE,
     HOME,
     INTAKE,
+    OUTTAKE,
     CLIMB,
-    ZERO
+    ZERO,
+    PRE_INTAKE
 
 }

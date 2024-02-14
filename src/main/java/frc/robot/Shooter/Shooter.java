@@ -69,7 +69,7 @@ public class Shooter extends SubsystemBase{
         //TODO: Maybe add HOLLOW BORE
 
         //control type
-        m_leftShooter.getPIDController().setReference(m_leftShooter.getEncoder().getPosition(), ControlType.kPosition);
+        m_leftShooter.getPIDController().setReference(0, ControlType.kVelocity);
 
 
         //BURN FLASH!!
@@ -122,7 +122,7 @@ public class Shooter extends SubsystemBase{
         //TODO: Maybe add HOLLOW BORE
 
         //control type
-        m_rightShooter.getPIDController().setReference(m_rightShooter.getEncoder().getPosition(), ControlType.kPosition);
+        m_rightShooter.getPIDController().setReference(0, ControlType.kVelocity);
 
 
         //BURN FLASH!
@@ -140,23 +140,23 @@ public class Shooter extends SubsystemBase{
 
 
     //set velocity
-    public void setVelocity(CANSparkMax motor, double shooterVelocity)
+    public void setSpeed(CANSparkMax motor, double shooterSpeed)
     {
-        motor.getPIDController().setSmartMotionMaxVelocity(shooterVelocity, 0);
+        motor.set(shooterSpeed);
     }//end set velocity
 
     //auto-generated stub
 
-    public void shoot(double leftShooterVelocity, double rightShooterVelocity)
+    public void shoot(double leftShooterSpeed, double rightShooterSpeed)
     {
-        setVelocity(m_leftShooter, leftShooterVelocity);
-        setVelocity(m_rightShooter, rightShooterVelocity);
+        setSpeed(m_leftShooter, leftShooterSpeed);
+        setSpeed(m_rightShooter, rightShooterSpeed);
 
     }
     public void stop_shooter()
     {
-        setVelocity(m_leftShooter, 0);
-        setVelocity(m_rightShooter, 0);
+        setSpeed(m_leftShooter, 0);
+        setSpeed(m_rightShooter, 0);
     }
 
 

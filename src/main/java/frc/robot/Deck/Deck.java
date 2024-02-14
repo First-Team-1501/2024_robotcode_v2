@@ -4,7 +4,10 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Deck.Commands.AdoptSetAngle;
+import frc.robot.Elevator.ElevatorConfig;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
@@ -15,13 +18,15 @@ public class Deck extends SubsystemBase{
 
     //declare deck Master & Slave
     private CANSparkMax m_deckMaster;
-    private CANSparkMax m_deckFollower;
     
     //declare deckmaster encoder
     private RelativeEncoder e_deckMaster;
 
     //declare master's pid controller
     private SparkPIDController pid_deckMaster;
+    public PositionList deckPosition;
+
+    public boolean onBattery;
 
     //Deck Constructor method
     public Deck()
@@ -29,7 +34,10 @@ public class Deck extends SubsystemBase{
 
         // **INITIALIZE MOTORS**
         m_deckMaster = new CANSparkMax(DeckConfig.ID, DeckConfig.motorType);
-        m_deckFollower = new CANSparkMax(DeckConfig.followerID, DeckConfig.motorType);
+        
+
+        m_deckMaster.setIdleMode(DeckConfig.idleMode);
+        
                 
         //Master motor Encoder for ease of access
         e_deckMaster = m_deckMaster.getEncoder();
@@ -61,7 +69,8 @@ public class Deck extends SubsystemBase{
         
         //Conversion Factor
         e_deckMaster.setPositionConversionFactor(DeckConfig.positionConversionFactor);
-        e_deckMaster.setVelocityConversionFactor(DeckConfig.velocityConversionFactor);
+        e_deckMaster.setVelocityConversionFactor(ElevatorConfig.velocityConversionFactor);
+
 
         //soft limits Forward
         m_deckMaster.enableSoftLimit(SoftLimitDirection.kForward, DeckConfig.softLimitFwdEnabled);
@@ -70,31 +79,20 @@ public class Deck extends SubsystemBase{
         //soft limits Reverse
         m_deckMaster.enableSoftLimit(SoftLimitDirection.kReverse, DeckConfig.softLimitRevEnabled);
         m_deckMaster.setSoftLimit(SoftLimitDirection.kReverse, DeckConfig.softLimitRev);
+
+        //ATTEMPT: set position as 0
+
         
-        //TODO: Maybe add HOLLOW BORE
-
+        
         //control type to position
-        pid_deckMaster.setReference(m_deckMaster.getEncoder().getPosition(), ControlType.kPosition);
+        pid_deckMaster.setReference(e_deckMaster.getPosition(), ControlType.kPosition);
 
         //BURN MASTER FLASH!!
         m_deckMaster.burnFlash();
-
-
-        //m_deckFollower is follower and inverted
-        m_deckFollower.follow(m_deckMaster);
-        m_deckFollower.setInverted(DeckConfig.follow_isInverted);
-        //burn follower
-        m_deckFollower.burnFlash();
-
-        //set position to startup
-        m_deckMaster.getEncoder().setPosition(DeckPositions.zero);
-        //control type to position
+        e_deckMaster.setPosition(DeckPositions.zero);
         pid_deckMaster.setReference(m_deckMaster.getEncoder().getPosition(), ControlType.kPosition);
 
-        //BURN MASTER FLASH!!
         m_deckMaster.burnFlash();
-
-
 
     }//end deck constructor
 
@@ -111,11 +109,19 @@ public class Deck extends SubsystemBase{
 
 
     //sets the goal position that it will move to
-    public void setPosition(double position)
+    public void setAngle(double position)
     {
         pid_deckMaster.setReference(position, DeckConfig.controlType);
     }
 
+
+    @Override
+    public void periodic()
+    {
+        SmartDashboard.putBoolean("Deck AtPosition", AdoptSetAngle.finished);
+        SmartDashboard.putNumber("Deck Position", getPosition());
+       
+    }
 
 
 

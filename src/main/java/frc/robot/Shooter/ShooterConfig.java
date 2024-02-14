@@ -37,11 +37,11 @@ public class ShooterConfig {
     public static int left_followerID = 0; //Follower ID
 
     //Inverted
-    public static boolean left_kInverted = false;
+    public static boolean left_kInverted = true;
 
     //Current Limits
-    public static int left_smartCurrentStallLimit = 20;  //40 for big neo, 20 for small neo
-    public static int left_smartCurrentFreeLimit = 15; //30 for big neo, 15 for small neo
+    public static int left_smartCurrentStallLimit = 40;  //40 for big neo, 20 for small neo
+    public static int left_smartCurrentFreeLimit = 25; //30 for big neo, 15 for small neo
 
     //Conversion Factors
     public static double left_positionConversionFactor = 1; //360 / gear ratio
@@ -52,8 +52,8 @@ public class ShooterConfig {
     public static float left_softLimitRev = 0;
 
         //Soft Limits Enabled
-    public static boolean left_softLimitFwdEnabled = true;
-    public static boolean left_softLimitRevEnabled = true;    
+    public static boolean left_softLimitFwdEnabled = false;
+    public static boolean left_softLimitRevEnabled = false;    
 
     //Analog for Hollow Bore
     public static double left_analogPositionConversion = 1;
@@ -91,18 +91,18 @@ public class ShooterConfig {
     public static double right_outputMax = 1;
 
     //Ramp Rate
-    public static double right_openRampRate = 0; //Time in seconds (1 is good for percent based stuff) (percent mode)
-    public static double right_closedRampRate = 0; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
+    public static double right_openRampRate = 0.5; //Time in seconds (1 is good for percent based stuff) (percent mode)
+    public static double right_closedRampRate = 0.5; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     //Follower ID
     public static int right_followerID = 0;
 
     //Inverted
-    public static boolean right_kInverted = true;
+    public static boolean right_kInverted = false;
 
     //Current Limits
-    public static int right_smartCurrentStallLimit = 20;  //40 for big neo, 20 for small neo
-    public static int right_smartCurrentFreeLimit = 15; //30 for big neo, 15 for small neo
+    public static int right_smartCurrentStallLimit = 40;  //40 for big neo, 20 for small neo
+    public static int right_smartCurrentFreeLimit = 25; //30 for big neo, 15 for small neo
 
     //Conversion Factors
     public static double right_positionConversionFactor = 1; //360 / gear ratio
@@ -113,8 +113,8 @@ public class ShooterConfig {
     public static float right_softLimitRev = 0;
 
         //Soft Limits Enabled
-    public static boolean right_softLimitFwdEnabled = true;
-    public static boolean right_softLimitRevEnabled = true;    
+    public static boolean right_softLimitFwdEnabled = false;
+    public static boolean right_softLimitRevEnabled = false;    
 
 
 

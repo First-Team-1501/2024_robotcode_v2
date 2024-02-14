@@ -4,29 +4,61 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Elevator.DistanceList;
 import frc.robot.Elevator.Elevator;
 import frc.robot.Elevator.ElevatorPositions;
+import frc.robot.Deck.Deck;
 
 public class AdoptTargetDistance extends Command{
     
     Elevator s_Elevator;
     private double target_dist;
-    private boolean finished = false;
+    public static boolean finished = false;
 
     
-    public AdoptTargetDistance(Elevator s_Elevator, DistanceList distance)
+    public AdoptTargetDistance(Elevator s_Elevator, Deck s_Deck, DistanceList distance)
     {
 
+        
+
         this.s_Elevator = s_Elevator;
+
+        //check to see if elevator is extending or not
+        if (distance == DistanceList.HOME || distance == DistanceList.ZERO)
+        {
+            s_Elevator.intakeOut = false;
+        }
+        else
+        {
+            s_Elevator.intakeOut = true;
+        }//end set elevatorOut
+
         //assign target distance based on desired state
         switch (distance) {
             case HOME:
-                target_dist = ElevatorPositions.home;
+                
+                if(!s_Deck.onBattery)
+                {
+                    target_dist = ElevatorPositions.home;
+                }
+                else 
+                {
+                    //Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
+                    target_dist = ElevatorPositions.home;
 
+                }
+                
                 break;
 
 
             case INTAKE:
-                target_dist = ElevatorPositions.intake;
+                if(!s_Deck.onBattery)
+                {
+                    target_dist = ElevatorPositions.intake;
+                }
+                else 
+                {
+                    //Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
+                    target_dist = ElevatorPositions.intake;
 
+                }
                 break;
 
             
@@ -51,15 +83,35 @@ public class AdoptTargetDistance extends Command{
 
             
             case ZERO:
-                target_dist = ElevatorPositions.zero;
+                if(!s_Deck.onBattery)
+                {
+                    target_dist = ElevatorPositions.zero;
+                }
+                else 
+                {
+                    //Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
+                    target_dist = ElevatorPositions.zero;
+
+                }
                 break;
 
         
             default:
-                target_dist = ElevatorPositions.home;
+                if(!s_Deck.onBattery)
+                {
+                    target_dist = ElevatorPositions.home;
+                }
+                else 
+                {
+                    //Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
+                    target_dist = ElevatorPositions.home;
+
+                }
                 break;
         }
-
+        finished = false;
+        System.out.println("Elevator position initialized");
+        addRequirements(s_Elevator);
 
     }//end constructor
 
@@ -67,6 +119,8 @@ public class AdoptTargetDistance extends Command{
     public void initialize() 
     {
         s_Elevator.setPosition(target_dist);
+        System.out.println("Elevator position set");
+
     }
 
 
@@ -74,15 +128,18 @@ public class AdoptTargetDistance extends Command{
     public void execute() 
     {
         finished = Math.abs(target_dist-s_Elevator.getPosition())<ElevatorPositions.tolerance;
+        System.out.println("Elevator position checked");
+
     }
     @Override
     public boolean isFinished() {
         return finished;
+
     }
 
     @Override
     public void end(boolean interrupted) {
-        
+        System.out.println("Elevator At position");
     }
 
 
