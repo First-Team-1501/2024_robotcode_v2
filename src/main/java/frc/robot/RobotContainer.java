@@ -27,6 +27,7 @@ import frc.robot.subsystems.leds.CANdleSystem.AnimationTypes;
 import frc.robot.commands.leds.CANdleConfigCommands;
 import frc.robot.commands.leds.CANdlePrintCommands;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
  * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
@@ -111,7 +112,7 @@ public class RobotContainer
     CANdleSystem candleLEDs = new CANdleSystem(driverXbox);
     candleLEDs.changeAnimation(AnimationTypes.Rainbow);
     candleLEDs.configBrightness(100);
-
+   
 
   }
           
