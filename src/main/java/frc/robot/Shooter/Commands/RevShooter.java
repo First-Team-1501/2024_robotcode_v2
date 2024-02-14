@@ -65,7 +65,7 @@ public class RevShooter extends Command
    }
 
 
-    //TODO add finished
+    
     @Override
     public boolean isFinished() {
         // TODO Auto-generated method stub

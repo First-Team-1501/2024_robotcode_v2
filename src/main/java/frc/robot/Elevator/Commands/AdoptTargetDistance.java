@@ -5,8 +5,6 @@ import frc.robot.Elevator.DistanceList;
 import frc.robot.Elevator.Elevator;
 import frc.robot.Elevator.ElevatorPositions;
 import frc.robot.Deck.Deck;
-import frc.robot.Deck.PositionList;
-import frc.robot.Deck.Commands.AdoptSetAngle;;
 
 public class AdoptTargetDistance extends Command{
     
@@ -42,7 +40,7 @@ public class AdoptTargetDistance extends Command{
                 }
                 else 
                 {
-                    Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
+                    //Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
                     target_dist = ElevatorPositions.home;
 
                 }
@@ -57,7 +55,7 @@ public class AdoptTargetDistance extends Command{
                 }
                 else 
                 {
-                    Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
+                    //Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
                     target_dist = ElevatorPositions.intake;
 
                 }
@@ -91,7 +89,7 @@ public class AdoptTargetDistance extends Command{
                 }
                 else 
                 {
-                    Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
+                    //Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
                     target_dist = ElevatorPositions.zero;
 
                 }
@@ -105,7 +103,7 @@ public class AdoptTargetDistance extends Command{
                 }
                 else 
                 {
-                    Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
+                    //Command angleUp = new AdoptSetAngle(s_Deck, PositionList.PRE_INTAKE);
                     target_dist = ElevatorPositions.home;
 
                 }

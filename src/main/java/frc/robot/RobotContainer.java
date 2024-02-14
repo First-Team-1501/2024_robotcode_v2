@@ -5,8 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -14,7 +12,6 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -36,11 +33,6 @@ import frc.robot.Shooter.Commands.RevShooter;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
-
-import frc.robot.subsystems.leds.CANdleSystem;
-import frc.robot.subsystems.leds.CANdleSystem.AnimationTypes;
-import frc.robot.commands.leds.CANdleConfigCommands;
-import frc.robot.commands.leds.CANdlePrintCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -185,17 +177,17 @@ public class RobotContainer
 
   //  **OPERATOR BUTTONS** 
   //Deck Buttons
-    Trigger shooter_RevCloseup = new Trigger( () -> operatorXbox.getXButton() )
-      .whileTrue(new AdoptSetAngle(s_DECK, PositionList.CLOSEUP)
-        .andThen(new RevShooter(s_SHOOTER, ShotList.CLOSEUP)));
+    Trigger shooter_RevCloseup = new Trigger( () -> operatorXbox.getAButton() )
+      .onTrue(new AdoptSetAngle(s_DECK, PositionList.CLOSEUP))
+        .whileTrue(new RevShooter(s_SHOOTER, ShotList.CLOSEUP));
     
-    Trigger shooter_RevPodium = new Trigger(() -> operatorXbox.getRawButton(0))
-      .whileTrue(new AdoptSetAngle(s_DECK, PositionList.PODIUM)
-        .andThen(new RevShooter(s_SHOOTER, ShotList.PODIUM)));
+    Trigger shooter_RevPodium = new Trigger(() -> operatorXbox.getXButton())
+      .onTrue(new AdoptSetAngle(s_DECK, PositionList.PODIUM))
+        .whileTrue(new RevShooter(s_SHOOTER, ShotList.PODIUM));
 
-    Trigger shooter_RevBackline = new Trigger(() -> operatorXbox.getRawButton(0))
-      .whileTrue(new AdoptSetAngle(s_DECK, PositionList.BACKLINE)
-      .andThen(new RevShooter(s_SHOOTER, ShotList.BACKLINE)));
+    Trigger shooter_RevBackline = new Trigger(() -> operatorXbox.getYButton())
+      .onTrue(new AdoptSetAngle(s_DECK, PositionList.BACKLINE))
+      .whileTrue(new RevShooter(s_SHOOTER, ShotList.BACKLINE));
 
     /* Trigger intake_Intake = new Trigger( () -> operatorXbox.getRightBumper())
       .whileTrue(new NoteIntake(s_INTAKE));
@@ -203,35 +195,36 @@ public class RobotContainer
     Trigger deck_SetCloseup = new Trigger( () -> operatorXbox.getYButton() )
       .whileTrue(new AdoptSetAngle(s_DECK, PositionList.CLOSEUP)); */
     
-    Trigger deck_SetHome = new Trigger(()-> operatorXbox.getAButton())
+    Trigger deck_SetHome = new Trigger(()-> buttonBoard.getRawButton(12))
     .whileTrue(new AdoptSetAngle(s_DECK, PositionList.HOME));
 
-    Trigger elevatorOut = new Trigger( () -> buttonBoard.getRawButton(4))
+    Trigger elevatorOut = new Trigger( () -> buttonBoard.getRawButton(9))
     .whileTrue(new AdoptTargetDistance(s_ELEVATOR, s_DECK, DistanceList.INTAKE));
 
-    Trigger elevatorIn = new Trigger( () -> buttonBoard.getRawButton(2))
+    Trigger elevatorIn = new Trigger( () -> buttonBoard.getRawButton(8))
     .whileTrue(new AdoptTargetDistance(s_ELEVATOR, s_DECK, DistanceList.ZERO));
    
     //Run outtake
     Trigger outtake = new Trigger( () -> operatorXbox.getLeftBumper())
     .whileTrue(new AdoptSetAngle(s_DECK, PositionList.PRE_INTAKE)
-      .andThen(new NoteOuttake(s_INTAKE)))
-    .toggleOnFalse(getAutonomousCommand());
+      .andThen(new NoteOuttake(s_INTAKE)));
 
     //Position Deck for Pre-intake, Extend Arm, Deck to Intake   *Add back with outtake
-    Trigger intake = new Trigger( ()-> buttonBoard.getRawButton(3))
+    Trigger intake = new Trigger( ()-> operatorXbox.getRightBumper())
     //when pressed, position, then run intake until interupted
     .whileTrue(new AdoptSetAngle(s_DECK, PositionList.PRE_INTAKE)
       .andThen(new AdoptTargetDistance(s_ELEVATOR, s_DECK, DistanceList.INTAKE)
       .andThen(new AdoptSetAngle(s_DECK, PositionList.INTAKE)
-      .andThen(new NoteIntake(s_INTAKE)))))
+      .andThen(new NoteIntake(s_INTAKE, s_DECK)))))
     .toggleOnFalse(new AdoptSetAngle(s_DECK, PositionList.PRE_INTAKE)
       .andThen(new AdoptSetAngle(s_DECK, PositionList.PRE_INTAKE)
       .andThen(new AdoptTargetDistance(s_ELEVATOR, s_DECK, DistanceList.HOME)
       .andThen(new AdoptSetAngle(s_DECK, PositionList.HOME)))));
 
-    Trigger deck_SetIntake = new Trigger(()-> operatorXbox.getBButton())
-    .whileTrue(new AdoptSetAngle(s_DECK, PositionList.INTAKE));
+    Trigger deck_SetIntake = new Trigger(()-> buttonBoard.getRawButton(3))
+      .whileTrue(new AdoptSetAngle(s_DECK, PositionList.INTAKE));
+
+    driverController.button(1).whileTrue(new NoteIntake(s_INTAKE, s_DECK));
 
   }
 

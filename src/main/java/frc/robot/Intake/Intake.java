@@ -19,8 +19,8 @@ public class Intake extends SubsystemBase{
     private CANSparkMax m_bottomIntake;
 
     //DECLARE Photoeyes
-    private DigitalInput pe_notePresent;
-    private DigitalInput pe_noteInQueue;
+    //private DigitalInput pe_notePresent;
+    //private DigitalInput pe_noteInQueue;
 
     //CONSTRUCTOR INTAKE
     public Intake()
@@ -123,7 +123,7 @@ public class Intake extends SubsystemBase{
 
 
         //      INITIALIZE PHOTOEYES
-        pe_noteInQueue = new DigitalInput(2);
+        //pe_noteInQueue = new DigitalInput(2);
         //pe_notePresent = new DigitalInput(1);
 
     }//End Constructor for Intake

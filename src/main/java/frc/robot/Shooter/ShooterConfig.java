@@ -40,8 +40,8 @@ public class ShooterConfig {
     public static boolean left_kInverted = true;
 
     //Current Limits
-    public static int left_smartCurrentStallLimit = 20;  //40 for big neo, 20 for small neo
-    public static int left_smartCurrentFreeLimit = 15; //30 for big neo, 15 for small neo
+    public static int left_smartCurrentStallLimit = 40;  //40 for big neo, 20 for small neo
+    public static int left_smartCurrentFreeLimit = 25; //30 for big neo, 15 for small neo
 
     //Conversion Factors
     public static double left_positionConversionFactor = 1; //360 / gear ratio
@@ -101,8 +101,8 @@ public class ShooterConfig {
     public static boolean right_kInverted = false;
 
     //Current Limits
-    public static int right_smartCurrentStallLimit = 20;  //40 for big neo, 20 for small neo
-    public static int right_smartCurrentFreeLimit = 15; //30 for big neo, 15 for small neo
+    public static int right_smartCurrentStallLimit = 40;  //40 for big neo, 20 for small neo
+    public static int right_smartCurrentFreeLimit = 25; //30 for big neo, 15 for small neo
 
     //Conversion Factors
     public static double right_positionConversionFactor = 1; //360 / gear ratio
