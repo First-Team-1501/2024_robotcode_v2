@@ -7,6 +7,8 @@ public class IntakeConfig {
 
     // **** INTAKE TOP CONFIG ****
 
+    public static double runningSpeed = .5;
+
     // CAN bus ID
     public static int top_ID = 20;
 

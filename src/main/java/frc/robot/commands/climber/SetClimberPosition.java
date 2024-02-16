@@ -5,6 +5,7 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 
 public class SetClimberPosition extends Command {
@@ -42,6 +43,6 @@ public class SetClimberPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(CLIMBER_SUBSYSTEM.get() - climberPosition) < 0.1;
+    return Math.abs(CLIMBER_SUBSYSTEM.get() - climberPosition) < ClimberPositions.tolerance;
   }
 }

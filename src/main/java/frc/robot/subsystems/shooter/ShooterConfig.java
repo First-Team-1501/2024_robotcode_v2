@@ -5,6 +5,10 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class ShooterConfig {
 
+    // Shooter side speeds
+    public static double leftSpeed = 0.6;
+    public static double rightSpeed = 0.3;
+
     // **** LEFT SHOOTER CONFIG ****
 
     // CAN bus ID
@@ -71,8 +75,6 @@ public class ShooterConfig {
     public static int right_smartCurrentStallLimit = 40; // 40 for big neo, 20 for small neo
     public static int right_smartCurrentFreeLimit = 25; // 30 for big neo, 15 for small neo
 
-    // Shooter side speeds
-    public static double leftSpeed = 1.0;
-    public static double rightSpeed = 1.0;
+    
 
 }

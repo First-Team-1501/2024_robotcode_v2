@@ -22,7 +22,6 @@ import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ShootNote;
-import frc.robot.commands.sequential.IntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.climber.ClimberSubsystem;
@@ -108,13 +107,20 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Intake sequence: extend elevator, lower deck, and intake
-    /* XBOX_RT.whileTrue(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.intake))
-        .whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.intake))
-        .whileTrue(new RunIntakeCommand(INTAKE_SUBSYSTEM))
-        .onFalse(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero))
-        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home)); */
-
-    XBOX_RT.whileTrue(new IntakeSequence(INTAKE_SUBSYSTEM, DECK_SUBSYSTEM, ELEVATOR_SUBSYSTEM));
+    XBOX_RT.whileTrue(
+      new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.intake).andThen
+      (
+        new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.intake)
+        .alongWith(new RunIntakeCommand(INTAKE_SUBSYSTEM))
+      )
+      .andThen(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home))
+      .andThen(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero))
+    )
+    .onFalse
+    (
+      new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero)
+      .andThen(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home))
+    );        
 
     // Outtake: Spits out the note
     XBOX_LT.whileTrue(new RunOuttakeCommand(INTAKE_SUBSYSTEM));

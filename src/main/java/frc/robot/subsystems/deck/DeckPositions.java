@@ -6,13 +6,13 @@ package frc.robot.subsystems.deck;
 
 /** Add your docs here. */
 public class DeckPositions {
-    public static double tolerance = 1;
+    public static double tolerance = 2;
 
     public static double zero = 0; // All the way down
     public static double home = 30; // Positon when nothing else is happening
     public static double intake = 13; // Intake to the floor
 
-    public static double closeup = 13; // Close shot
+    public static double closeup = 0; // Close shot
     public static double podium = 35; // Podium shot
     public static double backline = 41; // Backline shot
 

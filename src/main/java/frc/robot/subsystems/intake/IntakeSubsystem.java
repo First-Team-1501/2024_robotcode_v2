@@ -64,7 +64,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // Initialize digital inputs
     intakeSensor = new DigitalInput(IntakeConfig.intakeSensorID);
-    intakeSensor = new DigitalInput(IntakeConfig.outtakeSensorID);
+    outtakeSensor = new DigitalInput(IntakeConfig.outtakeSensorID);
   }
 
   @Override
@@ -87,11 +87,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // Function to see if note intake is complete
   public boolean hasNote() {
-    if (intakeSensor.get()) {
-      return false;
-    } else {
-      return true;
-    }
+    return intakeSensor.get();
   }
 
   // Function to see if note is ready to outtake (to score in the trap)

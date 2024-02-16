@@ -5,6 +5,7 @@
 package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 
 public class SetElevatorPosition extends Command {
@@ -42,6 +43,6 @@ public class SetElevatorPosition extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(ELEVATOR_SUBSYSTEM.get() - elevatorPosition) < 0.1;
+    return Math.abs(ELEVATOR_SUBSYSTEM.get() - elevatorPosition) < ElevatorPositions.tolerance;
   }
 }
