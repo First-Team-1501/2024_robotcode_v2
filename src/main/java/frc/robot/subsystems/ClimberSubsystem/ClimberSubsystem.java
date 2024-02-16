@@ -10,7 +10,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.DeckSubsystem.DeckConfig;
 
 public class ClimberSubsystem extends SubsystemBase {
 
@@ -86,7 +85,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void set(double position) {
-    climberPID.setReference(position, DeckConfig.controlType);
+    climberPID.setReference(position, ClimberConfig.controlType);
   }
 
 }

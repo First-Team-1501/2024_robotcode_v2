@@ -45,7 +45,7 @@ import java.io.File;
 public class RobotContainer {
 
   // Swerve subsystem
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
+  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve/neo"));
 
   // Our subsystems
   private IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
@@ -62,11 +62,11 @@ public class RobotContainer {
   XboxController operatorXbox = new XboxController(2);
 
   // Declare buttons here
-  private Trigger XBOX_RT = new JoystickButton(operatorXbox, 7); // Intake
-  private Trigger XBOX_LT = new JoystickButton(operatorXbox, 6); // Outtake
-  private Trigger XBOX_A = new JoystickButton(operatorXbox, 1); // Close shot
-  private Trigger XBOX_B = new JoystickButton(operatorXbox, 2); // Medium shot
-  private Trigger XBOX_Y = new JoystickButton(operatorXbox, 3); // Far shot
+  private Trigger XBOX_RT = new JoystickButton(operatorXbox, 8); // Intake
+  private Trigger XBOX_LT = new JoystickButton(operatorXbox, 7); // Outtake
+  private Trigger XBOX_A = new JoystickButton(operatorXbox, 2); // Close shot
+  private Trigger XBOX_B = new JoystickButton(operatorXbox, 3); // Medium shot
+  private Trigger XBOX_Y = new JoystickButton(operatorXbox, 4); // Far shot
 
   // Swerve smoothing
   double driveXInput;
@@ -155,13 +155,13 @@ public class RobotContainer {
         .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM));
 
     // Run intake to shoot note
-    driverController.button(0).whileTrue(new ShootNote(INTAKE_SUBSYSTEM));
+    driverController.button(1).whileTrue(new ShootNote(INTAKE_SUBSYSTEM));
 
     // Preclimb position
-    driverController.button(2).onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.preclimb));
+    driverController.button(3).onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.preclimb));
 
     // Climb
-    driverController.button(1).onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.climb));
+    driverController.button(2).onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.climb));
 
   }
 
@@ -175,8 +175,8 @@ public class RobotContainer {
   }
 
   public void defaultCommands() {
-    DECK_SUBSYSTEM.setDefaultCommand(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
-    ELEVATOR_SUBSYSTEM.setDefaultCommand(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero));
+    //DECK_SUBSYSTEM.setDefaultCommand(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
+    //ELEVATOR_SUBSYSTEM.setDefaultCommand(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero));
   }
 
   public void setMotorBrake(boolean brake) {
