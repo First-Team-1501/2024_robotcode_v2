@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.simple.RevShooter;
-import frc.robot.commands.simple.RunIntakeCommand;
-import frc.robot.commands.simple.RunOuttakeCommand;
-import frc.robot.commands.simple.SetClimberPosition;
-import frc.robot.commands.simple.SetDeckPosition;
-import frc.robot.commands.simple.SetElevatorPosition;
-import frc.robot.commands.simple.ShootNote;
+import frc.robot.commands.climber.SetClimberPosition;
+import frc.robot.commands.deck.SetDeckPosition;
+import frc.robot.commands.elevator.SetElevatorPosition;
+import frc.robot.commands.intake.RunIntakeCommand;
+import frc.robot.commands.intake.RunOuttakeCommand;
+import frc.robot.commands.intake.ShootNote;
+import frc.robot.commands.shooter.RevShooter;
 import frc.robot.subsystems.ClimberSubsystem.ClimberPositions;
 import frc.robot.subsystems.ClimberSubsystem.ClimberSubsystem;
 import frc.robot.subsystems.DeckSubsystem.DeckPositions;
@@ -45,7 +45,8 @@ public class RobotContainer {
 
   // Swerve subsystem
   private final SwerveSubsystem drivebase = new SwerveSubsystem(
-      new File(Filesystem.getDeployDirectory(), "swerve/neo")); //DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM "SWERVE/NEO"!!!!!!!!!!!!!!
+      new File(Filesystem.getDeployDirectory(), "swerve/neo")); // DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM
+                                                                // "SWERVE/NEO"!!!!!!!!!!!!!!
 
   // Our subsystems
   private IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
@@ -67,15 +68,14 @@ public class RobotContainer {
   private Trigger XBOX_A = new JoystickButton(operatorXbox, 2); // Close shot
   private Trigger XBOX_B = new JoystickButton(operatorXbox, 3); // Medium shot
   private Trigger XBOX_Y = new JoystickButton(operatorXbox, 4); // Far shot
-  
+
   // Buttons for Drive Joystick
   private Trigger DRIVE_TRIG = driverController.button(1);
   private Trigger DRIVE_B2 = driverController.button(2);
   private Trigger DRIVE_B3 = driverController.button(3);
-  
+
   // Buttons for Roation Joystick
   private Trigger ROTATE_TRIG = rotationController.button(1);
-
 
   // The container for the robot. Contains subsystems, OI devices, and commands.
   public RobotContainer() {

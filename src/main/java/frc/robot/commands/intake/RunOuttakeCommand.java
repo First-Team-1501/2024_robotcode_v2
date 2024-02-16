@@ -2,41 +2,40 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.simple;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ShooterSubsystem.ShooterConfig;
-import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystem;
 
-public class RevShooter extends Command {
+public class RunOuttakeCommand extends Command {
 
-  private ShooterSubsystem SHOOTER_SUBSYSTEM;
+  private IntakeSubsystem INTAKE_SUBSYSTEM;
 
-  /** Creates a new RevShooter. */
-  public RevShooter(ShooterSubsystem shooter) {
+  /** Creates a new RunOuttakeCommand. */
+  public RunOuttakeCommand(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.SHOOTER_SUBSYSTEM = shooter;
+    this.INTAKE_SUBSYSTEM = intake;
 
-    addRequirements(SHOOTER_SUBSYSTEM);
+    addRequirements(INTAKE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Starting RevShooter Command");
+    System.out.println("Starting RunOuttakeCommand");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SHOOTER_SUBSYSTEM.set(ShooterConfig.leftSpeed, ShooterConfig.rightSpeed);
+    INTAKE_SUBSYSTEM.set(-1, -1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SHOOTER_SUBSYSTEM.stop();
-    System.out.println("Ending RevShooterCommand");
+    INTAKE_SUBSYSTEM.stop();
+    System.out.println("Ending RunOuttakeCommand");
   }
 
   // Returns true when the command should end.
