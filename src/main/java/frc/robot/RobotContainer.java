@@ -45,7 +45,7 @@ public class RobotContainer {
 
   // Swerve subsystem
   private final SwerveSubsystem drivebase = new SwerveSubsystem(
-      new File(Filesystem.getDeployDirectory(), "swerve/neo"));
+      new File(Filesystem.getDeployDirectory(), "swerve/neo")); //DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM "SWERVE/NEO"!!!!!!!!!!!!!!
 
   // Our subsystems
   private IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
@@ -58,15 +58,24 @@ public class RobotContainer {
   CommandJoystick driverController = new CommandJoystick(0);
   CommandJoystick rotationController = new CommandJoystick(1);
 
-  // Operatior Xbox Controller
+  // Operator Xbox Controller
   XboxController operatorXbox = new XboxController(2);
 
-  // Declare buttons here
+  // Buttons for Xbox Controller
   private Trigger XBOX_RT = new JoystickButton(operatorXbox, 8); // Intake
   private Trigger XBOX_LT = new JoystickButton(operatorXbox, 7); // Outtake
   private Trigger XBOX_A = new JoystickButton(operatorXbox, 2); // Close shot
   private Trigger XBOX_B = new JoystickButton(operatorXbox, 3); // Medium shot
   private Trigger XBOX_Y = new JoystickButton(operatorXbox, 4); // Far shot
+  
+  // Buttons for Drive Joystick
+  private Trigger DRIVE_TRIG = driverController.button(1);
+  private Trigger DRIVE_B2 = driverController.button(2);
+  private Trigger DRIVE_B3 = driverController.button(3);
+  
+  // Buttons for Roation Joystick
+  private Trigger ROTATE_TRIG = rotationController.button(1);
+
 
   // The container for the robot. Contains subsystems, OI devices, and commands.
   public RobotContainer() {
@@ -115,16 +124,16 @@ public class RobotContainer {
         .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM));
 
     // Run intake to shoot note
-    driverController.button(1).whileTrue(new ShootNote(INTAKE_SUBSYSTEM));
+    DRIVE_TRIG.whileTrue(new ShootNote(INTAKE_SUBSYSTEM));
 
     // Preclimb position
-    driverController.button(3).onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.preclimb));
+    DRIVE_B3.onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.preclimb));
 
     // Climb
-    driverController.button(2).onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.climb));
+    DRIVE_B2.onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.climb));
 
     // Zero Gyro
-    rotationController.button(1).onTrue(new InstantCommand(drivebase::zeroGyro));
+    ROTATE_TRIG.onTrue(new InstantCommand(drivebase::zeroGyro));
 
   }
 
