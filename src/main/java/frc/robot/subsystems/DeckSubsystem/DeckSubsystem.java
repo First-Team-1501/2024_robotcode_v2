@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DeckSubsystem extends SubsystemBase {
@@ -71,12 +72,15 @@ public class DeckSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Deck Position", get());
   }
 
+  // Get position
   public double get() {
     return deckEncoder.getPosition();
   }
 
+  // Set position
   public void set(double position) {
     deckPID.setReference(position, DeckConfig.controlType);
   }

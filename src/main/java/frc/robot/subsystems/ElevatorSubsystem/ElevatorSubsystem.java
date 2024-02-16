@@ -8,6 +8,8 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.DeckSubsystem.DeckConfig;
 
@@ -71,12 +73,15 @@ public class ElevatorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Climber Position", get());
   }
 
+  // Get position
   public double get() {
     return elevatorEncoder.getPosition();
   }
 
+  // Set position
   public void set(double position) {
     elevatorPID.setReference(position, DeckConfig.controlType);
   }
