@@ -137,7 +137,9 @@ public class RobotContainer {
     // Intake sequence: extend elevator, lower deck, and intake
     XBOX_RT.whileTrue(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.intake))
         .whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.intake))
-        .whileTrue(new RunIntakeCommand(INTAKE_SUBSYSTEM));
+        .whileTrue(new RunIntakeCommand(INTAKE_SUBSYSTEM))
+        .onFalse(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero))
+        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
 
     // Outtake: Spits out the note
     XBOX_LT.whileTrue(new RunOuttakeCommand(INTAKE_SUBSYSTEM));
@@ -175,8 +177,8 @@ public class RobotContainer {
   }
 
   public void defaultCommands() {
-    //DECK_SUBSYSTEM.setDefaultCommand(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
-    //ELEVATOR_SUBSYSTEM.setDefaultCommand(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero));
+    DECK_SUBSYSTEM.setDefaultCommand(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
+    ELEVATOR_SUBSYSTEM.setDefaultCommand(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero));
   }
 
   public void setMotorBrake(boolean brake) {
