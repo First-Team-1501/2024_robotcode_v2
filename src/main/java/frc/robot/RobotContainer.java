@@ -21,15 +21,15 @@ import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.shooter.RevShooter;
-import frc.robot.subsystems.ClimberSubsystem.ClimberPositions;
-import frc.robot.subsystems.ClimberSubsystem.ClimberSubsystem;
-import frc.robot.subsystems.DeckSubsystem.DeckPositions;
-import frc.robot.subsystems.DeckSubsystem.DeckSubsystem;
-import frc.robot.subsystems.ElevatorSubsystem.ElevatorPositions;
-import frc.robot.subsystems.ElevatorSubsystem.ElevatorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystem;
-import frc.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import frc.robot.subsystems.climber.ClimberPositions;
+import frc.robot.subsystems.climber.ClimberSubsystem;
+import frc.robot.subsystems.deck.DeckPositions;
+import frc.robot.subsystems.deck.DeckSubsystem;
+import frc.robot.subsystems.elevator.ElevatorPositions;
+import frc.robot.subsystems.elevator.ElevatorSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 import java.io.File;
 

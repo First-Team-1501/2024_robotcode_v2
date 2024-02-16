@@ -5,7 +5,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.SwerveSubsystem.SwerveSubsystem;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 /**
  * Auto Balance command using a simple PID controller. Created by Team 3512

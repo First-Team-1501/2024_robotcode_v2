@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.DeckSubsystem;
+package frc.robot.subsystems.deck;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;

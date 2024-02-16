@@ -1,4 +1,4 @@
-package frc.robot.subsystems.ClimberSubsystem;
+package frc.robot.subsystems.climber;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;

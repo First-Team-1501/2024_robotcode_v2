@@ -5,8 +5,8 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ShooterSubsystem.ShooterConfig;
-import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystem;
+import frc.robot.subsystems.shooter.ShooterConfig;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 public class RevShooter extends Command {
 

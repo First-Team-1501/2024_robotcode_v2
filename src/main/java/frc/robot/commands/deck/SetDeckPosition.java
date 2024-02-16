@@ -5,7 +5,7 @@
 package frc.robot.commands.deck;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DeckSubsystem.DeckSubsystem;
+import frc.robot.subsystems.deck.DeckSubsystem;
 
 public class SetDeckPosition extends Command {
 

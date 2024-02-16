@@ -1,4 +1,4 @@
-package frc.robot.subsystems.ClimberSubsystem;
+package frc.robot.subsystems.climber;
 
 public class ClimberPositions {
     public static double zero = 0;

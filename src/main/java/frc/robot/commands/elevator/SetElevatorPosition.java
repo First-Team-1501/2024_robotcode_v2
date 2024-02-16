@@ -5,7 +5,7 @@
 package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ElevatorSubsystem.ElevatorSubsystem;
+import frc.robot.subsystems.elevator.ElevatorSubsystem;
 
 public class SetElevatorPosition extends Command {
 
