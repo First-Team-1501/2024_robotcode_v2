@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimberSubsystem.ClimberSubsystem;
 
 public class SetClimberPosition extends Command {
-  
+
   private ClimberSubsystem CLIMBER_SUBSYSTEM;
   private double climberPosition;
-  
+
   /** Creates a new SetClimberPosition. */
   public SetClimberPosition(ClimberSubsystem climber, double position) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -23,20 +23,19 @@ public class SetClimberPosition extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() 
-  {
+  public void initialize() {
     System.out.println("Starting SetClimberPosition Command - Target Positon = " + climberPosition);
     CLIMBER_SUBSYSTEM.set(climberPosition);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) 
-  {
+  public void end(boolean interrupted) {
     System.out.println("Ending SetClimberPosition Command - Climber at Position = " + climberPosition);
   }
 

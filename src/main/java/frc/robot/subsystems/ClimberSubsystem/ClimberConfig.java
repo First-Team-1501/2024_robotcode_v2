@@ -20,7 +20,6 @@ public class ClimberConfig {
     public static MotorType motorType = MotorType.kBrushless;
     public static IdleMode idleMode = IdleMode.kBrake; // Brake for position, coast for percent
 
-
     // PIDF Values
     public static double p = 0.01; // .01 good start value
     public static double i = 0;

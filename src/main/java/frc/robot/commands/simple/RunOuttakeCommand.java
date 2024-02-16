@@ -21,22 +21,19 @@ public class RunOuttakeCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() 
-  {
+  public void initialize() {
     System.out.println("Starting RunOuttakeCommand");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() 
-  {
-    INTAKE_SUBSYSTEM.set(-1,-1);
+  public void execute() {
+    INTAKE_SUBSYSTEM.set(-1, -1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) 
-  {
+  public void end(boolean interrupted) {
     INTAKE_SUBSYSTEM.stop();
     System.out.println("Ending RunOuttakeCommand");
   }

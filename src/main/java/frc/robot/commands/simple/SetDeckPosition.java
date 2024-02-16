@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DeckSubsystem.DeckSubsystem;
 
 public class SetDeckPosition extends Command {
-  
+
   private DeckSubsystem DECK_SUBSYSTEM;
   private double deckPosition;
-  
+
   /** Creates a new SetDeckPosition. */
   public SetDeckPosition(DeckSubsystem deck, double position) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -23,20 +23,19 @@ public class SetDeckPosition extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() 
-  {
+  public void initialize() {
     System.out.println("Starting SetDeckPosition Command - Target Position = " + deckPosition);
     DECK_SUBSYSTEM.set(deckPosition);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) 
-  {
+  public void end(boolean interrupted) {
     System.out.println("Ending SetDeckPosition Command - Deck at Position = " + deckPosition);
   }
 

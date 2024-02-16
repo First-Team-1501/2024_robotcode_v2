@@ -5,13 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
@@ -45,7 +43,8 @@ import java.io.File;
 public class RobotContainer {
 
   // Swerve subsystem
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve/neo"));
+  private final SwerveSubsystem drivebase = new SwerveSubsystem(
+      new File(Filesystem.getDeployDirectory(), "swerve/neo"));
 
   // Our subsystems
   private IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
@@ -68,46 +67,17 @@ public class RobotContainer {
   private Trigger XBOX_B = new JoystickButton(operatorXbox, 3); // Medium shot
   private Trigger XBOX_Y = new JoystickButton(operatorXbox, 4); // Far shot
 
-  // Swerve smoothing
-  double driveXInput;
-  double driveYInput;
-  double rotateInput;
-  SlewRateLimiter slewX = new SlewRateLimiter(1);
-  SlewRateLimiter slewY = new SlewRateLimiter(1);
-  SlewRateLimiter slewRotate = new SlewRateLimiter(1);
-
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  // The container for the robot. Contains subsystems, OI devices, and commands.
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
     defaultCommands();
 
-    // Configure slew
-    driveYInput = driverController.getY();
-    driveXInput = driverController.getX();
-    rotateInput = rotationController.getRawAxis(0);
-
-    /* 
     // Regualar drive mode
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -MathUtil.applyDeadband(rotationController.getRawAxis(0), OperatorConstants.RIGHT_X_DEADBAND));
-
-    // Simulation drive mode
-    Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
-        () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(rotationController.getRawAxis(0), OperatorConstants.RIGHT_X_DEADBAND)); 
-    */
-
-    // Regualar drive mode
-    Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-        () -> -MathUtil.applyDeadband(slewY.calculate(driveYInput), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -MathUtil.applyDeadband(slewX.calculate(driveXInput), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(slewRotate.calculate(rotateInput), OperatorConstants.RIGHT_X_DEADBAND));
 
     // Simulation drive mode
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
@@ -120,19 +90,6 @@ public class RobotContainer {
 
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be
-   * created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-   * an arbitrary predicate, or via the
-   * named factories in
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses
-   * for
-   * {@link CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
-   * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick
-   * Flight joysticks}.
-   */
   private void configureBindings() {
     // Intake sequence: extend elevator, lower deck, and intake
     XBOX_RT.whileTrue(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.intake))
@@ -169,13 +126,15 @@ public class RobotContainer {
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
+   * 
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
     return drivebase.getAutonomousCommand("Path1", true);
   }
 
+  // Default commands - these are setting the default positions for the elevator
+  // and the deck
   public void defaultCommands() {
     DECK_SUBSYSTEM.setDefaultCommand(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
     ELEVATOR_SUBSYSTEM.setDefaultCommand(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero));
