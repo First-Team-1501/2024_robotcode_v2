@@ -67,6 +67,8 @@ public class DeckSubsystem extends SubsystemBase {
     // Burn Flash
     deckMotor.burnFlash();
 
+    set(DeckPositions.home);
+
   }
 
   @Override

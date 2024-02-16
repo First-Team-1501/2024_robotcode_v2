@@ -9,7 +9,7 @@ public class DeckPositions {
     public static double tolerance = 1;
 
     public static double zero = 0; // All the way down
-    public static double home = 20; // Positon when nothing else is happening
+    public static double home = 30; // Positon when nothing else is happening
     public static double intake = 13; // Intake to the floor
 
     public static double closeup = 13; // Close shot

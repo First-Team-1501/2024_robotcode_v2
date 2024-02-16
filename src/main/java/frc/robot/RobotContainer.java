@@ -14,12 +14,15 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.climber.JogClimberDown;
+import frc.robot.commands.climber.JogClimberUp;
 import frc.robot.commands.climber.SetClimberPosition;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ShootNote;
+import frc.robot.commands.sequential.IntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.climber.ClimberSubsystem;
@@ -73,6 +76,9 @@ public class RobotContainer {
   private Trigger DRIVE_TRIG = driverController.button(1);
   private Trigger DRIVE_B2 = driverController.button(2);
   private Trigger DRIVE_B3 = driverController.button(3);
+  private Trigger DRIVE_B4 = driverController.button(4);
+  private Trigger DRIVE_B5 = driverController.button(5);
+
 
   // Buttons for Roation Joystick
   private Trigger ROTATE_TRIG = rotationController.button(1);
@@ -81,7 +87,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    defaultCommands();
+    //defaultCommands();
 
     // Regualar drive mode
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
@@ -102,26 +108,31 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Intake sequence: extend elevator, lower deck, and intake
-    XBOX_RT.whileTrue(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.intake))
+    /* XBOX_RT.whileTrue(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.intake))
         .whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.intake))
         .whileTrue(new RunIntakeCommand(INTAKE_SUBSYSTEM))
         .onFalse(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero))
-        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
+        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home)); */
+
+    XBOX_RT.whileTrue(new IntakeSequence(INTAKE_SUBSYSTEM, DECK_SUBSYSTEM, ELEVATOR_SUBSYSTEM));
 
     // Outtake: Spits out the note
     XBOX_LT.whileTrue(new RunOuttakeCommand(INTAKE_SUBSYSTEM));
 
     // Close shot
     XBOX_A.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.closeup))
-        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM));
+        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM))
+        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
 
     // Medium shot
     XBOX_B.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.podium))
-        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM));
+        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM))
+        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
 
     // Far shot
     XBOX_Y.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.backline))
-        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM));
+        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM))
+        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
 
     // Run intake to shoot note
     DRIVE_TRIG.whileTrue(new ShootNote(INTAKE_SUBSYSTEM));
@@ -134,6 +145,12 @@ public class RobotContainer {
 
     // Zero Gyro
     ROTATE_TRIG.onTrue(new InstantCommand(drivebase::zeroGyro));
+
+    // Jog Climber Up
+    DRIVE_B5.whileTrue(new JogClimberUp(CLIMBER_SUBSYSTEM));
+
+    // Jog Climber Down
+    DRIVE_B4.whileTrue(new JogClimberDown(CLIMBER_SUBSYSTEM));
 
   }
 
