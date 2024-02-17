@@ -34,8 +34,13 @@ public class TeleopCommands
     A (2),
     B (3),
     Y (4),
+
     LeftTrigger (7),
-    RightTrigger (8);
+    RightTrigger (8),
+
+    LeftBumper(5),
+    RightBumper(6);
+
 
     public final int value;
 
@@ -55,8 +60,9 @@ public class TeleopCommands
   XboxController operatorXbox;
   
   // Buttons for Xbox Controller
+  private Trigger jogIntake;
   private Trigger runIntake; // Intake
-  private Trigger runOutake; // Outtake
+  private Trigger jogOutake; // Outtake
   private Trigger closeShot; // Close shot
   private Trigger mediumShot; // Medium shot
   private Trigger farShot; // Far shot
@@ -96,8 +102,9 @@ public class TeleopCommands
 
       // operator
       
-      runIntake = new JoystickButton(operatorXbox, ControllerButton.RightTrigger.value);
-      runOutake = new JoystickButton(operatorXbox, ControllerButton.LeftTrigger.value);
+      runIntake = new JoystickButton(operatorXbox, ControllerButton.RightBumper.value);
+      jogOutake = new JoystickButton(operatorXbox, ControllerButton.LeftTrigger.value);
+      jogIntake = new JoystickButton(operatorXbox, ControllerButton.RightTrigger.value);
 
       closeShot = new JoystickButton(operatorXbox, ControllerButton.A.value);
       mediumShot = new JoystickButton(operatorXbox, ControllerButton.B.value); 
@@ -135,6 +142,9 @@ public class TeleopCommands
 
   private void SetupOperatorCommands()
   {
+
+
+
     // Intake sequence: extend elevator, lower deck, and intake
     runIntake.whileTrue(
       new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake).andThen
@@ -151,8 +161,10 @@ public class TeleopCommands
       .andThen(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
     );        
 
+    jogIntake.whileTrue(new RunIntakeCommand(robot.getIntake()));
+
     // Outtake: Spits out the note
-    runOutake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
+    jogOutake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
 
     // Close shot
     closeShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.closeup))
