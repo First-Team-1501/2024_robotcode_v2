@@ -62,11 +62,14 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorMotor.enableSoftLimit(SoftLimitDirection.kReverse, ElevatorConfig.softLimitRevEnabled);
     elevatorMotor.setSoftLimit(SoftLimitDirection.kReverse, ElevatorConfig.softLimitRev);
 
-    // Set to position mode
-    elevatorPID.setReference(get(), ElevatorConfig.controlType);
+    // Set position to zero
+    elevatorEncoder.setPosition(0);
 
     // Burn Flash
     elevatorMotor.burnFlash();
+
+    // Set to position mode
+    elevatorPID.setReference(get(), ElevatorConfig.controlType);
 
   }
 

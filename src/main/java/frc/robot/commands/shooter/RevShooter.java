@@ -5,17 +5,20 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.shooter.ShooterConfig;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 public class RevShooter extends Command {
 
   private ShooterSubsystem SHOOTER_SUBSYSTEM;
+  private double left;
+  private double right;
 
   /** Creates a new RevShooter. */
-  public RevShooter(ShooterSubsystem shooter) {
+  public RevShooter(ShooterSubsystem shooter, double leftSpeed, double rightSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.SHOOTER_SUBSYSTEM = shooter;
+    left = leftSpeed;
+    right = rightSpeed;
 
     addRequirements(SHOOTER_SUBSYSTEM);
   }
@@ -29,7 +32,7 @@ public class RevShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SHOOTER_SUBSYSTEM.set(ShooterConfig.leftSpeed, ShooterConfig.rightSpeed);
+    SHOOTER_SUBSYSTEM.set(left, right);
   }
 
   // Called once the command ends or is interrupted.

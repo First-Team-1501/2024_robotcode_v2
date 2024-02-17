@@ -61,8 +61,8 @@ public class DeckSubsystem extends SubsystemBase {
     deckMotor.enableSoftLimit(SoftLimitDirection.kReverse, DeckConfig.softLimitRevEnabled);
     deckMotor.setSoftLimit(SoftLimitDirection.kReverse, DeckConfig.softLimitRev);
 
-    // Set to position mode
-    deckPID.setReference(get(), DeckConfig.controlType);
+    // Set position to zero
+    deckEncoder.setPosition(0);
 
     // Burn Flash
     deckMotor.burnFlash();

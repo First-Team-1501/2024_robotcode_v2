@@ -6,8 +6,14 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 public class ShooterConfig {
 
     // Shooter side speeds
-    public static double leftSpeed = 0.6;
-    public static double rightSpeed = 0.3;
+    public static double closeLeftSpeed = 0.7;
+    public static double closeRightSpeed = 0.5;
+
+    public static double podiumLeftSpeed = 0.8;
+    public static double podiumRightSpeed = 0.6;
+
+    public static double farLeftSpeed = 1;
+    public static double farRightSpeed = .8;
 
     // **** LEFT SHOOTER CONFIG ****
 

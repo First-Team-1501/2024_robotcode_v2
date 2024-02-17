@@ -30,6 +30,7 @@ import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.shooter.ShooterConfig;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
@@ -127,27 +128,36 @@ public class RobotContainer {
 
     // Close shot
     XBOX_A.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.closeup))
-        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM))
+        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM, ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed))
         .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
 
     // Medium shot
     XBOX_B.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.podium))
-        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM))
+        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM, ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed))
         .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
 
     // Far shot
     XBOX_Y.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.backline))
-        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM))
+        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM, ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed))
         .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
 
     // Run intake to shoot note
     DRIVE_TRIG.whileTrue(new ShootNote(INTAKE_SUBSYSTEM));
 
     // Preclimb position
-    DRIVE_B3.onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.preclimb));
+    DRIVE_B3.onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.preclimb)
+    .alongWith(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.preClimb)));
 
     // Climb
-    DRIVE_B2.onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.climb));
+    DRIVE_B2.onTrue
+    (
+      new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.midClimb)
+      .andThen
+      (
+        new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.climb)
+        .alongWith(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.climb))
+      )
+    );
 
     // Zero Gyro
     ROTATE_TRIG.onTrue(new InstantCommand(drivebase::zeroGyro));

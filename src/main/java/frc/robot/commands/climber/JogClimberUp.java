@@ -23,21 +23,22 @@ public class JogClimberUp extends Command {
   @Override
   public void initialize() 
   {
-
+    System.out.println("Starting JogClimberUp Command");
+    CLIMBER_SUBSYSTEM.set(CLIMBER_SUBSYSTEM.get() + 10);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
   {
-    CLIMBER_SUBSYSTEM.set(CLIMBER_SUBSYSTEM.get()+0.5);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) 
   {
-    
+    System.out.println("Ending JogClimberUp Command");
   }
 
   // Returns true when the command should end.

@@ -64,15 +64,17 @@ public class ClimberSubsystem extends SubsystemBase {
     climberMasterMotor.setSoftLimit(SoftLimitDirection.kReverse, ClimberConfig.softLimitRev);
 
     // Configure slave motor
-    climberSlaveMotor.follow(climberMasterMotor);
-    climberSlaveMotor.setInverted(ClimberConfig.follow_isInverted);
+    climberSlaveMotor.follow(climberMasterMotor, ClimberConfig.follow_isInverted);
 
-    // Set to position mode
-    climberPID.setReference(get(), ClimberConfig.controlType);
+    // Set position to zero
+    climberEncoder.setPosition(0);
 
     // Burn Flash
     climberMasterMotor.burnFlash();
     climberSlaveMotor.burnFlash();
+
+    // Set to position mode
+    climberPID.setReference(get(), ClimberConfig.controlType);
 
   }
 

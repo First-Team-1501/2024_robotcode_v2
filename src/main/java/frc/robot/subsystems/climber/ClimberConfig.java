@@ -21,7 +21,7 @@ public class ClimberConfig {
     public static IdleMode idleMode = IdleMode.kBrake; // Brake for position, coast for percent
 
     // PIDF Values
-    public static double p = 0.01; // .01 good start value
+    public static double p = 0.015; // .01 good start value
     public static double i = 0;
     public static double d = 0;
     public static double f = 0;
@@ -40,8 +40,8 @@ public class ClimberConfig {
     public static boolean kInverted = false;
 
     // Current Limits
-    public static int smartCurrentStallLimit = 20; // 40 for big neo, 20 for small neo
-    public static int smartCurrentFreeLimit = 15; // 30 for big neo, 15 for small neo
+    public static int smartCurrentStallLimit = 40; // 40 for big neo, 20 for small neo
+    public static int smartCurrentFreeLimit = 25; // 30 for big neo, 15 for small neo
 
     // Conversion Factors
     public static double positionConversionFactor = 1; // 360 / gear ratio

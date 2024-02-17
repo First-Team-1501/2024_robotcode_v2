@@ -6,7 +6,7 @@ package frc.robot.subsystems.deck;
 
 /** Add your docs here. */
 public class DeckPositions {
-    public static double tolerance = 2;
+    public static double tolerance = 1;
 
     public static double zero = 0; // All the way down
     public static double home = 30; // Positon when nothing else is happening
@@ -17,4 +17,7 @@ public class DeckPositions {
     public static double backline = 41; // Backline shot
 
     public static double outtake = 23; // Outtake position
+    public static double preClimb = 150;
+
+    public static double climb = 78;
 }
