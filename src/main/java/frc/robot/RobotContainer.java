@@ -50,151 +50,64 @@ public class RobotContainer {
   private final SwerveSubsystem drivebase = new SwerveSubsystem(
       new File(Filesystem.getDeployDirectory(), "swerve/neo")); // DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM
                                                                 // "SWERVE/NEO"!!!!!!!!!!!!!!
+                                                                // but what if I did???????
 
   // Our subsystems
-  private IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
-  private ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem();
-  private DeckSubsystem DECK_SUBSYSTEM = new DeckSubsystem();
-  private ElevatorSubsystem ELEVATOR_SUBSYSTEM = new ElevatorSubsystem();
-  private ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
-
-  // Driver Joysticks
-  CommandJoystick driverController = new CommandJoystick(0);
-  CommandJoystick rotationController = new CommandJoystick(1);
-
-  // Operator Xbox Controller
-  XboxController operatorXbox = new XboxController(2);
-
-  // Buttons for Xbox Controller
-  private Trigger XBOX_RT = new JoystickButton(operatorXbox, 8); // Intake
-  private Trigger XBOX_LT = new JoystickButton(operatorXbox, 7); // Outtake
-  private Trigger XBOX_A = new JoystickButton(operatorXbox, 2); // Close shot
-  private Trigger XBOX_B = new JoystickButton(operatorXbox, 3); // Medium shot
-  private Trigger XBOX_Y = new JoystickButton(operatorXbox, 4); // Far shot
-
-  // Buttons for Drive Joystick
-  private Trigger DRIVE_TRIG = driverController.button(1);
-  private Trigger DRIVE_B2 = driverController.button(2);
-  private Trigger DRIVE_B3 = driverController.button(3);
-  private Trigger DRIVE_B4 = driverController.button(4);
-  private Trigger DRIVE_B5 = driverController.button(5);
+  private IntakeSubsystem intake;
+  private ShooterSubsystem shooter;
+  private DeckSubsystem deck;
+  private ElevatorSubsystem elevator;
+  private ClimberSubsystem climber;
 
 
-  // Buttons for Roation Joystick
-  private Trigger ROTATE_TRIG = rotationController.button(1);
+  private TeleopCommands teleop;
+  private AutoCommands auto;
 
   // The container for the robot. Contains subsystems, OI devices, and commands.
-  public RobotContainer() {
-    // Configure the trigger bindings
-    configureBindings();
-    //defaultCommands();
+  public RobotContainer() 
+  {
 
-    // Regualar drive mode
-    Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-        () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(rotationController.getRawAxis(0), OperatorConstants.RIGHT_X_DEADBAND));
+    intake = new IntakeSubsystem();
+    shooter = new ShooterSubsystem();
+    deck = new DeckSubsystem();
+    elevator =  new ElevatorSubsystem();
+    climber = new ClimberSubsystem();
 
-    // Simulation drive mode
-    Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
-        () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(rotationController.getRawAxis(0), OperatorConstants.RIGHT_X_DEADBAND));
-
-    drivebase.setDefaultCommand(
-        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
+    teleop = new TeleopCommands(this);
+    auto =  new AutoCommands(this);
 
   }
 
-  private void configureBindings() {
-    // Intake sequence: extend elevator, lower deck, and intake
-    XBOX_RT.whileTrue(
-      new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.intake).andThen
-      (
-        new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.intake)
-        .alongWith(new RunIntakeCommand(INTAKE_SUBSYSTEM))
-      )
-      .andThen(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home))
-      .andThen(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero))
-    )
-    .onFalse
-    (
-      new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero)
-      .andThen(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home))
-    );        
+  // what follows is a bunch of getters that I couldn't possibly care about.
 
-    // Outtake: Spits out the note
-    XBOX_LT.whileTrue(new RunOuttakeCommand(INTAKE_SUBSYSTEM));
+  SwerveSubsystem getDrivebase(){return drivebase;}
+  IntakeSubsystem getIntake(){ return intake;}
+  ShooterSubsystem getShooter(){return shooter;}
+  DeckSubsystem getDeck(){return deck;}
+  ElevatorSubsystem getElevator(){return elevator;}
+  ClimberSubsystem getClimber(){return climber;}
 
-    // Close shot
-    XBOX_A.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.closeup))
-        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM, ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed))
-        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
-
-    // Medium shot
-    XBOX_B.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.podium))
-        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM, ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed))
-        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
-
-    // Far shot
-    XBOX_Y.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.backline))
-        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM, ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed))
-        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
-
-    // Run intake to shoot note
-    DRIVE_TRIG.whileTrue(new ShootNote(INTAKE_SUBSYSTEM));
-
-    // Preclimb position
-    DRIVE_B3.onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.preclimb)
-    .alongWith(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.preClimb)));
-
-    // Climb
-    DRIVE_B2.onTrue
-    (
-      new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.midClimb)
-      .andThen
-      (
-        new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.climb)
-        .alongWith(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.climb))
-      )
-    );
-
-    // Zero Gyro
-    ROTATE_TRIG.onTrue(new InstantCommand(drivebase::zeroGyro));
-
-    // Jog Climber Up
-    DRIVE_B5.whileTrue(new JogClimberUp(CLIMBER_SUBSYSTEM));
-
-    // Jog Climber Down
-    DRIVE_B4.whileTrue(new JogClimberDown(CLIMBER_SUBSYSTEM));
-
-  }
-
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    * 
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() 
-  {
-    AutoSelector sel = new AutoSelector();
-    return sel.SelectAuto(DECK_SUBSYSTEM);
-    
+  { 
+    return auto.SelectAuto();
   }
 
   // Default commands - these are setting the default positions for the elevator
   // and the deck
-  public void defaultCommands() {
-    DECK_SUBSYSTEM.setDefaultCommand(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
-    ELEVATOR_SUBSYSTEM.setDefaultCommand(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero));
+  public void defaultCommands() 
+  {
+    deck.setDefaultCommand(new SetDeckPosition(deck, DeckPositions.home));
+    elevator.setDefaultCommand(new SetElevatorPosition(elevator, ElevatorPositions.zero));
   }
 
   public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
   }
 
-  public void autonomousInit() 
-  {
-    
-  }
 }
