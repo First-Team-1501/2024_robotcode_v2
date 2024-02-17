@@ -4,34 +4,17 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.climber.JogClimberDown;
-import frc.robot.commands.climber.JogClimberUp;
-import frc.robot.commands.climber.SetClimberPosition;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
-import frc.robot.commands.intake.RunIntakeCommand;
-import frc.robot.commands.intake.RunOuttakeCommand;
-import frc.robot.commands.intake.ShootNote;
-import frc.robot.commands.shooter.RevShooter;
 import frc.robot.subsystems.Thumbwheel;
-import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
-import frc.robot.subsystems.shooter.ShooterConfig;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
@@ -59,7 +42,7 @@ public class RobotContainer {
   private Thumbwheel thumb;
 
 
-  private TeleopCommands teleop;
+  //private TeleopCommands teleop;
   private AutoCommands auto;
 
   // The container for the robot. Contains subsystems, OI devices, and commands.
@@ -81,7 +64,7 @@ public class RobotContainer {
     climber = new ClimberSubsystem();
  
 
-    teleop = new TeleopCommands(this);
+    //teleop = new TeleopCommands(this);
     auto =  new AutoCommands(this);
 
   }
