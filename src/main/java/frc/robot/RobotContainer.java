@@ -23,6 +23,7 @@ import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.shooter.RevShooter;
+import frc.robot.subsystems.Thumbwheel;
 import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.deck.DeckPositions;
@@ -47,10 +48,7 @@ import java.io.File;
 public class RobotContainer {
 
   // Swerve subsystem
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(
-      new File(Filesystem.getDeployDirectory(), "swerve/neo")); // DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM
-                                                                // "SWERVE/NEO"!!!!!!!!!!!!!!
-                                                                // but what if I did???????
+  private final SwerveSubsystem drivebase; 
 
   // Our subsystems
   private IntakeSubsystem intake;
@@ -58,6 +56,7 @@ public class RobotContainer {
   private DeckSubsystem deck;
   private ElevatorSubsystem elevator;
   private ClimberSubsystem climber;
+  private Thumbwheel thumb;
 
 
   private TeleopCommands teleop;
@@ -66,12 +65,22 @@ public class RobotContainer {
   // The container for the robot. Contains subsystems, OI devices, and commands.
   public RobotContainer() 
   {
+    
+    thumb = new Thumbwheel();
+
+    drivebase = new SwerveSubsystem(
+      new File(Filesystem.getDeployDirectory(), "swerve/neo"),  // DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM
+                                                                // "SWERVE/NEO"!!!!!!!!!!!!!!
+      ()->{return thumb.getValue()>=8;}
+    );
+
 
     intake = new IntakeSubsystem();
     shooter = new ShooterSubsystem();
     deck = new DeckSubsystem();
     elevator =  new ElevatorSubsystem();
     climber = new ClimberSubsystem();
+ 
 
     teleop = new TeleopCommands(this);
     auto =  new AutoCommands(this);
@@ -86,6 +95,7 @@ public class RobotContainer {
   DeckSubsystem getDeck(){return deck;}
   ElevatorSubsystem getElevator(){return elevator;}
   ClimberSubsystem getClimber(){return climber;}
+  Thumbwheel getThumbwheel(){return getThumbwheel();}
 
   
   /**

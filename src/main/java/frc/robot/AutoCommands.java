@@ -10,26 +10,26 @@ import frc.robot.subsystems.deck.DeckSubsystem;
 
 public class AutoCommands 
 {
-    private Thumbwheel thumb;
+  
     private RobotContainer robot;
 
     public AutoCommands(RobotContainer robot)
     {
         this.robot = robot;
-        thumb = new Thumbwheel();
+        
        
     }
 
     public Command SelectAuto() 
     {
-        switch(thumb.getValue())
+        switch(robot.getThumbwheel().getValue()%8)
         {
             
             case 1:
                 return new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)
                     .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
             case 2:
-                return test();
+                return robot.getDrivebase().getAutonomousCommand("Path1", true);
             default:
                 return new InstantCommand();
             
@@ -37,9 +37,5 @@ public class AutoCommands
     }
 
 
-    private Command test()
-    {
-        return null;
-        //AutoBuilder.configureHolonomic(null, null, null, null, null, null, deck);
-    }
+  
 }
