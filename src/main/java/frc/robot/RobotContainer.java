@@ -44,6 +44,7 @@ public class RobotContainer {
 
   //private TeleopCommands teleop;
   private AutoCommands auto;
+  private TeleopCommands teleop;
 
   // The container for the robot. Contains subsystems, OI devices, and commands.
   public RobotContainer() 
@@ -64,7 +65,7 @@ public class RobotContainer {
     climber = new ClimberSubsystem();
  
 
-    //teleop = new TeleopCommands(this);
+    teleop = new TeleopCommands(this);
     auto =  new AutoCommands(this);
 
   }
