@@ -28,6 +28,23 @@ import frc.robot.subsystems.shooter.ShooterConfig;
 public class TeleopCommands 
 {
 
+
+  private enum ControllerButton
+  {
+    A (2),
+    B (3),
+    Y (4),
+    LeftTrigger (7),
+    RightTrigger (8);
+
+    public final int value;
+
+    ControllerButton(int val)
+    {
+      value = val;
+    }
+  }
+
   RobotContainer robot;
  
   // Driver Joysticks
@@ -38,21 +55,21 @@ public class TeleopCommands
   XboxController operatorXbox;
   
   // Buttons for Xbox Controller
-  private Trigger XBOX_RT; // Intake
-  private Trigger XBOX_LT; // Outtake
-  private Trigger XBOX_A; // Close shot
-  private Trigger XBOX_B; // Medium shot
-  private Trigger XBOX_Y; // Far shot
+  private Trigger runIntake; // Intake
+  private Trigger runOutake; // Outtake
+  private Trigger closeShot; // Close shot
+  private Trigger mediumShot; // Medium shot
+  private Trigger farShot; // Far shot
 
   // Buttons for Drive Joystick
-  private Trigger DRIVE_TRIG;
-  private Trigger DRIVE_B2;
-  private Trigger DRIVE_B3;
-  private Trigger DRIVE_B4;
-  private Trigger DRIVE_B5;
+  private Trigger shoot;
+  private Trigger climb;
+  private Trigger preclimb;
+  private Trigger climbDown;
+  private Trigger climbUp;
     
   // Buttons for Roation Joystick
-  private Trigger ROTATE_TRIG;
+  private Trigger zeroGyro;
 
     
   public TeleopCommands(RobotContainer container)
@@ -78,22 +95,23 @@ public class TeleopCommands
       // explaining what they do
 
       // operator
-      XBOX_RT = new JoystickButton(operatorXbox, 8);
-      XBOX_LT = new JoystickButton(operatorXbox, 7);
+      
+      runIntake = new JoystickButton(operatorXbox, ControllerButton.RightTrigger.value);
+      runOutake = new JoystickButton(operatorXbox, ControllerButton.LeftTrigger.value);
 
-      XBOX_A = new JoystickButton(operatorXbox, 2);
-      XBOX_B = new JoystickButton(operatorXbox, 3); 
-      XBOX_Y = new JoystickButton(operatorXbox, 4);
+      closeShot = new JoystickButton(operatorXbox, ControllerButton.A.value);
+      mediumShot = new JoystickButton(operatorXbox, ControllerButton.B.value); 
+      farShot = new JoystickButton(operatorXbox, ControllerButton.Y.value);
 
 
       // driver
-      DRIVE_TRIG = driverController.button(1);
-      DRIVE_B2 = driverController.button(2);
-      DRIVE_B3 = driverController.button(3);
-      DRIVE_B4 = driverController.button(4);
-      DRIVE_B5 = driverController.button(5);
+      shoot = driverController.button(1);
+      climb = driverController.button(2);
+      preclimb = driverController.button(3);
+      climbDown = driverController.button(4);
+      climbUp = driverController.button(5);
 
-      ROTATE_TRIG = rotationController.button(1);
+      zeroGyro = rotationController.button(1);
 
   }
 
@@ -118,7 +136,7 @@ public class TeleopCommands
   private void SetupOperatorCommands()
   {
     // Intake sequence: extend elevator, lower deck, and intake
-    XBOX_RT.whileTrue(
+    runIntake.whileTrue(
       new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake).andThen
       (
         new SetDeckPosition(robot.getDeck(), DeckPositions.intake)
@@ -134,20 +152,20 @@ public class TeleopCommands
     );        
 
     // Outtake: Spits out the note
-    XBOX_LT.whileTrue(new RunOuttakeCommand(robot.getIntake()));
+    runOutake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
 
     // Close shot
-    XBOX_A.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.closeup))
+    closeShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.closeup))
         .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
     // Medium shot
-    XBOX_B.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.podium))
+    mediumShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.podium))
         .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
     // Far shot
-    XBOX_Y.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.backline))
+    farShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.backline))
         .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
@@ -156,14 +174,14 @@ public class TeleopCommands
   private void SetupDriverCommands()
   {
       // Run intake to shoot note
-    DRIVE_TRIG.whileTrue(new ShootNote(robot.getIntake()));
+    shoot.whileTrue(new ShootNote(robot.getIntake()));
 
     // Preclimb position
-    DRIVE_B3.onTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.preclimb)
+    preclimb.onTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.preclimb)
     .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)));
 
     // Climb
-    DRIVE_B2.onTrue
+    climb.onTrue
     (
       new SetClimberPosition(robot.getClimber(), ClimberPositions.midClimb)
       .andThen
@@ -174,13 +192,13 @@ public class TeleopCommands
     );
 
     // Zero Gyro
-    ROTATE_TRIG.onTrue(new InstantCommand(robot.getDrivebase()::zeroGyro));
+    zeroGyro.onTrue(new InstantCommand(robot.getDrivebase()::zeroGyro));
 
     // Jog Climber Up
-    DRIVE_B5.whileTrue(new JogClimberUp(robot.getClimber()));
+    climbUp.whileTrue(new JogClimberUp(robot.getClimber()));
 
     // Jog Climber Down
-    DRIVE_B4.whileTrue(new JogClimberDown(robot.getClimber()));
+    climbDown.whileTrue(new JogClimberDown(robot.getClimber()));
 
   }
 
