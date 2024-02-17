@@ -175,8 +175,11 @@ public class RobotContainer {
    * 
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    return drivebase.getAutonomousCommand("Path1", true);
+  public Command getAutonomousCommand() 
+  {
+    AutoSelector sel = new AutoSelector();
+    return sel.SelectAuto(DECK_SUBSYSTEM);
+    
   }
 
   // Default commands - these are setting the default positions for the elevator
@@ -190,7 +193,8 @@ public class RobotContainer {
     drivebase.setMotorBrake(brake);
   }
 
-  public void autonomousInit() {
-
+  public void autonomousInit() 
+  {
+    
   }
 }
