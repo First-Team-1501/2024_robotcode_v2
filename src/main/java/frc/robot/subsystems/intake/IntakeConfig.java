@@ -7,14 +7,14 @@ public class IntakeConfig {
 
     // **** INTAKE TOP CONFIG ****
 
-    public static double runningSpeed = .5;
+    public static double runningSpeed = 1.0;
 
     // CAN bus ID
     public static int top_ID = 20;
 
     // Type configs
     public static MotorType top_motorType = MotorType.kBrushless;
-    public static IdleMode top_idleMode = IdleMode.kCoast; // Brake for position, coast for percent
+    public static IdleMode top_idleMode = IdleMode.kBrake; // Brake for position, coast for percent
 
     // PIDF Values
     public static double top_p = 0.01; // .01 good start value

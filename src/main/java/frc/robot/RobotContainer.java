@@ -119,8 +119,8 @@ public class RobotContainer {
     )
     .onFalse
     (
-      new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero)
-      .andThen(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home))
+      new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home)
+      .andThen(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero))
     );        
 
     // Outtake: Spits out the note
