@@ -77,7 +77,7 @@ public class RobotContainer {
   DeckSubsystem getDeck(){return deck;}
   ElevatorSubsystem getElevator(){return elevator;}
   ClimberSubsystem getClimber(){return climber;}
-  Thumbwheel getThumbwheel(){return getThumbwheel();}
+  Thumbwheel getThumbwheel(){return thumb;}
 
   
   /**
