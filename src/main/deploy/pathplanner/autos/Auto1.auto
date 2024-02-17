@@ -10,6 +10,18 @@
           "data": {
             "pathName": "BasicPathTest"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "deckPreClimb"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "deckHome"
+          }
         }
       ]
     }

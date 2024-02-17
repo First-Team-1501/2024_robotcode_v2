@@ -1,5 +1,6 @@
 package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,7 +17,13 @@ public class AutoCommands
     public AutoCommands(RobotContainer robot)
     {
         this.robot = robot;
-        
+
+        // register namedcommands here.
+        NamedCommands.registerCommand("deckPreClimb",
+         new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)); 
+        NamedCommands.registerCommand("deckHome",
+         new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+
        
     }
 
