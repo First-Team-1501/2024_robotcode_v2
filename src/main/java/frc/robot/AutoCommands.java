@@ -6,6 +6,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants.Drivebase;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.subsystems.deck.DeckPositions;
 
@@ -37,8 +38,7 @@ public class AutoCommands
                 return new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)
                     .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
             case 2:
-               // return new PathPlannerAuto("Auto1");
-               //return .fromPathFile("BasicPathTest");
+               return robot.getDrivebase().getAutonomousCommand("Auto1");
             default:
                 return new InstantCommand();
             
