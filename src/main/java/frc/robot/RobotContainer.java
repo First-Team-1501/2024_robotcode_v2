@@ -68,6 +68,12 @@ public class RobotContainer {
     
     thumb = new Thumbwheel();
 
+    drivebase = new SwerveSubsystem(
+      new File(Filesystem.getDeployDirectory(), "swerve/neo"),  // DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM
+                                                                // "SWERVE/NEO"!!!!!!!!!!!!!!
+      ()->{return thumb.getValue()>=8;}
+    );
+
     intake = new IntakeSubsystem();
     shooter = new ShooterSubsystem();
     deck = new DeckSubsystem();
