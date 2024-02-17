@@ -10,170 +10,187 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.climber.JogClimberDown;
+import frc.robot.commands.climber.JogClimberUp;
+import frc.robot.commands.climber.SetClimberPosition;
+import frc.robot.commands.deck.SetDeckPosition;
+import frc.robot.commands.elevator.SetElevatorPosition;
+import frc.robot.commands.intake.RunIntakeCommand;
+import frc.robot.commands.intake.RunOuttakeCommand;
+import frc.robot.commands.intake.ShootNote;
+import frc.robot.commands.shooter.RevShooter;
+import frc.robot.subsystems.climber.ClimberPositions;
+import frc.robot.subsystems.climber.ClimberSubsystem;
+import frc.robot.subsystems.deck.DeckPositions;
+import frc.robot.subsystems.deck.DeckSubsystem;
+import frc.robot.subsystems.elevator.ElevatorPositions;
+import frc.robot.subsystems.elevator.ElevatorSubsystem;
+import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.shooter.ShooterConfig;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+
 import java.io.File;
 
-
-import frc.robot.subsystems.leds.CANdleSystem;
-import frc.robot.subsystems.leds.CANdleSystem.AnimationTypes;
-import frc.robot.commands.leds.CANdleConfigCommands;
-import frc.robot.commands.leds.CANdlePrintCommands;
-
-
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
- * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
- * Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very
+ * little robot logic should actually be handled in the {@link Robot} periodic
+ * methods (other than the scheduler calls).
+ * Instead, the structure of the robot (including subsystems, commands, and
+ * trigger mappings) should be declared here.
  */
-public class RobotContainer
-{
-  
-//CHANGED SwerveSystem function from child:"swerve/neo" to "swerve"
+public class RobotContainer {
 
-  // The robot's subsystems and commands are defined here...
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         "swerve"));
-  // CommandJoystick rotationController = new CommandJoystick(1);
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  // Swerve subsystem
+  private final SwerveSubsystem drivebase = new SwerveSubsystem(
+      new File(Filesystem.getDeployDirectory(), "swerve/neo")); // DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM
+                                                                // "SWERVE/NEO"!!!!!!!!!!!!!!
+
+  // Our subsystems
+  private IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
+  private ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem();
+  private DeckSubsystem DECK_SUBSYSTEM = new DeckSubsystem();
+  private ElevatorSubsystem ELEVATOR_SUBSYSTEM = new ElevatorSubsystem();
+  private ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
+
+  // Driver Joysticks
   CommandJoystick driverController = new CommandJoystick(0);
   CommandJoystick rotationController = new CommandJoystick(1);
 
-  // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
-  XboxController driverXbox = new XboxController(2);
+  // Operator Xbox Controller
+  XboxController operatorXbox = new XboxController(2);
 
-    // LED lights
-  private final CANdleSystem m_candleSubsystem = new CANdleSystem(driverXbox);
+  // Buttons for Xbox Controller
+  private Trigger XBOX_RT = new JoystickButton(operatorXbox, 8); // Intake
+  private Trigger XBOX_LT = new JoystickButton(operatorXbox, 7); // Outtake
+  private Trigger XBOX_A = new JoystickButton(operatorXbox, 2); // Close shot
+  private Trigger XBOX_B = new JoystickButton(operatorXbox, 3); // Medium shot
+  private Trigger XBOX_Y = new JoystickButton(operatorXbox, 4); // Far shot
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer()
-  {
+  // Buttons for Drive Joystick
+  private Trigger DRIVE_TRIG = driverController.button(1);
+  private Trigger DRIVE_B2 = driverController.button(2);
+  private Trigger DRIVE_B3 = driverController.button(3);
+  private Trigger DRIVE_B4 = driverController.button(4);
+  private Trigger DRIVE_B5 = driverController.button(5);
+
+
+  // Buttons for Roation Joystick
+  private Trigger ROTATE_TRIG = rotationController.button(1);
+
+  // The container for the robot. Contains subsystems, OI devices, and commands.
+  public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    //defaultCommands();
 
-    /* We will not be using "Angluar Velocity for this robot" 
-    AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
-          () -> MathUtil.applyDeadband(driverXbox.getLeftY(),  OperatorConstants.LEFT_Y_DEADBAND),
-          () -> MathUtil.applyDeadband(driverXbox.getLeftX(),  OperatorConstants.LEFT_X_DEADBAND),
-          () -> MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.RIGHT_X_DEADBAND),
-                driverXbox::getYButtonPressed,
-                driverXbox::getAButtonPressed,
-                driverXbox::getXButtonPressed,
-                driverXbox::getBButtonPressed);
-    */
-
-    // Applies deadbands and inverts controls because joysticks
-    // are back-right positive while robot
-    // controls are front-left positive
-    // left stick controls translation
-    // right stick controls the desired angle NOT angular rotation
-
-
-      // The MINUS Sign is REQUIRED to FIX Inversion Issue - This is the JoyStick Control for the 2024 Robot
+    // Regualar drive mode
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-
         () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -MathUtil.applyDeadband(rotationController.getRawAxis(0), OperatorConstants.RIGHT_X_DEADBAND));
 
-    
-         
-
-    // Applies deadbands and inverts controls because joysticks
-    // are back-right positive while robot
-    // controls are front-left positive
-    // left stick controls translation
-    // right stick controls the angular velocity of the robot
-
-       /* We will not be using "Angluar Velocity for this robot"
-    Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> rotationController.getRawAxis(0));
-      */
-        
+    // Simulation drive mode
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
-        () -> MathUtil.applyDeadband(((driverXbox.getLeftY() < .5) ? (driverXbox.getLeftY()*2) : 1), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(((driverXbox.getLeftX() < .5) ? (driverXbox.getLeftY()*2) : 1), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRawAxis(2));
+        () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -MathUtil.applyDeadband(rotationController.getRawAxis(0), OperatorConstants.RIGHT_X_DEADBAND));
 
     drivebase.setDefaultCommand(
         !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
-    
-    
-    //Initialize & set default CANdle settings
-    CANdleSystem candleLEDs = new CANdleSystem(driverXbox);
-    candleLEDs.changeAnimation(AnimationTypes.Rainbow);
-    candleLEDs.configBrightness(100);
-   
 
   }
-          
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary predicate, or via the
-   * named factories in {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
-   * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
-   */
-  private void configureBindings()
-  {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-//    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
 
-   // LED Buttons to try
-    //new JoystickButton(driverXbox, Constants.BlockButton).onTrue(new RunCommand(m_candleSubsystem::setColors, m_candleSubsystem));
-    new JoystickButton(driverXbox, Constants.IncrementAnimButton).onTrue(new RunCommand(m_candleSubsystem::incrementAnimation, m_candleSubsystem));
-    new JoystickButton(driverXbox, Constants.DecrementAnimButton).onTrue(new RunCommand(m_candleSubsystem::decrementAnimation, m_candleSubsystem));
-    //This seems to work the best. Ross wrote this.
-    //new POVButton(driverXbox, Constants.MaxBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 1.0));
-    //new POVButton(driverXbox, Constants.MidBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 0.3));
-    //new POVButton(driverXbox, Constants.ZeroBrightnessAngle).onTrue(new CANdleConfigCommands.ConfigBrightness(m_candleSubsystem, 0));
+  private void configureBindings() {
+    // Intake sequence: extend elevator, lower deck, and intake
+    XBOX_RT.whileTrue(
+      new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.intake).andThen
+      (
+        new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.intake)
+        .alongWith(new RunIntakeCommand(INTAKE_SUBSYSTEM))
+      )
+      .andThen(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home))
+      .andThen(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero))
+    )
+    .onFalse
+    (
+      new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero)
+      .andThen(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home))
+    );        
 
-    new JoystickButton(driverXbox, Constants.VbatButton).onTrue(new CANdlePrintCommands.PrintVBat(m_candleSubsystem));
-    new JoystickButton(driverXbox, Constants.V5Button).onTrue(new CANdlePrintCommands.Print5V(m_candleSubsystem));
-    new JoystickButton(driverXbox, Constants.CurrentButton).onTrue(new CANdlePrintCommands.PrintCurrent(m_candleSubsystem));
-    new JoystickButton(driverXbox, Constants.TemperatureButton).onTrue(new CANdlePrintCommands.PrintTemperature(m_candleSubsystem));
+    // Outtake: Spits out the note
+    XBOX_LT.whileTrue(new RunOuttakeCommand(INTAKE_SUBSYSTEM));
+
+    // Close shot
+    XBOX_A.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.closeup))
+        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM, ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed))
+        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
+
+    // Medium shot
+    XBOX_B.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.podium))
+        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM, ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed))
+        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
+
+    // Far shot
+    XBOX_Y.whileTrue(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.backline))
+        .whileTrue(new RevShooter(SHOOTER_SUBSYSTEM, ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed))
+        .onFalse(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
+
+    // Run intake to shoot note
+    DRIVE_TRIG.whileTrue(new ShootNote(INTAKE_SUBSYSTEM));
+
+    // Preclimb position
+    DRIVE_B3.onTrue(new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.preclimb)
+    .alongWith(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.preClimb)));
+
+    // Climb
+    DRIVE_B2.onTrue
+    (
+      new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.midClimb)
+      .andThen
+      (
+        new SetClimberPosition(CLIMBER_SUBSYSTEM, ClimberPositions.climb)
+        .alongWith(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.climb))
+      )
+    );
+
+    // Zero Gyro
+    ROTATE_TRIG.onTrue(new InstantCommand(drivebase::zeroGyro));
+
+    // Jog Climber Up
+    DRIVE_B5.whileTrue(new JogClimberUp(CLIMBER_SUBSYSTEM));
+
+    // Jog Climber Down
+    DRIVE_B4.whileTrue(new JogClimberDown(CLIMBER_SUBSYSTEM));
 
   }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
+   * 
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand()
-  {
-    // An example command will be run in autonomous
+  public Command getAutonomousCommand() {
     return drivebase.getAutonomousCommand("Path1", true);
   }
 
-  public void setDriveMode()
-  {
-    //drivebase.setDefaultCommand();
+  // Default commands - these are setting the default positions for the elevator
+  // and the deck
+  public void defaultCommands() {
+    DECK_SUBSYSTEM.setDefaultCommand(new SetDeckPosition(DECK_SUBSYSTEM, DeckPositions.home));
+    ELEVATOR_SUBSYSTEM.setDefaultCommand(new SetElevatorPosition(ELEVATOR_SUBSYSTEM, ElevatorPositions.zero));
   }
 
-  public void setMotorBrake(boolean brake)
-  {
+  public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
   }
-  
-  
-  public void autonomousInit()
-  {
-    CANdleSystem candleLEDs = new CANdleSystem(driverXbox);
-    candleLEDs.configBrightness(100);
-    candleLEDs.changeAnimation(AnimationTypes.Rainbow);
-  
+
+  public void autonomousInit() {
 
   }
 }
