@@ -190,7 +190,8 @@ public class RobotContainer {
     drivebase.setMotorBrake(brake);
   }
 
-  public void autonomousInit() {
-
+  public void autonomousInit() 
+  {
+    new AutoSelec
   }
 }
