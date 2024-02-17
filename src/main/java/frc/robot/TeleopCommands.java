@@ -129,8 +129,8 @@ public class TeleopCommands
     )
     .onFalse
     (
-      new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)
-      .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.home))
+      new  SetDeckPosition(robot.getDeck(), DeckPositions.home)
+      .andThen(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
     );        
 
     // Outtake: Spits out the note
