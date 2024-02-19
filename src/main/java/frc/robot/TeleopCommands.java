@@ -15,6 +15,7 @@ import frc.robot.commands.climber.JogClimberUp;
 import frc.robot.commands.climber.SetClimberPosition;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
+import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ShootNote;
@@ -66,6 +67,7 @@ public class TeleopCommands
   private Trigger closeShot; // Close shot
   private Trigger mediumShot; // Medium shot
   private Trigger farShot; // Far shot
+  private Trigger preAmp; // Ready for amp score
 
   // Buttons for Drive Joystick
   private Trigger shoot;
@@ -105,6 +107,7 @@ public class TeleopCommands
       runIntake = new JoystickButton(operatorXbox, ControllerButton.RightBumper.value);
       jogOutake = new JoystickButton(operatorXbox, ControllerButton.LeftTrigger.value);
       jogIntake = new JoystickButton(operatorXbox, ControllerButton.RightTrigger.value);
+      preAmp = new JoystickButton(operatorXbox, ControllerButton.LeftBumper.value);
 
       closeShot = new JoystickButton(operatorXbox, ControllerButton.A.value);
       mediumShot = new JoystickButton(operatorXbox, ControllerButton.B.value); 
@@ -117,6 +120,7 @@ public class TeleopCommands
       preclimb = driverController.button(3);
       climbDown = driverController.button(4);
       climbUp = driverController.button(5);
+      
 
       zeroGyro = rotationController.button(1);
 
@@ -152,13 +156,14 @@ public class TeleopCommands
         new SetDeckPosition(robot.getDeck(), DeckPositions.intake)
         .alongWith(new RunIntakeCommand(robot.getIntake()))
       )
-      .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.home))
-      .andThen(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
+      .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+      .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
+      )
     )
     .onFalse
     (
       new  SetDeckPosition(robot.getDeck(), DeckPositions.home)
-      .andThen(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
+      .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
     );        
 
     jogIntake.whileTrue(new RunIntakeCommand(robot.getIntake()));
@@ -180,6 +185,9 @@ public class TeleopCommands
     farShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.backline))
         .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+
+    preAmp.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.amp)
+    .alongWith(new AmpDeckCommand(robot.getIntake())));
 
   }
 
