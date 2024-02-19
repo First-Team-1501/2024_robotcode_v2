@@ -5,6 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
@@ -17,7 +20,9 @@ import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-
+import frc.robot.limelight.LimelightHelpers; // Import the LimelightHelpers class
+import frc.robot.limelight.LimelightHelpers.LimelightResults; // Import the LimelightResults class
+import frc.robot.limelight.LimelightHelpers.LimelightTarget_Fiducial; // Import the LimelightTarget_Fiducial class
 import java.io.File;
 
 /**
@@ -29,7 +34,10 @@ import java.io.File;
  * trigger mappings) should be declared here.
  */
 public class RobotContainer {
-
+  //Imports for the Limelight
+  LimelightHelpers limelight = new LimelightHelpers(); // Create a new instance of the LimelightHelpers class
+  LimelightTarget_Fiducial m_Fiducial = new LimelightTarget_Fiducial(); // Create a new instance of the LimelightTarget_Fiducial class 
+  
   // Swerve subsystem
   private final SwerveSubsystem drivebase; 
 
@@ -51,6 +59,32 @@ public class RobotContainer {
   {
     
     thumb = new Thumbwheel();
+  
+    //Stuff for the Limelight
+    //This is the value from the Limelight.
+    double tx = LimelightHelpers.getTX("tx");
+    double ty = LimelightHelpers.getTY("ty");
+    double ta = LimelightHelpers.getTA("ta");
+    double pipelineIndex = LimelightHelpers.getCurrentPipelineIndex("getpipe");
+    double id = LimelightHelpers.getFiducialID("id");
+
+    LimelightHelpers.setLEDMode_PipelineControl("");
+    LimelightHelpers.getLimelightNTTable(null);
+    LimelightHelpers.getLimelightNTTableEntry(null, "tid");
+    LimelightHelpers.LimelightResults results = new LimelightResults();
+    LimelightHelpers.getLimelightNTDouble(null, "cl");
+
+    double cl = LimelightHelpers.getLimelightNTDouble(null, "cl");
+    double ts = LimelightHelpers.getLimelightNTDouble(null, "tid");
+
+    //This sends the value to the SmartDashboard.
+    SmartDashboard.putNumber("tx", tx);
+    SmartDashboard.putNumber("ty", ty);
+    SmartDashboard.putNumber("ta", ta);
+    SmartDashboard.putNumber("pipelineIndex", pipelineIndex);
+    SmartDashboard.putNumber("id", id);
+    SmartDashboard.putNumber("cl", cl);
+    SmartDashboard.putNumber("ts", ts);
 
     drivebase = new SwerveSubsystem(
       new File(Filesystem.getDeployDirectory(), "swerve/neo"),  // DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM
