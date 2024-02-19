@@ -28,8 +28,14 @@ public class RunIntakeCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    INTAKE_SUBSYSTEM.set( IntakeConfig.runningSpeed, IntakeConfig.runningSpeed);
+  public void execute() 
+  {
+    if(!isFinished())
+    {
+      INTAKE_SUBSYSTEM.set( IntakeConfig.runningSpeed, IntakeConfig.runningSpeed);
+      return;
+    }
+    INTAKE_SUBSYSTEM.stop();
   }
 
   // Called once the command ends or is interrupted.

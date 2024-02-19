@@ -16,7 +16,7 @@ public class ElevatorConfig {
     public static IdleMode idleMode = IdleMode.kCoast; // Brake for position, coast for percent
 
     // PIDF Values
-    public static double p = 0.05; // .01 good start value
+    public static double p = 0.2; // .01 good start value
     public static double i = 0;
     public static double d = 0;
     public static double f = 0;
@@ -28,15 +28,15 @@ public class ElevatorConfig {
     public static double outputMax = 1;
 
     // Ramp Rate
-    public static double openRampRate = 1; // Time in seconds (1 is good for percent based stuff) (percent mode)
-    public static double closedRampRate = 1; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
+    public static double openRampRate = 0; // Time in seconds (1 is good for percent based stuff) (percent mode)
+    public static double closedRampRate = 0; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     // Inverted
     public static boolean kInverted = true;
 
     // Current Limits
-    public static int smartCurrentStallLimit = 20; // 40 for big neo, 20 for small neo
-    public static int smartCurrentFreeLimit = 15; // 30 for big neo, 15 for small neo
+    public static int smartCurrentStallLimit = 40; // 40 for big neo, 20 for small neo
+    public static int smartCurrentFreeLimit = 30; // 30 for big neo, 15 for small neo
 
     // Conversion Factors
     public static double positionConversionFactor = 1;
