@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 15.82234147943789,
-      "y": 4.4016797321401935
+      "x": 0.7258936323098312,
+      "y": 4.412740568949072
     },
-    "rotation": 61.299910716252725
+    "rotation": -59.813464118804674
   },
   "command": {
     "type": "sequential",
@@ -18,13 +18,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "RevShooterCloseup"
+                  "name": "revShooterCloseup"
                 }
               },
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.0
+                  "waitTime": 2.0
                 }
               },
               {
@@ -34,13 +34,13 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "RevShooterCloseup"
+                        "name": "revShooterCloseup"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "ShootNote"
+                        "name": "shootNote"
                       }
                     }
                   ]
@@ -52,7 +52,7 @@
         {
           "type": "named",
           "data": {
-            "name": "DeployIntake"
+            "name": "deployIntake"
           }
         },
         {
@@ -62,7 +62,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "RunIntake"
+                  "name": "runIntake"
                 }
               },
               {
@@ -72,6 +72,18 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "retractIntake"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": []
           }
         }
       ]
