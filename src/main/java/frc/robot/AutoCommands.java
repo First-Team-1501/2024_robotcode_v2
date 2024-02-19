@@ -38,7 +38,10 @@ public class AutoCommands
                 return new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)
                     .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
             case 2:
-               return robot.getDrivebase().getAutonomousCommand("Auto1");
+               return robot.getDrivebase().getAutoCommand("Auto1");
+            case 3:
+                return robot.getDrivebase().getAutoPath("BasicPathTest");
+            
             default:
                 return new InstantCommand();
             

@@ -130,10 +130,23 @@ public class SwerveSubsystem extends SubsystemBase {
   * @param autoName Path planner auto name.
   * @return a command which sets odemetry to the initial path position, then runs the path planner auto.
   */
-  public Command getAutonomousCommand(String autoName)
+  public Command getAutoCommand(String autoName)
   {
-      return new InstantCommand(()-> resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile(autoName)))
-      .andThen(new PathPlannerAuto(autoName));
+    resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile(autoName));
+    return new PathPlannerAuto(autoName);
+  }
+
+
+  public Command getAutoPath(String pathName)
+  {
+    
+      // Load the path you want to follow using its name in the GUI
+      PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+      resetOdometry(new Pose2d(path.getPoint(0).position, getHeading()));
+      // Create a path following command using AutoBuilder. This will also trigger
+      // event markers.
+      return AutoBuilder.followPath(path);
+    
   }
 
   /**
