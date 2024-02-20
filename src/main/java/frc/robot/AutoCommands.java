@@ -30,17 +30,19 @@ public class AutoCommands
         NamedCommands.registerCommand("deckPreClimb",
          new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb));
         NamedCommands.registerCommand("revShooterCloseup",
-         new RevShooter(robot.getShooter(), ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed)); 
+          new RevShooter(robot.getShooter(), ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed)); 
         NamedCommands.registerCommand("deckHome",
-         new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+          new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+        NamedCommands.registerCommand("deckCloseUp",
+          new SetDeckPosition(robot.getDeck(), DeckPositions.closeup));
         NamedCommands.registerCommand("shootNote", 
-         new ShootNote(robot.getIntake()));
-        NamedCommands.registerCommand("deployIntake",
-         new IntakePositionSequence(robot.getDeck(), robot.getElevator()));
-        NamedCommands.registerCommand("runIntake", 
-         new RunIntakeCommand(robot.getIntake()));
-        NamedCommands.registerCommand("retractIntake",
-         new RetractIntakeSequence(robot.getDeck(), robot.getElevator()));
+           new ShootNote(robot.getIntake()));
+        // NamedCommands.registerCommand("deployIntake",
+        //  new IntakePositionSequence(robot.getDeck(), robot.getElevator()));
+        // NamedCommands.registerCommand("runIntake", 
+        //  new RunIntakeCommand(robot.getIntake()));
+        // NamedCommands.registerCommand("retractIntake",
+        //  new RetractIntakeSequence(robot.getDeck(), robot.getElevator()));
        
     }
 
@@ -50,8 +52,7 @@ public class AutoCommands
         {
             
             case 1:
-                return new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)
-                    .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+                return robot.getDrivebase().getAutoCommand("testauto");
             case 2:
                return robot.getDrivebase().getAutoCommand("Auto1");
             case 3:
