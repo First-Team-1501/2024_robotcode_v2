@@ -13,6 +13,8 @@ public class AmpDeckCommand extends Command {
   private IntakeSubsystem INTAKE_SUBSYSTEM;
 
   private boolean hasSeenPiece;
+  private boolean stageTwo;
+  private boolean stageThree;
   private int counter;
   
   /** Creates a new AmpDeckCommand. */
@@ -31,6 +33,8 @@ public class AmpDeckCommand extends Command {
     INTAKE_SUBSYSTEM.set(-.5, -.5);
     counter = 0;
     hasSeenPiece = false;
+    stageTwo = false;
+    stageThree = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,9 +47,20 @@ public class AmpDeckCommand extends Command {
     }
     if(hasSeenPiece && !INTAKE_SUBSYSTEM.readyToScoreTrap())
     {
+      stageTwo = true;
       INTAKE_SUBSYSTEM.set(-.5, 0);
-      counter++;
     }
+    if(stageTwo && INTAKE_SUBSYSTEM.readyToScoreTrap())
+    {
+      stageThree = true;
+      
+    }
+
+    if(stageThree)
+    {
+      counter++;
+    } 
+
   }
 
   // Called once the command ends or is interrupted.
@@ -53,12 +68,12 @@ public class AmpDeckCommand extends Command {
   public void end(boolean interrupted) 
   {
     INTAKE_SUBSYSTEM.stop();
-    System.out.println("Ending AmpDeckCommand");
+    System.out.println("Ending AmpDeckommand");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (counter > 8);
+    return (counter > 1);
   }
 }

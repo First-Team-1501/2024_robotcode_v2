@@ -20,6 +20,7 @@ import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.shooter.RevShooter;
+import frc.robot.limelight.LimelightHelpers;
 import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.elevator.ElevatorPositions;
@@ -151,7 +152,8 @@ public class TeleopCommands
 
     // Intake sequence: extend elevator, lower deck, and intake
     runIntake.whileTrue(
-      new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake).andThen
+      new SetDeckPosition(robot.getDeck(), DeckPositions.home).
+      andThen(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake)).andThen
       (
         new SetDeckPosition(robot.getDeck(), DeckPositions.intake)
         .alongWith(new RunIntakeCommand(robot.getIntake()))
@@ -221,6 +223,24 @@ public class TeleopCommands
     climbDown.whileTrue(new JogClimberDown(robot.getClimber()));
 
   }
+
+  double limelight_aim_proportional()
+  {    
+    // kP (constant of proportionality)
+    // this is a hand-tuned number that determines the aggressiveness of our proportional control loop
+    // if it is too high, the robot will oscillate around.
+    // if it is too low, the robot will never reach its target
+    // if the robot never turns in the correct direction, kP should be inverted.
+    double kP = .035;
+
+    // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of 
+    // your limelight 3 feed, tx should return roughly 31 degrees.
+    double targetingPosition = LimelightHelpers.getTX("limelight") * kP;
+
+    return targetingPosition;
+
+  }
+
 
 
 }

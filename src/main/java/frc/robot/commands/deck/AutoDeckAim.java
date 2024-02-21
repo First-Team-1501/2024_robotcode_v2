@@ -15,30 +15,43 @@ public class AutoDeckAim extends Command {
   LimelightHelpers limelight = new LimelightHelpers(); // Create a new instance of the LimelightHelpers class
   LimelightTarget_Fiducial m_Fiducial = new LimelightTarget_Fiducial(); // Create a new instance of the LimelightTarget_Fiducial class 
  
+  double kP = 0.35;
+  double targetingPosition;
+
   /** Creates a new AutoDeckAim. */
   public AutoDeckAim(DeckSubsystem deck) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.DECK_SUBSYSTEM = deck;
-    double ty = LimelightHelpers.getTY("ty");
+    double ty = LimelightHelpers.getTY("ty") * kP;
 
     addRequirements(DECK_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() 
+  {
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() 
+  {
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) 
+  {
+
+  }
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
+  public boolean isFinished() 
+  {
     return false;
   }
 }

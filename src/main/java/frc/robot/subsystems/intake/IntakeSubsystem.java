@@ -94,7 +94,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // Function to see if note is ready to outtake (to score in the trap)
   public boolean readyToScoreTrap() {
-    return outtakeSensor.get();
+    return (outtakeSensor.get());
   }
 
 }
