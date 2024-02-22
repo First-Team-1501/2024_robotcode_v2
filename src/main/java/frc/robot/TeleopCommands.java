@@ -18,6 +18,7 @@ import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ShootNote;
+import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.deck.DeckPositions;
@@ -212,6 +213,11 @@ public class TeleopCommands
     // Jog Climber Down
     climbDown.whileTrue(new JogClimberDown(robot.getClimber()));
 
+  }
+
+  public Command onTeleopInit()
+  {
+      return new RetractIntakeSequence(robot.getDeck(), robot.getElevator());
   }
 
 

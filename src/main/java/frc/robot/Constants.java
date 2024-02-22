@@ -7,6 +7,9 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.deck.DeckConfig;
+import frc.robot.subsystems.deck.DeckPositions;
+import frc.robot.subsystems.shooter.ShooterConfig;
 import swervelib.math.Matter;
 import swervelib.parser.PIDFConfig;
 
@@ -22,7 +25,42 @@ import swervelib.parser.PIDFConfig;
  * wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {
+public final class Constants 
+{
+  public enum ShootParams
+  {
+      CloseUp(DeckPositions.closeup, ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed),
+      Podium(DeckPositions.podium, ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed),
+      Far(DeckPositions.backline, ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed);
+
+
+      
+      private double deckPosition;
+      private double leftSpeed;
+      private double rightSpeed;
+
+      private ShootParams(double deck, double left, double right)
+      {
+          deckPosition = deck;
+          leftSpeed = left;
+          rightSpeed = right;
+      }
+
+      public double getDeckPosition()
+      {
+        return deckPosition;
+      }
+
+      public double getLeftSpeed()
+      {
+        return leftSpeed;
+      }
+
+      public double getRightSpeed()
+      {
+        return rightSpeed;
+      }
+  }
 
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
   public static final Matter CHASSIS = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
