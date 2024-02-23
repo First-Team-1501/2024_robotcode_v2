@@ -71,6 +71,8 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Has Note", hasNote());
+    SmartDashboard.putBoolean("Outtake Sensor", readyToScoreTrap());
+
   }
 
   // Function to set the motor speeds
@@ -92,11 +94,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // Function to see if note is ready to outtake (to score in the trap)
   public boolean readyToScoreTrap() {
-    if (outtakeSensor.get()) {
-      return false;
-    } else {
-      return true;
-    }
+    return (outtakeSensor.get());
   }
 
 }
