@@ -13,6 +13,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.climber.JogClimberDown;
 import frc.robot.commands.climber.JogClimberUp;
 import frc.robot.commands.climber.SetClimberPosition;
+import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
@@ -21,11 +22,13 @@ import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
+import frc.robot.commands.stabilizer.SetStabilizerPosition;
 import frc.robot.limelight.LimelightHelpers;
 import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.shooter.ShooterConfig;
+import frc.robot.subsystems.stabilizer.StabilizerPositions;
 
 
 public class TeleopCommands 
@@ -36,6 +39,7 @@ public class TeleopCommands
   {
     A (2),
     B (3),
+    X (1),
     Y (4),
 
     LeftTrigger (7),
@@ -70,6 +74,7 @@ public class TeleopCommands
   private Trigger mediumShot; // Medium shot
   private Trigger farShot; // Far shot
   private Trigger preAmp; // Ready for amp score
+  private Trigger autoAim; //autoAimShooter
 
   // Buttons for Drive Joystick
   private Trigger shoot;
@@ -80,6 +85,7 @@ public class TeleopCommands
     
   // Buttons for Roation Joystick
   private Trigger zeroGyro;
+  private Trigger autoSteer;
 
     
   public TeleopCommands(RobotContainer container)
@@ -114,6 +120,7 @@ public class TeleopCommands
       closeShot = new JoystickButton(operatorXbox, ControllerButton.A.value);
       mediumShot = new JoystickButton(operatorXbox, ControllerButton.B.value); 
       farShot = new JoystickButton(operatorXbox, ControllerButton.Y.value);
+      autoAim = new JoystickButton(operatorXbox, ControllerButton.X.value);
 
 
       // driver
@@ -125,6 +132,7 @@ public class TeleopCommands
       
 
       zeroGyro = rotationController.button(1);
+      autoSteer = rotationController.button(2);
 
   }
 
@@ -149,7 +157,7 @@ public class TeleopCommands
   private void SetupOperatorCommands()
   {
 
-
+    
 
     // Intake sequence: extend elevator, lower deck, and intake
     runIntake.whileTrue(
@@ -175,33 +183,44 @@ public class TeleopCommands
     jogOutake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
 
     // Close shot
-    closeShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.closeup))
-        .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed))
+    closeShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.closeup)
+        .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed)))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
     // Medium shot
-    mediumShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.podium))
-        .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed))
+    mediumShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.podium)
+        .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed)))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
     // Far shot
-    farShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.backline))
-        .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed))
+    farShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.backline)
+        .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed)))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
     preAmp.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.amp)
     .alongWith(new AmpDeckCommand(robot.getIntake())));
+    
+    autoAim.whileTrue(new AutoDeckAim(robot.getDeck())
+        .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed)))
+        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
   }
 
   private void SetupDriverCommands()
   {
+    //Auto Aim Commands
+    Command driveFieldOrientedAutoAim = robot.getDrivebase().driveCommand(
+          () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
+          () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
+          () -> -limelight_aim_proportional());
+
       // Run intake to shoot note
     shoot.whileTrue(new ShootNote(robot.getIntake()));
 
     // Preclimb position
     preclimb.onTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.preclimb)
-    .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)));
+    .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)
+    .alongWith(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb))));
 
     // Climb
     climb.onTrue
@@ -223,6 +242,10 @@ public class TeleopCommands
     // Jog Climber Down
     climbDown.whileTrue(new JogClimberDown(robot.getClimber()));
 
+    autoSteer.whileTrue(driveFieldOrientedAutoAim);
+
+
+
   }
 
   public Command onTeleopInit()
@@ -236,16 +259,21 @@ public class TeleopCommands
     // if it is too high, the robot will oscillate around.
     // if it is too low, the robot will never reach its target
     // if the robot never turns in the correct direction, kP should be inverted.
-    double kP = .035;
+    double kP = .07;
+    double maxTolerance = 0.5;
 
     // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of 
     // your limelight 3 feed, tx should return roughly 31 degrees.
-    double targetingPosition = LimelightHelpers.getTX("limelight") * kP;
+    double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
+ 
 
-    return targetingPosition;
-
+    if (targetingAngularVelocity < -maxTolerance)
+      return -maxTolerance;
+    else if(targetingAngularVelocity > maxTolerance)
+      return maxTolerance;
+    else
+      return targetingAngularVelocity;
   }
-
 
 
 }

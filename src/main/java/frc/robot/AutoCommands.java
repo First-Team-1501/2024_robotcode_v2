@@ -53,7 +53,7 @@ public class AutoCommands
     {
         switch(robot.getThumbwheel().getValue()%8)
         {
-            
+
             case 1:               
                 return robot.getDrivebase().getAutoCommand("Auto1");
             case 2:
@@ -62,10 +62,7 @@ public class AutoCommands
                 //return robot.getDrivebase().getAutoPath("BasicPathTest");
                return robot.getDrivebase().getAutoCommand("Auto3");
 
-
-            default:
-                return new InstantCommand();
-            
+   
         }
     }
 

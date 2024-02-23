@@ -38,6 +38,7 @@ public class SetClimberPosition extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("Ending SetClimberPosition Command - Climber at Position = " + climberPosition);
+    CLIMBER_SUBSYSTEM.set(CLIMBER_SUBSYSTEM.get());
   }
 
   // Returns true when the command should end.

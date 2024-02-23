@@ -15,14 +15,13 @@ public class AutoDeckAim extends Command {
   LimelightHelpers limelight = new LimelightHelpers(); // Create a new instance of the LimelightHelpers class
   LimelightTarget_Fiducial m_Fiducial = new LimelightTarget_Fiducial(); // Create a new instance of the LimelightTarget_Fiducial class 
  
-  double kP = 0.35;
-  double targetingPosition;
+  double kP = 0.8;
 
   /** Creates a new AutoDeckAim. */
   public AutoDeckAim(DeckSubsystem deck) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.DECK_SUBSYSTEM = deck;
-    double ty = LimelightHelpers.getTY("ty") * kP;
+    
 
     addRequirements(DECK_SUBSYSTEM);
   }
@@ -39,6 +38,8 @@ public class AutoDeckAim extends Command {
   public void execute() 
   {
 
+    DECK_SUBSYSTEM.set(DECK_SUBSYSTEM.get() + limelight_aim_proportional());
+
   }
 
   // Called once the command ends or is interrupted.
@@ -53,5 +54,14 @@ public class AutoDeckAim extends Command {
   public boolean isFinished() 
   {
     return false;
+  }
+
+  double limelight_aim_proportional()
+  {
+    double targetingPosition = LimelightHelpers.getTY("limelight") * kP;
+    targetingPosition *= -1;
+
+
+    return targetingPosition;
   }
 }
