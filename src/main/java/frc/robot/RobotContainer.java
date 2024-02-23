@@ -17,6 +17,7 @@ import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
+import frc.robot.subsystems.stabilizer.StabilizerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.limelight.LimelightHelpers; // Import the LimelightHelpers class
 import frc.robot.limelight.LimelightHelpers.LimelightResults; // Import the LimelightResults class
@@ -45,6 +46,7 @@ public class RobotContainer {
   private DeckSubsystem deck;
   private ElevatorSubsystem elevator;
   private ClimberSubsystem climber;
+  private StabilizerSubsystem stabilizer;
   private Thumbwheel thumb;
 
 
@@ -95,6 +97,7 @@ public class RobotContainer {
     deck = new DeckSubsystem();
     elevator =  new ElevatorSubsystem();
     climber = new ClimberSubsystem();
+    stabilizer = new StabilizerSubsystem();
  
 
     teleop = new TeleopCommands(this);
@@ -110,6 +113,7 @@ public class RobotContainer {
   DeckSubsystem getDeck(){return deck;}
   ElevatorSubsystem getElevator(){return elevator;}
   ClimberSubsystem getClimber(){return climber;}
+  StabilizerSubsystem getStabilizer(){return stabilizer;}
   Thumbwheel getThumbwheel(){return thumb;}
 
   

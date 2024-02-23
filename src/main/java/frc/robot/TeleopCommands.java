@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.Drivebase;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.climber.JogClimberDown;
 import frc.robot.commands.climber.JogClimberUp;
@@ -22,11 +21,13 @@ import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.shooter.RevShooter;
+import frc.robot.commands.stabilizer.SetStabilizerPosition;
 import frc.robot.limelight.LimelightHelpers;
 import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.shooter.ShooterConfig;
+import frc.robot.subsystems.stabilizer.StabilizerPositions;
 
 
 public class TeleopCommands 
@@ -181,25 +182,25 @@ public class TeleopCommands
     jogOutake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
 
     // Close shot
-    closeShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.closeup))
-        .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed))
+    closeShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.closeup)
+        .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed)))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
     // Medium shot
-    mediumShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.podium))
-        .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed))
+    mediumShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.podium)
+        .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed)))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
     // Far shot
-    farShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.backline))
-        .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed))
+    farShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.backline)
+        .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed)))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
     preAmp.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.amp)
     .alongWith(new AmpDeckCommand(robot.getIntake())));
     
-    autoAim.whileTrue(new AutoDeckAim(robot.getDeck()))
-        .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed))
+    autoAim.whileTrue(new AutoDeckAim(robot.getDeck())
+        .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed)))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
   }
@@ -210,14 +211,15 @@ public class TeleopCommands
     Command driveFieldOrientedAutoAim = robot.getDrivebase().driveCommand(
           () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
           () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
-          () -> -MathUtil.applyDeadband(limelight_aim_proportional(), 0));
+          () -> -limelight_aim_proportional());
 
       // Run intake to shoot note
     shoot.whileTrue(new ShootNote(robot.getIntake()));
 
     // Preclimb position
     preclimb.onTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.preclimb)
-    .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)));
+    .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)
+    .alongWith(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb))));
 
     // Climb
     climb.onTrue
@@ -253,14 +255,19 @@ public class TeleopCommands
     // if it is too low, the robot will never reach its target
     // if the robot never turns in the correct direction, kP should be inverted.
     double kP = .04;
+    double maxTolerance = 0.5;
 
     // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of 
     // your limelight 3 feed, tx should return roughly 31 degrees.
     double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
+ 
 
-    //invert since tx is positive when the target is to the right of the crosshair
-
-    return targetingAngularVelocity;
+    if (targetingAngularVelocity < -maxTolerance)
+      return -maxTolerance;
+    else if(targetingAngularVelocity > maxTolerance)
+      return maxTolerance;
+    else
+      return targetingAngularVelocity;
   }
 
 
