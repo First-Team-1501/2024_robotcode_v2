@@ -55,12 +55,13 @@ public class AutoCommands
         {
             
             case 1:               
-                return robot.getDrivebase().getAutoCommand("auto1");
+                return robot.getDrivebase().getAutoCommand("Auto1");
             case 2:
-                return robot.getDrivebase().getAutoCommand("testauto");
+                return robot.getDrivebase().getAutoCommand("Auto2");
             case 3:
                 //return robot.getDrivebase().getAutoPath("BasicPathTest");
-                
+               return robot.getDrivebase().getAutoCommand("Auto3");
+
 
             default:
                 return new InstantCommand();
