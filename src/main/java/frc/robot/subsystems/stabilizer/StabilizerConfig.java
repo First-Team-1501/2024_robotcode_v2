@@ -9,7 +9,7 @@ public class StabilizerConfig {
     // **** DECK CONFIG ****
 
     // CAN bus ID
-    public static int ID = 23;
+    public static int ID = 50;
 
     // Type configs
     public static MotorType motorType = MotorType.kBrushless;
