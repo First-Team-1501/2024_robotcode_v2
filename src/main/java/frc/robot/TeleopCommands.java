@@ -9,10 +9,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.Drivebase;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.climber.JogClimberDown;
 import frc.robot.commands.climber.JogClimberUp;
 import frc.robot.commands.climber.SetClimberPosition;
+import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
@@ -35,6 +37,7 @@ public class TeleopCommands
   {
     A (2),
     B (3),
+    X (1),
     Y (4),
 
     LeftTrigger (7),
@@ -69,6 +72,7 @@ public class TeleopCommands
   private Trigger mediumShot; // Medium shot
   private Trigger farShot; // Far shot
   private Trigger preAmp; // Ready for amp score
+  private Trigger autoAim; //autoAimShooter
 
   // Buttons for Drive Joystick
   private Trigger shoot;
@@ -79,6 +83,7 @@ public class TeleopCommands
     
   // Buttons for Roation Joystick
   private Trigger zeroGyro;
+  private Trigger autoSteer;
 
     
   public TeleopCommands(RobotContainer container)
@@ -113,6 +118,7 @@ public class TeleopCommands
       closeShot = new JoystickButton(operatorXbox, ControllerButton.A.value);
       mediumShot = new JoystickButton(operatorXbox, ControllerButton.B.value); 
       farShot = new JoystickButton(operatorXbox, ControllerButton.Y.value);
+      autoAim = new JoystickButton(operatorXbox, ControllerButton.X.value);
 
 
       // driver
@@ -124,6 +130,7 @@ public class TeleopCommands
       
 
       zeroGyro = rotationController.button(1);
+      autoSteer = rotationController.button(2);
 
   }
 
@@ -148,7 +155,7 @@ public class TeleopCommands
   private void SetupOperatorCommands()
   {
 
-
+    
 
     // Intake sequence: extend elevator, lower deck, and intake
     runIntake.whileTrue(
@@ -190,11 +197,21 @@ public class TeleopCommands
 
     preAmp.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.amp)
     .alongWith(new AmpDeckCommand(robot.getIntake())));
+    
+    autoAim.whileTrue(new AutoDeckAim(robot.getDeck()))
+        .whileTrue(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed))
+        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
   }
 
   private void SetupDriverCommands()
   {
+    //Auto Aim Commands
+    Command driveFieldOrientedAutoAim = robot.getDrivebase().driveCommand(
+          () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
+          () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
+          () -> -MathUtil.applyDeadband(limelight_aim_proportional(), 0));
+
       // Run intake to shoot note
     shoot.whileTrue(new ShootNote(robot.getIntake()));
 
@@ -222,6 +239,10 @@ public class TeleopCommands
     // Jog Climber Down
     climbDown.whileTrue(new JogClimberDown(robot.getClimber()));
 
+    autoSteer.whileTrue(driveFieldOrientedAutoAim);
+
+
+
   }
 
   double limelight_aim_proportional()
@@ -231,16 +252,16 @@ public class TeleopCommands
     // if it is too high, the robot will oscillate around.
     // if it is too low, the robot will never reach its target
     // if the robot never turns in the correct direction, kP should be inverted.
-    double kP = .035;
+    double kP = .04;
 
     // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of 
     // your limelight 3 feed, tx should return roughly 31 degrees.
-    double targetingPosition = LimelightHelpers.getTX("limelight") * kP;
+    double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
 
-    return targetingPosition;
+    //invert since tx is positive when the target is to the right of the crosshair
 
+    return targetingAngularVelocity;
   }
-
 
 
 }

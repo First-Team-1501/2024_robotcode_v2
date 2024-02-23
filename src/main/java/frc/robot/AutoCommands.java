@@ -25,18 +25,11 @@ public class AutoCommands
        
     }
 
-    public Command SelectAuto() 
+public Command SelectAuto() 
     {
         switch(robot.getThumbwheel().getValue()%8)
         {
-            
-            case 1:
-                return new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)
-                    .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
-            case 2:
-               return robot.getDrivebase().getAutoCommand("Auto1");
-            case 3:
-                return robot.getDrivebase().getAutoPath("BasicPathTest");
+        
             
             default:
                 return new InstantCommand();
