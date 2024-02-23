@@ -135,4 +135,10 @@ public class RobotContainer {
     drivebase.setMotorBrake(brake);
   }
 
+
+  public Command onTeleopInit()
+  {
+    return teleop.onTeleopInit();
+  }
+
 }

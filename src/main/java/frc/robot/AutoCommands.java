@@ -3,11 +3,13 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants.ShootParams;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.ShootNote;
-import frc.robot.commands.sequential.IntakePositionSequence;
+import frc.robot.commands.sequential.IntakeSequence;
 import frc.robot.commands.sequential.RetractIntakeSequence;
+import frc.robot.commands.sequential.AutoShoot;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.shooter.ShooterConfig;
@@ -22,10 +24,8 @@ public class AutoCommands
     {
         this.robot = robot;
 
-        // register namedcommands here.
-        NamedCommands.registerCommand("deckPreClimb",
-         new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb));
-        NamedCommands.registerCommand("revShooterCloseup",
+        // legacy commands
+        NamedCommands.registerCommand("revShooterCloseUp",
           new RevShooter(robot.getShooter(), ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed)); 
         NamedCommands.registerCommand("deckHome",
           new SetDeckPosition(robot.getDeck(), DeckPositions.home));
@@ -33,8 +33,15 @@ public class AutoCommands
           new SetDeckPosition(robot.getDeck(), DeckPositions.closeup));
         NamedCommands.registerCommand("shootNote", 
            new ShootNote(robot.getIntake()));
-        // NamedCommands.registerCommand("deployIntake",
-        //  new IntakePositionSequence(robot.getDeck(), robot.getElevator()));
+
+
+        NamedCommands.registerCommand("getPiece",
+           new IntakeSequence(robot.getIntake(), robot.getDeck(),robot.getElevator()));
+        NamedCommands.registerCommand("shootCloseUp", 
+            new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(), ShootParams.CloseUp));
+        NamedCommands.registerCommand("shootPodium", 
+            new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(), ShootParams.Podium));
+            //PathPlannerPath.fromPathFile("null")
         // NamedCommands.registerCommand("runIntake", 
         //  new RunIntakeCommand(robot.getIntake()));
         // NamedCommands.registerCommand("retractIntake",
@@ -47,13 +54,14 @@ public class AutoCommands
         switch(robot.getThumbwheel().getValue()%8)
         {
             
-            case 1:
-                return robot.getDrivebase().getAutoCommand("testauto");
+            case 1:               
+                return robot.getDrivebase().getAutoCommand("auto1");
             case 2:
-               return robot.getDrivebase().getAutoCommand("Auto1");
+                return robot.getDrivebase().getAutoCommand("testauto");
             case 3:
-                return robot.getDrivebase().getAutoPath("BasicPathTest");
-            
+                //return robot.getDrivebase().getAutoPath("BasicPathTest");
+                
+
             default:
                 return new InstantCommand();
             

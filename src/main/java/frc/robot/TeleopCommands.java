@@ -19,6 +19,7 @@ import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ShootNote;
+import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.limelight.LimelightHelpers;
 import frc.robot.subsystems.climber.ClimberPositions;
@@ -224,6 +225,10 @@ public class TeleopCommands
 
   }
 
+  public Command onTeleopInit()
+  {
+      return new RetractIntakeSequence(robot.getDeck(), robot.getElevator());
+  }
   double limelight_aim_proportional()
   {    
     // kP (constant of proportionality)
