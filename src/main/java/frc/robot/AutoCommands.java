@@ -3,19 +3,13 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShootParams;
-import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.SetDeckPosition;
-import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.sequential.IntakeSequence;
 import frc.robot.commands.sequential.AutoShoot;
 import frc.robot.commands.shooter.RevShooter;
-import frc.robot.subsystems.deck.DeckPositions;
-import frc.robot.subsystems.shooter.ShooterConfig;
-import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 
 public class AutoCommands 

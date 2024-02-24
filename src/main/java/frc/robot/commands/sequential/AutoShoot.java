@@ -12,7 +12,6 @@ import frc.robot.Constants.ShootParams;
 import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.intake.ShootNote;
-import frc.robot.commands.shooter.RevShooter;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
