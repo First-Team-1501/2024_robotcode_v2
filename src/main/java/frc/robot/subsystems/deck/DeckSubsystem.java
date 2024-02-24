@@ -67,7 +67,7 @@ public class DeckSubsystem extends SubsystemBase {
     // Burn Flash
     deckMotor.burnFlash();
 
-    set(DeckPositions.home);
+
 
   }
 
@@ -85,6 +85,11 @@ public class DeckSubsystem extends SubsystemBase {
   // Set position
   public void set(double position) {
     deckPID.setReference(position, DeckConfig.controlType);
+  }
+
+  public void resetEncoder()
+  {
+    deckEncoder.setPosition(0);
   }
 
 }
