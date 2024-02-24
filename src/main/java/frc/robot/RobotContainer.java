@@ -20,7 +20,7 @@ import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.stabilizer.StabilizerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.limelight.LimelightHelpers; // Import the LimelightHelpers class
-import frc.robot.limelight.LimelightHelpers.LimelightResults; // Import the LimelightResults class
+//import frc.robot.limelight.LimelightHelpers.LimelightResults; // Import the LimelightResults class
 import frc.robot.limelight.LimelightHelpers.LimelightTarget_Fiducial; // Import the LimelightTarget_Fiducial class
 import java.io.File;
 import java.util.function.BooleanSupplier;
@@ -97,7 +97,7 @@ public class RobotContainer {
     LimelightHelpers.setLEDMode_PipelineControl("");
     LimelightHelpers.getLimelightNTTable(null);
     LimelightHelpers.getLimelightNTTableEntry(null, "tid");
-    LimelightHelpers.LimelightResults results = new LimelightResults();
+    //LimelightHelpers.LimelightResults results = new LimelightResults();
     LimelightHelpers.getLimelightNTDouble(null, "cl");
 
     double cl = LimelightHelpers.getLimelightNTDouble(null, "cl");

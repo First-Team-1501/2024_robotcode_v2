@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.deck.DeckConfig;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.shooter.ShooterConfig;
 import swervelib.math.Matter;

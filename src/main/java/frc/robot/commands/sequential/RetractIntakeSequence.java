@@ -5,7 +5,6 @@
 package frc.robot.commands.sequential;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.subsystems.deck.DeckPositions;
