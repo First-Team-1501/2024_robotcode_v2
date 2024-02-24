@@ -77,6 +77,7 @@ public class SwerveSubsystem extends SubsystemBase {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+
     swerveDrive.setHeadingCorrection(true,0.3); // Heading correction should only
     // be used while controlling the robot via angle.
 
@@ -131,7 +132,10 @@ public class SwerveSubsystem extends SubsystemBase {
   */
   public Command getAutoCommand(String autoName)
   {
-    resetOdometry(PathPlannerAuto.getStaringPoseFromAutoFile(autoName));
+    Pose2d startingPose = PathPlannerAuto.getStaringPoseFromAutoFile(autoName);
+    //startingPose = new Pose2d(startingPose.getTranslation(), new Rotation2d());
+    resetOdometry(startingPose);
+   
     return new PathPlannerAuto(autoName);
   }
 

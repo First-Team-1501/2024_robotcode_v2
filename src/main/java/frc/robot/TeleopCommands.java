@@ -3,6 +3,7 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -20,6 +21,7 @@ import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ShootNote;
+import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
 import frc.robot.limelight.LimelightHelpers;
@@ -86,6 +88,9 @@ public class TeleopCommands
   private Trigger zeroGyro;
   private Trigger autoSteer;
 
+  //Button for Roborio
+  private Trigger reset;
+
     
   public TeleopCommands(RobotContainer container)
   {
@@ -132,6 +137,9 @@ public class TeleopCommands
 
       zeroGyro = rotationController.button(1);
       autoSteer = rotationController.button(2);
+
+      //RoboRio
+      reset = new Trigger(() -> RobotController.getUserButton());
 
   }
 
@@ -211,7 +219,7 @@ public class TeleopCommands
     Command driveFieldOrientedAutoAim = robot.getDrivebase().driveCommand(
           () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
           () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
-          () -> -limelight_aim_proportional());
+          () -> -robot.limelight_aim_proportional());
 
       // Run intake to shoot note
     shoot.whileTrue(new ShootNote(robot.getIntake()));
@@ -246,31 +254,19 @@ public class TeleopCommands
     autoSteer.whileTrue(driveFieldOrientedAutoAim);
 
 
+    reset.onTrue(new Command() {
+      
+    });
+
+
 
   }
 
-  double limelight_aim_proportional()
-  {    
-    // kP (constant of proportionality)
-    // this is a hand-tuned number that determines the aggressiveness of our proportional control loop
-    // if it is too high, the robot will oscillate around.
-    // if it is too low, the robot will never reach its target
-    // if the robot never turns in the correct direction, kP should be inverted.
-    double kP = .07;
-    double maxTolerance = 0.5;
-
-    // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of 
-    // your limelight 3 feed, tx should return roughly 31 degrees.
-    double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
+  public Command onTeleopInit()
+  {
+      return new RetractIntakeSequence(robot.getDeck(), robot.getElevator());
+  }
  
-
-    if (targetingAngularVelocity < -maxTolerance)
-      return -maxTolerance;
-    else if(targetingAngularVelocity > maxTolerance)
-      return maxTolerance;
-    else
-      return targetingAngularVelocity;
-  }
 
 
 }

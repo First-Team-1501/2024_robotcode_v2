@@ -94,4 +94,9 @@ public class ClimberSubsystem extends SubsystemBase {
     climberPID.setReference(position, ClimberConfig.controlType);
   }
 
+  public void resetEncoder()
+  {
+    climberEncoder.setPosition(0);
+  }
+
 }
