@@ -52,7 +52,7 @@ public class ClimberConfig {
     public static boolean softLimitRevEnabled = true;
 
     // Soft Limits
-    public static float softLimitFwd = 282;
+    public static float softLimitFwd = 290;
     public static float softLimitRev = 0;
 
     // Analog for Hollow Bore

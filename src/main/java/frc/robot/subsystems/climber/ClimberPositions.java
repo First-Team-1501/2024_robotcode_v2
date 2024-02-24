@@ -5,5 +5,5 @@ public class ClimberPositions {
 
     public static double zero = 0;
     public static double midClimb = 92;
-    public static double climb = 282;
+    public static double climb = 290;
 }

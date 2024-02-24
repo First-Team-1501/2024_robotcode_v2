@@ -229,9 +229,9 @@ public class TeleopCommands
         new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
         .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.climb))
       )
+      .andThen(new AmpDeckCommand(robot.getIntake()))
       .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.trap)
-      .alongWith(new AmpDeckCommand(robot.getIntake())
-      .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake))))
+      .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake)))
     );
 
     // Zero Gyro
