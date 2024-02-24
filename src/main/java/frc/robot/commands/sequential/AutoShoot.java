@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShootParams;
+import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.shooter.RevShooter;
@@ -22,18 +23,35 @@ import frc.robot.subsystems.shooter.ShooterSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoShoot extends SequentialCommandGroup {
   /** Creates a new Shoot. */
-  public AutoShoot(ShooterSubsystem shooter, DeckSubsystem deckSubsystem, IntakeSubsystem intakeSubsystem, ShootParams param ) {
+  public AutoShoot(ShooterSubsystem shooter, DeckSubsystem deckSubsystem, IntakeSubsystem intakeSubsystem, ShootParams param, boolean autoAim ) {
     // Add your commands in the addCommands() call, e.g.
     //addRequirements(null);
 
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-    new SetDeckPosition(deckSubsystem, param.getDeckPosition()),
-    new ParallelRaceGroup(
-      new RevShooter(shooter, param.getLeftSpeed(), param.getRightSpeed()),
-      new WaitCommand(1).andThen(new ShootNote(intakeSubsystem)),
-      new InstantCommand(()->{System.out.println("started shoot!!!!");}
-        ).andThen(new WaitCommand(3))),
+    addCommands
+    (
+      new InstantCommand(()->shooter.set(param.getLeftSpeed(), param.getRightSpeed())),
+      new SetDeckPosition(deckSubsystem, param.getDeckPosition())
+     
+     
+    );
+
+    if(autoAim)
+    {
+       addCommands(
+        new ParallelRaceGroup(
+          new AutoDeckAim(deckSubsystem),
+          new WaitCommand(1))
+          );
+    }
+
+    addCommands( new ParallelRaceGroup(
+        new ShootNote(intakeSubsystem),
+        new WaitCommand(.25)
+      ),
       new SetDeckPosition(deckSubsystem, DeckPositions.home));
+
+
+  
   }
 }

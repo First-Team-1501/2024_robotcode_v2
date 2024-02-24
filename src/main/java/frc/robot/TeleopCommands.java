@@ -275,7 +275,7 @@ public class TeleopCommands
 
   public Command onTeleopInit()
   {
-      return new RetractIntakeSequence(robot.getDeck(), robot.getElevator());
+      return new RetractIntakeSequence(robot.getDeck(), robot.getElevator()).andThen(new InstantCommand(()->robot.getShooter().stop()));
   }
  
 
