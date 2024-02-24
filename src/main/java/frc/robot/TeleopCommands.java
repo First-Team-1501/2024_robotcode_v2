@@ -1,7 +1,10 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
@@ -11,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ResetRobot;
 import frc.robot.commands.climber.JogClimberDown;
 import frc.robot.commands.climber.JogClimberUp;
 import frc.robot.commands.climber.SetClimberPosition;
@@ -92,13 +96,13 @@ public class TeleopCommands
   private Trigger reset;
 
     
-  public TeleopCommands(RobotContainer container)
+  public TeleopCommands(RobotContainer container, BooleanSupplier isRed)
   {
       robot = container;
       ConfigureBindings();
       SetupDefaultCommands();
       SetupOperatorCommands();
-      SetupDriverCommands();
+      SetupDriverCommands(isRed);
   }
 
   private void ConfigureBindings()
@@ -213,7 +217,7 @@ public class TeleopCommands
 
   }
 
-  private void SetupDriverCommands()
+  private void SetupDriverCommands(BooleanSupplier isRed)
   {
     //Auto Aim Commands
     Command driveFieldOrientedAutoAim = robot.getDrivebase().driveCommand(
@@ -254,9 +258,7 @@ public class TeleopCommands
     autoSteer.whileTrue(driveFieldOrientedAutoAim);
 
 
-    reset.onTrue(new Command() {
-      
-    });
+    reset.onTrue(new ResetRobot(robot, isRed));
 
 
 

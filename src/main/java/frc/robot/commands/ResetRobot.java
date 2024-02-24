@@ -4,9 +4,13 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
+import frc.robot.limelight.LimelightHelpers;
 import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
@@ -17,10 +21,12 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ResetRobot extends InstantCommand {
+  BooleanSupplier isRed;
   RobotContainer robot;
 
-  public ResetRobot(RobotContainer robot) {
+  public ResetRobot(RobotContainer robot, BooleanSupplier isRed) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.isRed = isRed;
     this.robot = robot;
     addRequirements(
       robot.getClimber(), 
@@ -51,7 +57,7 @@ public class ResetRobot extends InstantCommand {
      robot.getElevator().resetEncoder();
      robot.getDeck().resetEncoder();
      robot.getClimber().resetEncoder();
-
+    LimelightHelpers.setPipelineIndex("limelight", isRed.getAsBoolean()?1:0);
   }
 
   @Override

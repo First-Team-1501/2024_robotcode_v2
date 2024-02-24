@@ -28,6 +28,7 @@ public class AutoCommands
         this.robot = robot;
 
         // legacy commands
+
         NamedCommands.registerCommand("revShooterCloseUp",
           new RevShooter(robot.getShooter(), ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed)); 
         NamedCommands.registerCommand("deckHome",
@@ -47,6 +48,14 @@ public class AutoCommands
            new IntakeSequence(robot.getIntake(), robot.getDeck(),robot.getElevator()));
         NamedCommands.registerCommand("shootCloseUp", 
             new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(), ShootParams.CloseUp));
+        NamedCommands.registerCommand("shootAuto2",
+            new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(), ShootParams.Auto2));
+        NamedCommands.registerCommand("shootAuto1",     
+                new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(), ShootParams.Auto1));
+        NamedCommands.registerCommand("shootAuto3",     
+                new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(), ShootParams.Auto3));
+
+        
         NamedCommands.registerCommand("shootAutoAim",
               
             new ParallelRaceGroup(

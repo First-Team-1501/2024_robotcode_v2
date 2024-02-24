@@ -23,6 +23,7 @@ import frc.robot.limelight.LimelightHelpers; // Import the LimelightHelpers clas
 import frc.robot.limelight.LimelightHelpers.LimelightResults; // Import the LimelightResults class
 import frc.robot.limelight.LimelightHelpers.LimelightTarget_Fiducial; // Import the LimelightTarget_Fiducial class
 import java.io.File;
+import java.util.function.BooleanSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -59,15 +60,40 @@ public class RobotContainer {
   {
     
     thumb = new Thumbwheel();
-  
-    //Stuff for the Limelight
+    BooleanSupplier isRed = ()->{return thumb.getValue()>=8;};
+    setupLimelight(isRed);
+
+    drivebase = new SwerveSubsystem(
+      new File(Filesystem.getDeployDirectory(), "swerve/neo"),  // DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM
+      isRed                                                           // "SWERVE/NEO"!!!!!!!!!!!!!!
+      
+    );
+
+    intake = new IntakeSubsystem();
+    shooter = new ShooterSubsystem();
+    deck = new DeckSubsystem();
+    elevator =  new ElevatorSubsystem();
+    climber = new ClimberSubsystem();
+    stabilizer = new StabilizerSubsystem();
+ 
+
+    teleop = new TeleopCommands(this, isRed);
+    auto =  new AutoCommands(this);
+
+  }
+
+
+  private void setupLimelight(BooleanSupplier isRed)
+  {
+      //Stuff for the Limelight
     //This is the value from the Limelight.
     double tx = LimelightHelpers.getTX("tx");
     double ty = LimelightHelpers.getTY("ty");
     double ta = LimelightHelpers.getTA("ta");
+    LimelightHelpers.setPipelineIndex("limelight", isRed.getAsBoolean()?1:0);
     double pipelineIndex = LimelightHelpers.getCurrentPipelineIndex("getpipe");
     double id = LimelightHelpers.getFiducialID("id");
-
+    boolean tv = LimelightHelpers.getTV("tv");
     LimelightHelpers.setLEDMode_PipelineControl("");
     LimelightHelpers.getLimelightNTTable(null);
     LimelightHelpers.getLimelightNTTableEntry(null, "tid");
@@ -85,23 +111,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("id", id);
     SmartDashboard.putNumber("cl", cl);
     SmartDashboard.putNumber("ts", ts);
-
-    drivebase = new SwerveSubsystem(
-      new File(Filesystem.getDeployDirectory(), "swerve/neo"),  // DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM
-                                                                // "SWERVE/NEO"!!!!!!!!!!!!!!
-      ()->{return thumb.getValue()>=8;}
-    );
-
-    intake = new IntakeSubsystem();
-    shooter = new ShooterSubsystem();
-    deck = new DeckSubsystem();
-    elevator =  new ElevatorSubsystem();
-    climber = new ClimberSubsystem();
-    stabilizer = new StabilizerSubsystem();
- 
-
-    teleop = new TeleopCommands(this);
-    auto =  new AutoCommands(this);
+    SmartDashboard.putBoolean("Has Target", tv);
 
   }
 
