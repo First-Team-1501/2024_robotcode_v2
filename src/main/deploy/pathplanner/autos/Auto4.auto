@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shootCloseUp"
+            "name": "shootAuto1"
           }
         },
         {
@@ -56,9 +56,41 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Path1.2"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "getPiece"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Path4.2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootAutoAim"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              }
+            ]
           }
         }
       ]
