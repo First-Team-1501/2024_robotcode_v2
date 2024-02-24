@@ -24,7 +24,6 @@ import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
-import frc.robot.limelight.LimelightHelpers;
 import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.elevator.ElevatorPositions;
@@ -241,11 +240,15 @@ public class TeleopCommands
       .andThen
         (new AmpDeckCommand(robot.getIntake()))
       .andThen
-        (new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake))
+        (new SetElevatorPosition(robot.getElevator(), 32))
       .andThen
-        (new SetDeckPosition(robot.getDeck(), DeckPositions.trap))
+        (new SetDeckPosition(robot.getDeck(), 120))
       .andThen
-        (new ScoreTrap(robot.getIntake()))
+        (new SetDeckPosition(robot.getDeck(), 130)
+      .alongWith
+        (new ScoreTrap(robot.getIntake())
+      .alongWith
+        (new SetElevatorPosition(robot.getElevator(), 40))))
     );
 
     // Zero Gyro

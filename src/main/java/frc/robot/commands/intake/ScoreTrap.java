@@ -28,7 +28,7 @@ public class ScoreTrap extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    INTAKE_SUBSYSTEM.set(-.2, -.2);
+    INTAKE_SUBSYSTEM.set(-.8, 0);
   }
 
   // Called once the command ends or is interrupted.
