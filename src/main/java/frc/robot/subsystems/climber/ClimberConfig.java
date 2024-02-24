@@ -52,8 +52,8 @@ public class ClimberConfig {
     public static boolean softLimitRevEnabled = true;
 
     // Soft Limits
-    public static float softLimitFwd = 200;
-    public static float softLimitRev = -70;
+    public static float softLimitFwd = 282;
+    public static float softLimitRev = 0;
 
     // Analog for Hollow Bore
     public static double analogPositionConversion = 1;// 125:1 gear box, 16 small gear, 22 big gear = 0.00581818181/360

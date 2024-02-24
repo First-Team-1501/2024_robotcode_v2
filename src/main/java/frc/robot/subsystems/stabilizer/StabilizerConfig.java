@@ -9,16 +9,16 @@ public class StabilizerConfig {
     // **** DECK CONFIG ****
 
     // CAN bus ID
-    public static int ID = 23;
+    public static int ID = 50;
 
     // Type configs
     public static MotorType motorType = MotorType.kBrushless;
 
     // PIDF Values
-    public static double p = 0.06; // .01 good start value
+    public static double p = 0.02; // .01 good start value
     public static double i = 0;
-    public static double d = 1;
-    public static double f = 0.1;
+    public static double d = 0;
+    public static double f = 0;
     public static double IZone = 0;
     public static double DFilter = 0;
 
@@ -36,7 +36,7 @@ public class StabilizerConfig {
 
 
     // Inverted
-    public static boolean kInverted = false;
+    public static boolean kInverted = true;
 
     // Current Limits
     public static int smartCurrentStallLimit = 20; // 40 for big neo, 20 for small neo
@@ -51,7 +51,7 @@ public class StabilizerConfig {
     public static boolean softLimitRevEnabled = true;
 
     // Soft Limits
-    public static float softLimitFwd = 155;
+    public static float softLimitFwd = 10;
     public static float softLimitRev = 0;
 
     // Analog for Hollow Bore

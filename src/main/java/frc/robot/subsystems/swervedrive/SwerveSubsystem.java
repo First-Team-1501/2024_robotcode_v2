@@ -77,7 +77,7 @@ public class SwerveSubsystem extends SubsystemBase {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-    // swerveDrive.setHeadingCorrection(true,0.3); // Heading correction should only
+    swerveDrive.setHeadingCorrection(true,0.3); // Heading correction should only
     // be used while controlling the robot via angle.
 
     setupPathPlanner(isRed);
@@ -162,7 +162,7 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public Command driveCommand(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier headingX,
       DoubleSupplier headingY) {
-    // swerveDrive.setHeadingCorrection(true); // Normally you would want heading
+    //swerveDrive.setHeadingCorrection(true); // Normally you would want heading
     // correction for this kind of control.
     return run(() -> {
       double xInput = Math.pow(translationX.getAsDouble(), 3); // Smooth controll out

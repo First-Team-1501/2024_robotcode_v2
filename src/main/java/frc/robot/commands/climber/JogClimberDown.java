@@ -15,13 +15,13 @@ public class JogClimberDown extends Command {
     this.CLIMBER_SUBSYSTEM = CLIMBER_SUBSYSTEM;
     addRequirements(CLIMBER_SUBSYSTEM);
   }
-
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() 
   {
     System.out.println("Starting JogClimberDown Command");
-    CLIMBER_SUBSYSTEM.set(CLIMBER_SUBSYSTEM.get() - 10);
+    
   }
   
 
@@ -29,7 +29,7 @@ public class JogClimberDown extends Command {
   @Override
   public void execute() 
   {
-
+    CLIMBER_SUBSYSTEM.set(CLIMBER_SUBSYSTEM.get() - 10);
   }
 
   // Called once the command ends or is interrupted.

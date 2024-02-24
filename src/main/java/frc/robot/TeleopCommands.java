@@ -217,9 +217,8 @@ public class TeleopCommands
     shoot.whileTrue(new ShootNote(robot.getIntake()));
 
     // Preclimb position
-    preclimb.onTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.preclimb)
-    .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)
-    .alongWith(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb))));
+    preclimb.onTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)
+    .alongWith(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb)));
 
     // Climb
     climb.onTrue
@@ -230,6 +229,9 @@ public class TeleopCommands
         new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
         .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.climb))
       )
+      .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.trap)
+      .alongWith(new AmpDeckCommand(robot.getIntake())
+      .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake))))
     );
 
     // Zero Gyro
