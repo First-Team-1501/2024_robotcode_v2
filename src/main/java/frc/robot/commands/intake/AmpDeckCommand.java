@@ -73,6 +73,6 @@ public class AmpDeckCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (counter > 1);
+    return (counter > 5);
   }
 }

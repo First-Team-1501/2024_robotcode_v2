@@ -20,5 +20,7 @@ public class DeckPositions {
     public static double outtake = 23; // Outtake position
     public static double preClimb = 150;
 
+    public static double trap = 107;
+
     public static double climb = 78;
 }

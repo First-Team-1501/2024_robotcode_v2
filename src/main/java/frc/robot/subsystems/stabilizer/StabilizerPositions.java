@@ -6,6 +6,6 @@ public class StabilizerPositions {
 
     public static double zero = 0; // All the way down
 
-    public static double climb = 78;
+    public static double climb = 10;
 
 }
