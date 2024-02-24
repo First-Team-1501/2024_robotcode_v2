@@ -89,4 +89,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorPID.setReference(position, DeckConfig.controlType);
   }
 
+  public void resetEncoder()
+  {
+    elevatorEncoder.setPosition(0);
+  }
 }
