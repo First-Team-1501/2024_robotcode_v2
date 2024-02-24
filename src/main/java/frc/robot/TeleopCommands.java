@@ -242,17 +242,23 @@ public class TeleopCommands
         .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.climb))
       )
       .andThen
-        (new AmpDeckCommand(robot.getIntake()))
+      (
+        new SetElevatorPosition(robot.getElevator(), 20)
+      )
       .andThen
-        (new SetElevatorPosition(robot.getElevator(), 32))
+      (
+        new AmpDeckCommand(robot.getIntake())
+      )
       .andThen
-        (new SetDeckPosition(robot.getDeck(), 120))
+      (
+        new SetElevatorPosition(robot.getElevator(), 25)
+      )
       .andThen
-        (new SetDeckPosition(robot.getDeck(), 130)
-      .alongWith
-        (new ScoreTrap(robot.getIntake())
-      .alongWith
-        (new SetElevatorPosition(robot.getElevator(), 40))))
+      (
+        new ScoreTrap(robot.getIntake())
+      .alongWith(new SetElevatorPosition(robot.getElevator(), 25)
+      .alongWith(new SetDeckPosition(robot.getDeck(), 135)))
+      )
     );
 
     // Zero Gyro
