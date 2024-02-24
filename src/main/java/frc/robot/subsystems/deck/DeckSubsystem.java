@@ -87,4 +87,9 @@ public class DeckSubsystem extends SubsystemBase {
     deckPID.setReference(position, DeckConfig.controlType);
   }
 
+  public void resetEncoder()
+  {
+    deckEncoder.setPosition(0);
+  }
+
 }

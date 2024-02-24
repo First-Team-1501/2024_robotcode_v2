@@ -89,4 +89,9 @@ public class StabilizerSubsystem extends SubsystemBase {
     stabilizerPID.setReference(position, StabilizerConfig.controlType);
   }
 
+  public void resetEncoder()
+  {
+    stabilizerEncoder.setPosition(0);
+  }
+
 }

@@ -37,9 +37,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "shootAutoAim"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootAutoAim"
+                }
+              }
+            ]
           }
         }
       ]

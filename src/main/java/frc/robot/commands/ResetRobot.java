@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.climber.ClimberSubsystem;
@@ -21,6 +22,15 @@ public class ResetRobot extends InstantCommand {
   public ResetRobot(RobotContainer robot) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.robot = robot;
+    addRequirements(
+      robot.getClimber(), 
+      robot.getDeck(),
+      robot.getDrivebase(), 
+      robot.getElevator(), 
+      //robot.getIntake(), 
+      //robot.getShooter(), 
+      robot.getStabilizer()
+     );
   }
 
   // Called when the command is initially scheduled.
@@ -28,5 +38,24 @@ public class ResetRobot extends InstantCommand {
   public void initialize() 
   {
     
+  }
+
+  @Override
+  public void execute()
+  {
+     robot.getDrivebase().resetOdometry(new Pose2d());
+     robot.getStabilizer().resetEncoder();
+     //robot.getShooter() // shooter doesn't do position control
+     //robot.getIntake(). // also doesn't
+     robot.getElevator().resetEncoder();
+     robot.getDeck().resetEncoder();
+     robot.getClimber().resetEncoder();
+
+  }
+
+  @Override
+  public boolean runsWhenDisabled()
+  {
+    return true;
   }
 }
