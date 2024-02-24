@@ -35,7 +35,7 @@ public class IntakeConfig {
     public static Boolean top_kInverted = true;
 
     // Current Limits
-    public static int top_smartCurrentStallLimit = 20; // 40 for big neo, 20 for small neo
+    public static int top_smartCurrentStallLimit = 25; // 40 for big neo, 20 for small neo
     public static int top_smartCurrentFreeLimit = 15; // 30 for big neo, 15 for small neo
 
     // **** INTAKE BOTTOM CONFIG ****
@@ -66,7 +66,7 @@ public class IntakeConfig {
     public static Boolean bottom_kInverted = true;
 
     // Current Limits
-    public static int bottom_smartCurrentStallLimit = 20; // 40 for big neo, 20 for small neo
+    public static int bottom_smartCurrentStallLimit = 25; // 40 for big neo, 20 for small neo
     public static int bottom_smartCurrentFreeLimit = 15; // 30 for big neo, 15 for small neo
 
     // SENSOR CHANNELS
