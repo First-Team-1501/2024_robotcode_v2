@@ -12,14 +12,21 @@ public class RevShooter extends Command {
   private ShooterSubsystem SHOOTER_SUBSYSTEM;
   private double left;
   private double right;
+  private boolean stop;
+
+  public RevShooter(ShooterSubsystem shooter, double leftSpeed, double rightSpeed)
+  {
+    this(shooter, leftSpeed, rightSpeed, true);
+  }
+
 
   /** Creates a new RevShooter. */
-  public RevShooter(ShooterSubsystem shooter, double leftSpeed, double rightSpeed) {
+  public RevShooter(ShooterSubsystem shooter, double leftSpeed, double rightSpeed, boolean stop) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.SHOOTER_SUBSYSTEM = shooter;
     left = leftSpeed;
     right = rightSpeed;
-
+    this.stop = stop;
     addRequirements(SHOOTER_SUBSYSTEM);
   }
 
@@ -38,7 +45,10 @@ public class RevShooter extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    SHOOTER_SUBSYSTEM.stop();
+    if(stop)
+    {
+      SHOOTER_SUBSYSTEM.stop();
+    }
     System.out.println("Ending RevShooterCommand");
   }
 
