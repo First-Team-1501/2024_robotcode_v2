@@ -67,7 +67,7 @@ public class RobotContainer {
     double ta = LimelightHelpers.getTA("ta");
     double pipelineIndex = LimelightHelpers.getCurrentPipelineIndex("getpipe");
     double id = LimelightHelpers.getFiducialID("id");
-
+    boolean tv = LimelightHelpers.getTV("tv");
     LimelightHelpers.setLEDMode_PipelineControl("");
     LimelightHelpers.getLimelightNTTable(null);
     LimelightHelpers.getLimelightNTTableEntry(null, "tid");
@@ -85,6 +85,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("id", id);
     SmartDashboard.putNumber("cl", cl);
     SmartDashboard.putNumber("ts", ts);
+    SmartDashboard.putBoolean("Has Target", tv);
 
     drivebase = new SwerveSubsystem(
       new File(Filesystem.getDeployDirectory(), "swerve/neo"),  // DO NOT UNDER ANY CIRCUMSTANCE CHANGE THIS FROM

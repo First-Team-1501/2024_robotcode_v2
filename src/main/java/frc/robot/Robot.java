@@ -12,12 +12,16 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.io.File;
 import java.io.IOException;
 import swervelib.parser.SwerveParser;
-//import frc.robot.subsystems.leds;
-//Comment out Ross's old LED code for a minute
-//import com.ctre.phoenix.led.CANdle;
-//import com.ctre.phoenix.led.FireAnimation;
-//import com.ctre.phoenix.led.RainbowAnimation;
-//import com.ctre.phoenix.led.LarsonAnimation;
+import com.ctre.phoenix.led.CANdle;
+import com.ctre.phoenix.led.RainbowAnimation;
+import com.ctre.phoenix.led.LarsonAnimation;
+import com.ctre.phoenix.led.FireAnimation;
+import com.ctre.phoenix.led.StrobeAnimation;
+import com.ctre.phoenix.led.TwinkleAnimation;
+import com.ctre.phoenix.led.TwinkleOffAnimation;
+import com.ctre.phoenix.led.RgbFadeAnimation;
+import com.ctre.phoenix.led.SingleFadeAnimation;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,15 +31,18 @@ import swervelib.parser.SwerveParser;
  * project, you must also update the build.gradle file in the project.
  */
 public class Robot extends TimedRobot {
-  // Comment out Ross's old LED code for a minute
-  // creates the CANdle
-  // CANdle candle1 = new CANdle(50);
-  // creates a fire animation for the candle.
-  // FireAnimation fAnimation = new FireAnimation();
-  // creates a rainbow animation for the candle.
-  // RainbowAnimation rAnimation = new RainbowAnimation();
-  // creates a larson animation for the candle.
-  // LarsonAnimation lAnimation = new LarsonAnimation(255, 255, 255);
+  //This is for the CANdle stuff
+  RainbowAnimation rAnimation = new RainbowAnimation(1, 1, 8);
+  CANdle candle1 = new CANdle(48, "canivore");
+  FireAnimation fireAnimation = new FireAnimation(01, 0, 90, 1, 0);
+  LarsonAnimation larsonAnimation = new LarsonAnimation(52, 155, 235);
+  RgbFadeAnimation rgbAnimation = new RgbFadeAnimation();
+  StrobeAnimation strobeAnimation = new StrobeAnimation(255, 255, 255, 255, 1, 8);
+  TwinkleAnimation twinkleANimation = new TwinkleAnimation(255, 255, 255);
+  TwinkleOffAnimation twinkleOffAnimation = new TwinkleOffAnimation(255, 255, 255);
+  SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(255, 255, 255, 255, 1, 8);
+
+
 
   private static Robot instance;
   private Command m_autonomousCommand;
@@ -56,6 +63,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    candle1.animate(larsonAnimation);
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
@@ -94,6 +102,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    candle1.animate(twinkleANimation);
     m_robotContainer.setMotorBrake(true);
     disabledTimer.reset();
     disabledTimer.start();
@@ -113,8 +122,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    // Comment out Ross's old LED code for a minute
-    // candle1.animate(lAnimation);
+    candle1.animate(rgbAnimation);
     m_robotContainer.setMotorBrake(true);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -133,6 +141,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    candle1.animate(rgbAnimation);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

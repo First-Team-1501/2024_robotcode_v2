@@ -18,7 +18,7 @@ import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.RunIntakeCommand;
-import frc.robot.commands.intake.RunOuttakeCommand;
+import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
@@ -179,7 +179,7 @@ public class TeleopCommands
     jogIntake.whileTrue(new RunIntakeCommand(robot.getIntake()));
 
     // Outtake: Spits out the note
-    jogOutake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
+    jogOutake.whileTrue(new ScoreTrap(robot.getIntake()));
 
     // Close shot
     closeShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.closeup)
@@ -217,8 +217,9 @@ public class TeleopCommands
     shoot.whileTrue(new ShootNote(robot.getIntake()));
 
     // Preclimb position
-    preclimb.onTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)
-    .alongWith(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb)));
+    preclimb.onTrue(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb)
+    .andThen
+      (new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)));
 
     // Climb
     climb.onTrue
@@ -229,9 +230,14 @@ public class TeleopCommands
         new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
         .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.climb))
       )
-      .andThen(new AmpDeckCommand(robot.getIntake()))
-      .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.trap)
-      .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake)))
+      .andThen
+        (new AmpDeckCommand(robot.getIntake()))
+      .andThen
+        (new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake))
+      .andThen
+        (new SetDeckPosition(robot.getDeck(), DeckPositions.trap))
+      .andThen
+        (new ScoreTrap(robot.getIntake()))
     );
 
     // Zero Gyro
