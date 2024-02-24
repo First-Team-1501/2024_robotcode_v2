@@ -16,6 +16,7 @@ import frc.robot.commands.sequential.AutoShoot;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.shooter.ShooterConfig;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 
 public class AutoCommands 
@@ -29,14 +30,7 @@ public class AutoCommands
 
         // legacy commands
 
-        NamedCommands.registerCommand("revShooterCloseUp",
-          new RevShooter(robot.getShooter(), ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed)); 
-        NamedCommands.registerCommand("deckHome",
-          new SetDeckPosition(robot.getDeck(), DeckPositions.home));
-        NamedCommands.registerCommand("deckCloseUp",
-          new SetDeckPosition(robot.getDeck(), DeckPositions.closeup));
-        NamedCommands.registerCommand("shootNote", 
-           new ShootNote(robot.getIntake()));
+        
 
 
         NamedCommands.registerCommand("AutoAimRotate", robot.getDrivebase().driveCommand(
@@ -54,8 +48,9 @@ public class AutoCommands
                 new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(), ShootParams.Auto1));
         NamedCommands.registerCommand("shootAuto3",     
                 new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(), ShootParams.Auto3));
-
+        NamedCommands.registerCommand("finishAuto", new InstantCommand(()->robot.getShooter().stop()));
         
+
         NamedCommands.registerCommand("shootAutoAim",
               
             new ParallelRaceGroup(
@@ -89,6 +84,11 @@ public class AutoCommands
             case 3:
                 //return robot.getDrivebase().getAutoPath("BasicPathTest");
                return robot.getDrivebase().getAutoCommand("Auto3");
+            case 4:
+                return robot.getDrivebase().getAutoCommand("Auto4");
+            case 6:
+                return robot.getDrivebase().getAutoCommand("Auto6");
+   
             default:
                 return new InstantCommand();
    
