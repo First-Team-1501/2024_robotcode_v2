@@ -43,6 +43,7 @@ public class ResetRobot extends InstantCommand {
   @Override
   public void execute()
   {
+    System.err.println("Reset!!!!!!!!!!!!!!!!!!!!!");
      robot.getDrivebase().resetOdometry(new Pose2d());
      robot.getStabilizer().resetEncoder();
      //robot.getShooter() // shooter doesn't do position control
