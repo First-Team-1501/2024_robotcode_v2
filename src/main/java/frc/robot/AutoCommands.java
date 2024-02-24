@@ -38,6 +38,10 @@ public class AutoCommands
            new ShootNote(robot.getIntake()));
 
 
+        NamedCommands.registerCommand("AutoAimRotate", robot.getDrivebase().driveCommand(
+            ()->0, ()->0,
+            () -> -robot.limelight_aim_proportional()));
+
 
         NamedCommands.registerCommand("getPiece",
            new IntakeSequence(robot.getIntake(), robot.getDeck(),robot.getElevator()));
@@ -48,8 +52,8 @@ public class AutoCommands
             new ParallelRaceGroup(
                 new AutoDeckAim(robot.getDeck()),
                 new RevShooter(robot.getShooter(), ShootParams.Podium.getLeftSpeed(), ShootParams.Podium.getRightSpeed()),
-                new WaitCommand(1).andThen(new ShootNote(robot.getIntake())),
-                new WaitCommand(3)
+                new WaitCommand(1.5).andThen(new ShootNote(robot.getIntake())),
+                new WaitCommand(3.5)
             ).andThen(
                 new SetDeckPosition(robot.getDeck(), DeckPositions.home))
         );

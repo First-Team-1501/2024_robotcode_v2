@@ -133,8 +133,9 @@ public class SwerveSubsystem extends SubsystemBase {
   public Command getAutoCommand(String autoName)
   {
     Pose2d startingPose = PathPlannerAuto.getStaringPoseFromAutoFile(autoName);
+    //startingPose = new Pose2d(startingPose.getTranslation(), new Rotation2d());
     resetOdometry(startingPose);
-    //new Pose2d(startingPose.getTranslation(), getHeading());
+   
     return new PathPlannerAuto(autoName);
   }
 
