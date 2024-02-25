@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -145,13 +146,22 @@ public class RobotContainer {
     // if it is too high, the robot will oscillate around.
     // if it is too low, the robot will never reach its target
     // if the robot never turns in the correct direction, kP should be inverted.
-    double kP = .07;
-    double maxTolerance = 0.5;
+    double kP = 0.01;
+    double kI = 0.0;
+    double kD = 0;
+    double maxTolerance = 0.7;
 
     // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of 
     // your limelight 3 feed, tx should return roughly 31 degrees.
-    double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
+    //double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
  
+
+    PIDController pidCont = new PIDController(kP, kI, kD);
+
+    double targetingAngularVelocity = pidCont.calculate(-LimelightHelpers.getTX("limelight"));
+
+    SmartDashboard.putNumber("Aim PID Calc", targetingAngularVelocity);
+
 
     if (targetingAngularVelocity < -maxTolerance)
       return -maxTolerance;

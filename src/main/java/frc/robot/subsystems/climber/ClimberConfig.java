@@ -21,7 +21,7 @@ public class ClimberConfig {
     public static IdleMode idleMode = IdleMode.kBrake; // Brake for position, coast for percent
 
     // PIDF Values
-    public static double p = 0.015; // .01 good start value
+    public static double p = 0.03; // .01 good start value
     public static double i = 0;
     public static double d = 0;
     public static double f = 0;
