@@ -47,7 +47,7 @@ public class AmpDeckCommand extends Command {
     if(hasSeenPiece && !INTAKE_SUBSYSTEM.readyToScoreTrap())
     {
       stageTwo = true;
-      INTAKE_SUBSYSTEM.set(-.5, 0);
+      INTAKE_SUBSYSTEM.set(-.5, -.2);
     }
     if(stageTwo && INTAKE_SUBSYSTEM.readyToScoreTrap())
     {
@@ -73,6 +73,6 @@ public class AmpDeckCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (counter > 5);
+    return (counter > 6);
   }
 }

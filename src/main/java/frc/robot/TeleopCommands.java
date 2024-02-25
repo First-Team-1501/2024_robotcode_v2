@@ -32,6 +32,7 @@ import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.shooter.ShooterConfig;
 import frc.robot.subsystems.stabilizer.StabilizerPositions;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 
 public class TeleopCommands 
@@ -49,7 +50,9 @@ public class TeleopCommands
     RightTrigger (8),
 
     LeftBumper(5),
-    RightBumper(6);
+    RightBumper(6),
+
+    Select(10);
 
 
     public final int value;
@@ -92,6 +95,9 @@ public class TeleopCommands
 
   //Button for Roborio
   private Trigger reset;
+
+  //Go home
+  private Trigger home;
 
     
   public TeleopCommands(RobotContainer container, BooleanSupplier isRed)
@@ -142,6 +148,8 @@ public class TeleopCommands
 
       //RoboRio
       reset = new Trigger(() -> RobotController.getUserButton());
+
+      home = new JoystickButton(operatorXbox, ControllerButton.Select.value);
 
   }
 
@@ -213,6 +221,23 @@ public class TeleopCommands
         .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed)))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
+    home.onTrue
+    (
+      new SetElevatorPosition(robot.getElevator(), 0)
+    .andThen
+    (
+      new SetDeckPosition(robot.getDeck(), 0)
+    )
+    .andThen
+    (
+      new SetClimberPosition(robot.getClimber(), 0)
+    )
+    .andThen
+    (
+      new SetStabilizerPosition(robot.getStabilizer(),0)
+    )
+    );
+
   }
 
   private void SetupDriverCommands(BooleanSupplier isRed)
@@ -238,11 +263,8 @@ public class TeleopCommands
       .andThen
       (
         new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
-        .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.climb))
-      )
-      .andThen
-      (
-        new SetElevatorPosition(robot.getElevator(), 20)
+        .alongWith(new SetDeckPosition(robot.getDeck(), 110)
+        .alongWith(new SetElevatorPosition(robot.getElevator(), 0)))
       )
       .andThen
       (
@@ -250,24 +272,46 @@ public class TeleopCommands
       )
       .andThen
       (
-        new SetElevatorPosition(robot.getElevator(), 25)
+        new WaitCommand(1)
+        .alongWith(new SetDeckPosition(robot.getDeck(), 138)
+        .alongWith(new SetElevatorPosition(robot.getElevator(),43)))
       )
       .andThen
       (
-        new ScoreTrap(robot.getIntake())
-      .alongWith(new SetElevatorPosition(robot.getElevator(), 25)
-      .alongWith(new SetDeckPosition(robot.getDeck(), 135)))
+        new WaitCommand(0.5)
+        .raceWith
+        (new ScoreTrap(robot.getIntake())
+        .alongWith(new SetDeckPosition(robot.getDeck(), 135)))
       )
+      .andThen
+      (
+        new WaitCommand(0.5)
+        .alongWith(new SetDeckPosition(robot.getDeck(), 140))
+        )
+      .andThen
+      (
+        new WaitCommand(1)
+        .alongWith(new SetDeckPosition(robot.getDeck(), 115))
+      )
+      .andThen
+      (
+        new SetDeckPosition(robot.getDeck(),140)
+        .alongWith(new SetElevatorPosition(robot.getElevator(), 0))
+      )
+      
+      
     );
 
     // Zero Gyro
     zeroGyro.onTrue(new InstantCommand(robot.getDrivebase()::zeroGyro));
 
     // Jog Climber Up
-    climbUp.whileTrue(new JogClimberUp(robot.getClimber()));
+    //climbUp.whileTrue(new JogClimberUp(robot.getClimber()));
+    climbUp.whileTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.climb));
 
     // Jog Climber Down
-    climbDown.whileTrue(new JogClimberDown(robot.getClimber()));
+    //climbDown.whileTrue(new JogClimberDown(robot.getClimber()));
+    climbDown.whileTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.zero));
 
     autoSteer.whileTrue(driveFieldOrientedAutoAim);
 

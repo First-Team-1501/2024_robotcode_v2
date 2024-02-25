@@ -11,7 +11,7 @@ public class DeckPositions {
     public static double zero = 0; // All the way down
     public static double home = 25; // Positon when nothing else is happening
     public static double intake = 14; // Intake to the floor
-    public static double amp = 94;
+    public static double amp = 100;
 
     public static double closeup = 0; // Close shot
     public static double podium = 34; // Podium shot
@@ -22,5 +22,5 @@ public class DeckPositions {
 
     public static double trap = 110;
 
-    public static double climb = 120;
+    public static double climb = 110;
 }

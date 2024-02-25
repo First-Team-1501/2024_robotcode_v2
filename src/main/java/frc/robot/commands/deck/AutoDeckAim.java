@@ -4,6 +4,8 @@
 
 package frc.robot.commands.deck;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.limelight.LimelightHelpers;
 import frc.robot.limelight.LimelightHelpers.LimelightTarget_Fiducial;
@@ -14,8 +16,16 @@ public class AutoDeckAim extends Command {
 
   LimelightHelpers limelight = new LimelightHelpers(); // Create a new instance of the LimelightHelpers class
   LimelightTarget_Fiducial m_Fiducial = new LimelightTarget_Fiducial(); // Create a new instance of the LimelightTarget_Fiducial class 
- 
+
   double kP = 0.8;
+  double kI = 0;
+  double kD = 0;
+
+  PIDController deckPIDController = new PIDController(kP, kI, kD);
+
+  double pidOut;
+ 
+  
 
   /** Creates a new AutoDeckAim. */
   public AutoDeckAim(DeckSubsystem deck) {
@@ -37,8 +47,9 @@ public class AutoDeckAim extends Command {
   @Override
   public void execute() 
   {
-
-    DECK_SUBSYSTEM.set(DECK_SUBSYSTEM.get() + limelight_aim_proportional());
+    pidOut = deckPIDController.calculate(limelight_aim_proportional());
+    SmartDashboard.putNumber("Deck PID Cont", pidOut);
+    DECK_SUBSYSTEM.set(DECK_SUBSYSTEM.get() + pidOut);
 
   }
 
@@ -58,8 +69,8 @@ public class AutoDeckAim extends Command {
 
   double limelight_aim_proportional()
   {
-    double targetingPosition = LimelightHelpers.getTY("limelight") * kP;
-    targetingPosition *= -1;
+    double targetingPosition = LimelightHelpers.getTY("limelight");
+    
 
 
     return targetingPosition;

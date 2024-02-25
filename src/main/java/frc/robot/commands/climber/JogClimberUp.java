@@ -31,7 +31,7 @@ public class JogClimberUp extends Command {
   @Override
   public void execute() 
   {
-    CLIMBER_SUBSYSTEM.set(CLIMBER_SUBSYSTEM.get() + 30);
+    CLIMBER_SUBSYSTEM.set(CLIMBER_SUBSYSTEM.get() + 50);
   }
 
   // Called once the command ends or is interrupted.
