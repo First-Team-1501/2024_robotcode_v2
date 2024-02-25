@@ -306,12 +306,11 @@ public class TeleopCommands
     zeroGyro.onTrue(new InstantCommand(robot.getDrivebase()::zeroGyro));
 
     // Jog Climber Up
-    //climbUp.whileTrue(new JogClimberUp(robot.getClimber()));
-    climbUp.whileTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.climb));
-
+    climbUp.whileTrue(new JogClimberUp(robot.getClimber()));
+    
     // Jog Climber Down
-    //climbDown.whileTrue(new JogClimberDown(robot.getClimber()));
-    climbDown.whileTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.zero));
+    climbDown.whileTrue(new JogClimberDown(robot.getClimber()));
+    
 
     autoSteer.whileTrue(driveFieldOrientedAutoAim);
 

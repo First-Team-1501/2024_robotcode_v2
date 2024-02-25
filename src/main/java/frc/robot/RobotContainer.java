@@ -157,36 +157,36 @@ public class RobotContainer {
     //double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
  
 
-    PIDController pidCont = new PIDController(kP, kI, kD);
+    try (PIDController pidCont = new PIDController(kP, kI, kD)) {
+      double targetingAngularVelocity = pidCont.calculate(-LimelightHelpers.getTX("limelight"));
 
-    double targetingAngularVelocity = pidCont.calculate(-LimelightHelpers.getTX("limelight"));
-
-    //if(targetingAngularVelocity < 0.05 && targetingAngularVelocity > -0.05) return 0;
+      //if(targetingAngularVelocity < 0.05 && targetingAngularVelocity > -0.05) return 0;
 
 
-    if (targetingAngularVelocity > 0)
-    {
-      targetingAngularVelocity += baseValue;
+      if (targetingAngularVelocity > 0)
+      {
+        targetingAngularVelocity += baseValue;
+      }
+      else
+      {
+        targetingAngularVelocity -= baseValue;
+      } 
+
+      if (targetingAngularVelocity < 0.3 && targetingAngularVelocity > -0.3) return 0;
+
+      if(targetingAngularVelocity > maxTolerance)
+      {
+        targetingAngularVelocity = maxTolerance;
+      }
+      else if(targetingAngularVelocity < -maxTolerance)
+      {
+        targetingAngularVelocity = -maxTolerance;
+      }
+        
+      SmartDashboard.putNumber("Aim PID Calc", targetingAngularVelocity);
+
+      return targetingAngularVelocity;
     }
-    else
-    {
-      targetingAngularVelocity -= baseValue;
-    } 
-
-    if (targetingAngularVelocity < 0.3 && targetingAngularVelocity > -0.3) return 0;
-
-    if(targetingAngularVelocity > maxTolerance)
-    {
-      targetingAngularVelocity = maxTolerance;
-    }
-    else if(targetingAngularVelocity < -maxTolerance)
-    {
-      targetingAngularVelocity = -maxTolerance;
-    }
-      
-    SmartDashboard.putNumber("Aim PID Calc", targetingAngularVelocity);
-
-    return targetingAngularVelocity;
   }
 
   // Default commands - these are setting the default positions for the elevator
