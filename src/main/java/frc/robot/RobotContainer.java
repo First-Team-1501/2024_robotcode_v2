@@ -146,10 +146,11 @@ public class RobotContainer {
     // if it is too high, the robot will oscillate around.
     // if it is too low, the robot will never reach its target
     // if the robot never turns in the correct direction, kP should be inverted.
-    double kP = 0.01;
-    double kI = 0.0;
-    double kD = 0;
-    double maxTolerance = 0.7;
+    double kP = 0.013;
+    double kI = 0;
+    double kD = 0.0000001;
+    double maxTolerance = 0.6;
+    double baseValue = 0.28;
 
     // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of 
     // your limelight 3 feed, tx should return roughly 31 degrees.
@@ -160,15 +161,32 @@ public class RobotContainer {
 
     double targetingAngularVelocity = pidCont.calculate(-LimelightHelpers.getTX("limelight"));
 
+    //if(targetingAngularVelocity < 0.05 && targetingAngularVelocity > -0.05) return 0;
+
+
+    if (targetingAngularVelocity > 0)
+    {
+      targetingAngularVelocity += baseValue;
+    }
+    else
+    {
+      targetingAngularVelocity -= baseValue;
+    } 
+
+    if (targetingAngularVelocity < 0.3 && targetingAngularVelocity > -0.3) return 0;
+
+    if(targetingAngularVelocity > maxTolerance)
+    {
+      targetingAngularVelocity = maxTolerance;
+    }
+    else if(targetingAngularVelocity < -maxTolerance)
+    {
+      targetingAngularVelocity = -maxTolerance;
+    }
+      
     SmartDashboard.putNumber("Aim PID Calc", targetingAngularVelocity);
 
-
-    if (targetingAngularVelocity < -maxTolerance)
-      return -maxTolerance;
-    else if(targetingAngularVelocity > maxTolerance)
-      return maxTolerance;
-    else
-      return targetingAngularVelocity;
+    return targetingAngularVelocity;
   }
 
   // Default commands - these are setting the default positions for the elevator
