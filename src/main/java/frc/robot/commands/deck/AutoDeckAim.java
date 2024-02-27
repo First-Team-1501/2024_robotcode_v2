@@ -7,9 +7,9 @@ package frc.robot.commands.deck;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.limelight.LimelightHelpers;
-import frc.robot.limelight.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.subsystems.deck.DeckSubsystem;
+import frc.robot.subsystems.limelight.LimelightHelpers;
+import frc.robot.subsystems.limelight.LimelightHelpers.LimelightTarget_Fiducial;
 
 public class AutoDeckAim extends Command {
   private DeckSubsystem DECK_SUBSYSTEM;
