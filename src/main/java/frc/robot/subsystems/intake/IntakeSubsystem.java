@@ -75,7 +75,22 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Has Note", hasNote());
     SmartDashboard.putBoolean("Outtake Sensor", readyToScoreTrap());
+    if (hasNote()) {
+      candle1.animate(twinklewhiteAnimation);
+    } else {
 
+      Optional<Alliance> ally = DriverStation.getAlliance();
+      if (ally.isPresent()) {
+        if (ally.get() == Alliance.Red) {
+          // Put what you want it to do here.
+          candle1.animate(twinkleredAnimation);
+        }
+        if (ally.get() == Alliance.Blue) {
+          // Put what you want it to do here.
+          candle1.animate(twinkleblueAnimation);
+        }
+      }
+    }
   }
 
   // Function to set the motor speeds
