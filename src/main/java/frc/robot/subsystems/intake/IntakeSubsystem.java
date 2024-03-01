@@ -4,8 +4,13 @@
 
 package frc.robot.subsystems.intake;
 
+import java.util.Optional;
+
+import com.ctre.phoenix.led.CANdle;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -17,11 +22,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private DigitalInput intakeSensor;
   private DigitalInput outtakeSensor;
+  
+  private CANdle candle1;
 
 
   /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() {
+  public IntakeSubsystem(CANdle candle) {
 
+    candle1 = candle;
     
     // Initialize motors
     topMotor = new CANSparkMax(IntakeConfig.top_ID, IntakeConfig.top_motorType);
@@ -76,18 +84,18 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Has Note", hasNote());
     SmartDashboard.putBoolean("Outtake Sensor", readyToScoreTrap());
     if (hasNote()) {
-      candle1.animate(twinklewhiteAnimation);
+      candle1.setLEDs(239, 247, 5);
     } else {
 
       Optional<Alliance> ally = DriverStation.getAlliance();
       if (ally.isPresent()) {
         if (ally.get() == Alliance.Red) {
           // Put what you want it to do here.
-          candle1.animate(twinkleredAnimation);
+          candle1.setLEDs(255, 0, 0);
         }
         if (ally.get() == Alliance.Blue) {
           // Put what you want it to do here.
-          candle1.animate(twinkleblueAnimation);
+          candle1.setLEDs(0, 0, 255);
         }
       }
     }

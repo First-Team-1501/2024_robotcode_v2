@@ -94,7 +94,7 @@ public class RobotContainer {
       
     );
 
-    intake = new IntakeSubsystem();
+    intake = new IntakeSubsystem(candle1);
     shooter = new ShooterSubsystem();
     deck = new DeckSubsystem();
     elevator =  new ElevatorSubsystem();
@@ -150,6 +150,7 @@ public class RobotContainer {
   public ClimberSubsystem getClimber(){return climber;}
   public StabilizerSubsystem getStabilizer(){return stabilizer;}
   public Thumbwheel getThumbwheel(){return thumb;}
+  public CANdle getCandle(){return candle1;}
 
   
   /**
