@@ -33,7 +33,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // PID Configuration
     topMotor.getPIDController().setP(IntakeConfig.top_p);
-    topMotor.getPIDController().setI(IntakeConfig.top_i);
+    topMotor.getPIDController().setI(IntakeConfig.top_i);  
     topMotor.getPIDController().setD(IntakeConfig.top_d);
     topMotor.getPIDController().setIZone(IntakeConfig.top_IZone);
     topMotor.getPIDController().setDFilter(IntakeConfig.top_DFilter);
