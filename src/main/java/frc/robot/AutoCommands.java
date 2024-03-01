@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShootParams;
-import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.sequential.IntakeSequence;
 import frc.robot.commands.sequential.AutoShoot;
 import frc.robot.commands.shooter.RevShooter;
@@ -32,15 +31,15 @@ public class AutoCommands
 
         double shooterDelay = 1;
 
-        NamedCommands.registerCommand("startAuto1",   new SetDeckPosition(robot.getDeck(), ShootParams.Auto1.getDeckPosition()).andThen(new ParallelRaceGroup(
+        NamedCommands.registerCommand("startAuto1",   new ParallelRaceGroup(
             new RevShooter(robot.getShooter(), ShootParams.Auto1.getLeftSpeed(), ShootParams.Auto1.getRightSpeed()),
-        new WaitCommand(shooterDelay))));
-        NamedCommands.registerCommand("startAuto2",   new SetDeckPosition(robot.getDeck(), ShootParams.Auto2.getDeckPosition()).andThen(new ParallelRaceGroup(
+        new WaitCommand(shooterDelay)));
+        NamedCommands.registerCommand("startAuto2",   new ParallelRaceGroup(
             new RevShooter(robot.getShooter(), ShootParams.Auto2.getLeftSpeed(), ShootParams.Auto2.getRightSpeed()),
-        new WaitCommand(shooterDelay))));
-        NamedCommands.registerCommand("startAuto3",   new SetDeckPosition(robot.getDeck(), ShootParams.Auto3.getDeckPosition()).andThen(new ParallelRaceGroup(
+        new WaitCommand(shooterDelay)));
+        NamedCommands.registerCommand("startAuto3",   new ParallelRaceGroup(
             new RevShooter(robot.getShooter(), ShootParams.Auto3.getLeftSpeed(), ShootParams.Auto3.getRightSpeed()),
-        new WaitCommand(shooterDelay))));
+        new WaitCommand(shooterDelay)));
 
 
         NamedCommands.registerCommand("getPiece",

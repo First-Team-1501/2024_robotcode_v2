@@ -28,7 +28,7 @@ public class AmpDeckCommand extends Command {
   @Override
   public void initialize() 
   {
-    System.out.println("Starting AmpDeckCommand");
+    //System.out.println("Starting AmpDeckCommand");
     INTAKE_SUBSYSTEM.set(-.5, -.5);
     counter = 0;
     hasSeenPiece = false;
@@ -67,7 +67,7 @@ public class AmpDeckCommand extends Command {
   public void end(boolean interrupted) 
   {
     INTAKE_SUBSYSTEM.stop();
-    System.out.println("Ending AmpDeckommand");
+    //System.out.println("Ending AmpDeckommand");
   }
 
   // Returns true when the command should end.

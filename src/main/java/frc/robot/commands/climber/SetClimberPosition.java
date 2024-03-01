@@ -25,7 +25,7 @@ public class SetClimberPosition extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Starting SetClimberPosition Command - Target Positon = " + climberPosition);
+    //System.out.println("Starting SetClimberPosition Command - Target Positon = " + climberPosition);
     CLIMBER_SUBSYSTEM.set(climberPosition);
   }
 
@@ -37,7 +37,7 @@ public class SetClimberPosition extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Ending SetClimberPosition Command - Climber at Position = " + climberPosition);
+    //System.out.println("Ending SetClimberPosition Command - Climber at Position = " + climberPosition);
     //CLIMBER_SUBSYSTEM.set(CLIMBER_SUBSYSTEM.get());
   }
 

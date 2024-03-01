@@ -25,7 +25,7 @@ public class SetElevatorPosition extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Starting SetElevatorPosition Command - Target Position = " + elevatorPosition);
+    //System.out.println("Starting SetElevatorPosition Command - Target Position = " + elevatorPosition);
     ELEVATOR_SUBSYSTEM.set(elevatorPosition);
   }
 
@@ -37,7 +37,7 @@ public class SetElevatorPosition extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Ending SetElevatorPosition Command - Elevator at Position = " + elevatorPosition);
+    //System.out.println("Ending SetElevatorPosition Command - Elevator at Position = " + elevatorPosition);
   }
 
   // Returns true when the command should end.

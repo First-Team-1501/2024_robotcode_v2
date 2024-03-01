@@ -14,14 +14,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ResetRobot;
-import frc.robot.commands.climber.JogClimberDown;
-import frc.robot.commands.climber.JogClimberUp;
 import frc.robot.commands.climber.SetClimberPosition;
 import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.RunIntakeCommand;
+import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.sequential.RetractIntakeSequence;
@@ -76,22 +75,22 @@ public class TeleopCommands
   private Trigger jogIntake;
   private Trigger runIntake; // Intake
   private Trigger jogOutake; // Outtake
+  private Trigger runOuttake;
   private Trigger closeShot; // Close shot
   private Trigger mediumShot; // Medium shot
-  private Trigger farShot; // Far shot
   private Trigger preAmp; // Ready for amp score
   private Trigger autoAim; //autoAimShooter
 
   // Buttons for Drive Joystick
   private Trigger shoot;
+  private Trigger shootAlt;
   private Trigger climb;
   private Trigger preclimb;
-  private Trigger climbDown;
-  private Trigger climbUp;
     
   // Buttons for Roation Joystick
   private Trigger zeroGyro;
   private Trigger autoSteer;
+  private Trigger autoSteerAlt;
 
   //Button for Roborio
   private Trigger reset;
@@ -127,24 +126,24 @@ public class TeleopCommands
       runIntake = new JoystickButton(operatorXbox, ControllerButton.RightBumper.value);
       jogOutake = new JoystickButton(operatorXbox, ControllerButton.LeftTrigger.value);
       jogIntake = new JoystickButton(operatorXbox, ControllerButton.RightTrigger.value);
-      preAmp = new JoystickButton(operatorXbox, ControllerButton.LeftBumper.value);
-
+      runOuttake = new JoystickButton(operatorXbox, ControllerButton.LeftBumper.value);
+      
+      preAmp = new JoystickButton(operatorXbox, ControllerButton.Y.value);
       closeShot = new JoystickButton(operatorXbox, ControllerButton.A.value);
       mediumShot = new JoystickButton(operatorXbox, ControllerButton.B.value); 
-      farShot = new JoystickButton(operatorXbox, ControllerButton.Y.value);
       autoAim = new JoystickButton(operatorXbox, ControllerButton.X.value);
 
 
       // driver
       shoot = driverController.button(1);
+      shootAlt = driverController.button(11);
       climb = driverController.button(2);
       preclimb = driverController.button(3);
-      climbDown = driverController.button(4);
-      climbUp = driverController.button(5);
       
 
       zeroGyro = rotationController.button(1);
       autoSteer = rotationController.button(2);
+      autoSteerAlt = rotationController.button(6);
 
       //RoboRio
       reset = new Trigger(() -> RobotController.getUserButton());
@@ -196,6 +195,8 @@ public class TeleopCommands
 
     jogIntake.whileTrue(new RunIntakeCommand(robot.getIntake()));
 
+    runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
+
     // Outtake: Spits out the note
     jogOutake.whileTrue(new ScoreTrap(robot.getIntake()));
 
@@ -207,11 +208,6 @@ public class TeleopCommands
     // Medium shot
     mediumShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.podium)
         .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed)))
-        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
-
-    // Far shot
-    farShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.backline)
-        .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed)))
         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
     preAmp.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.amp)
@@ -227,10 +223,6 @@ public class TeleopCommands
     .andThen
     (
       new SetDeckPosition(robot.getDeck(), 0)
-    )
-    .andThen
-    (
-      new SetClimberPosition(robot.getClimber(), 0)
     )
     .andThen
     (
@@ -250,6 +242,7 @@ public class TeleopCommands
 
       // Run intake to shoot note
     shoot.whileTrue(new ShootNote(robot.getIntake()));
+    shootAlt.whileTrue(new ShootNote(robot.getIntake()));
 
     // Preclimb position
     preclimb.onTrue(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb)
@@ -304,15 +297,10 @@ public class TeleopCommands
 
     // Zero Gyro
     zeroGyro.onTrue(new InstantCommand(robot.getDrivebase()::zeroGyro));
-
-    // Jog Climber Up
-    climbUp.whileTrue(new JogClimberUp(robot.getClimber()));
-    
-    // Jog Climber Down
-    climbDown.whileTrue(new JogClimberDown(robot.getClimber()));
     
 
     autoSteer.whileTrue(driveFieldOrientedAutoAim);
+    autoSteerAlt.whileTrue(driveFieldOrientedAutoAim);
 
 
     reset.onTrue(new ResetRobot(robot, isRed));

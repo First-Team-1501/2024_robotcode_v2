@@ -25,7 +25,7 @@ public class SetDeckPosition extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Starting SetDeckPosition Command - Target Position = " + deckPosition);
+    //System.out.println("Starting SetDeckPosition Command - Target Position = " + deckPosition);
     DECK_SUBSYSTEM.set(deckPosition);
   }
 
@@ -37,7 +37,7 @@ public class SetDeckPosition extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Ending SetDeckPosition Command - Deck at Position = " + deckPosition);
+    //System.out.println("Ending SetDeckPosition Command - Deck at Position = " + deckPosition);
   }
 
   // Returns true when the command should end.

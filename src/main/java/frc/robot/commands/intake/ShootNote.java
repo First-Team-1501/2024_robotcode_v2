@@ -22,7 +22,7 @@ public class ShootNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Starting ShootNote Command");
+    //System.out.println("Starting ShootNote Command");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,7 +35,7 @@ public class ShootNote extends Command {
   @Override
   public void end(boolean interrupted) {
     INTAKE_SUBSYSTEM.stop();
-    System.out.println("Ending ShootNote Command");
+    //System.out.println("Ending ShootNote Command");
   }
 
   // Returns true when the command should end.

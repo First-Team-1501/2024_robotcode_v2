@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.intake;
 
+import com.ctre.phoenix.led.CANdle;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,8 +19,11 @@ public class IntakeSubsystem extends SubsystemBase {
   private DigitalInput intakeSensor;
   private DigitalInput outtakeSensor;
 
+
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
+
+    
     // Initialize motors
     topMotor = new CANSparkMax(IntakeConfig.top_ID, IntakeConfig.top_motorType);
     bottomMotor = new CANSparkMax(IntakeConfig.bottom_ID, IntakeConfig.bottom_motorType);
