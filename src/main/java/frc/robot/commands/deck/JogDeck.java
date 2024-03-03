@@ -24,12 +24,14 @@ public class JogDeck extends Command {
   @Override
   public void initialize() 
   {
-    DECK.set(DECK.get()+increment);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    DECK.set(DECK.get()+increment);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -25,12 +25,14 @@ public class JogElevator extends Command {
   @Override
   public void initialize() 
   {
-    ELEVATOR.set(ELEVATOR.get()+increment);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    ELEVATOR.set(ELEVATOR.get()+ increment);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -38,7 +40,6 @@ public class JogElevator extends Command {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return false;
-  }
+  public boolean isFinished() 
+  {return false;}
 }

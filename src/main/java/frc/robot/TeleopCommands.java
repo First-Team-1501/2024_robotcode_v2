@@ -257,14 +257,14 @@ public class TeleopCommands
     //  button board commands
 
     // jog Deck Up
-    jogDeckUp.onTrue(new JogDeck(robot.getDeck(), 2));
+    jogDeckUp.whileTrue(new JogDeck(robot.getDeck(), 1));
     //jog Deck Down
-    jogDeckDown.onTrue(new JogDeck(robot.getDeck(), -2));
+    jogDeckDown.whileTrue(new JogDeck(robot.getDeck(), -1));
 
     //jog elevator out
-    jogElevatorOut.onTrue(new JogElevator(robot.getElevator(), 2));
+    jogElevatorOut.whileTrue(new JogElevator(robot.getElevator(), 1));
     //jog elevator in
-    jogElevatorIn.onTrue(new JogElevator(robot.getElevator(), -2));
+    jogElevatorIn.whileTrue(new JogElevator(robot.getElevator(), -1));
 
     //score trap
     scoreTrap.whileTrue(new ScoreTrap(robot.getIntake()));
@@ -306,14 +306,10 @@ public class TeleopCommands
       .andThen
       (
         new WaitCommand(.25)
-        .alongWith(new SetDeckPosition(robot.getDeck(), 140)
+        .alongWith(new SetDeckPosition(robot.getDeck(), 130)
         .alongWith(new SetElevatorPosition(robot.getElevator(),38)))
       )
-      .andThen
-      ( 
-        new SetDeckPosition(robot.getDeck(), 130)
-        .alongWith(new SetElevatorPosition(robot.getElevator(), 36))
-      )
+      
       
       
       
