@@ -4,8 +4,13 @@
 
 package frc.robot.subsystems.intake;
 
+import java.util.Optional;
+
+import com.ctre.phoenix.led.CANdle;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -17,11 +22,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private DigitalInput intakeSensor;
   private DigitalInput outtakeSensor;
+  
+  private CANdle candle1;
 
 
   /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() {
+  public IntakeSubsystem(CANdle candle) {
 
+    candle1 = candle;
     
     // Initialize motors
     topMotor = new CANSparkMax(IntakeConfig.top_ID, IntakeConfig.top_motorType);
@@ -33,7 +41,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // PID Configuration
     topMotor.getPIDController().setP(IntakeConfig.top_p);
-    topMotor.getPIDController().setI(IntakeConfig.top_i);
+    topMotor.getPIDController().setI(IntakeConfig.top_i);  
     topMotor.getPIDController().setD(IntakeConfig.top_d);
     topMotor.getPIDController().setIZone(IntakeConfig.top_IZone);
     topMotor.getPIDController().setDFilter(IntakeConfig.top_DFilter);
@@ -75,7 +83,22 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Has Note", hasNote());
     SmartDashboard.putBoolean("Outtake Sensor", readyToScoreTrap());
+    if (hasNote()) {
+      candle1.setLEDs(239, 247, 5);
+    } else {
 
+      Optional<Alliance> ally = DriverStation.getAlliance();
+      if (ally.isPresent()) {
+        if (ally.get() == Alliance.Red) {
+          // Put what you want it to do here.
+          candle1.setLEDs(255, 0, 0);
+        }
+        if (ally.get() == Alliance.Blue) {
+          // Put what you want it to do here.
+          candle1.setLEDs(0, 0, 255);
+        }
+      }
+    }
   }
 
   // Function to set the motor speeds
