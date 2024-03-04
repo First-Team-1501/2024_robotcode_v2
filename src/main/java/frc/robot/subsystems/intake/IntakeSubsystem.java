@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix.led.TwinkleAnimation;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -22,15 +23,16 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private DigitalInput intakeSensor;
   private DigitalInput outtakeSensor;
-  
-  private CANdle candle1;
 
+  private CANdle candle1;
+  TwinkleAnimation twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
+  TwinkleAnimation twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem(CANdle candle) {
 
     candle1 = candle;
-    
+
     // Initialize motors
     topMotor = new CANSparkMax(IntakeConfig.top_ID, IntakeConfig.top_motorType);
     bottomMotor = new CANSparkMax(IntakeConfig.bottom_ID, IntakeConfig.bottom_motorType);
@@ -41,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // PID Configuration
     topMotor.getPIDController().setP(IntakeConfig.top_p);
-    topMotor.getPIDController().setI(IntakeConfig.top_i);  
+    topMotor.getPIDController().setI(IntakeConfig.top_i);
     topMotor.getPIDController().setD(IntakeConfig.top_d);
     topMotor.getPIDController().setIZone(IntakeConfig.top_IZone);
     topMotor.getPIDController().setDFilter(IntakeConfig.top_DFilter);
@@ -83,22 +85,19 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Has Note", hasNote());
     SmartDashboard.putBoolean("Outtake Sensor", readyToScoreTrap());
-    if (hasNote()) {
-      candle1.setLEDs(239, 247, 5);
-    } else {
 
-      Optional<Alliance> ally = DriverStation.getAlliance();
-      if (ally.isPresent()) {
-        if (ally.get() == Alliance.Red) {
-          // Put what you want it to do here.
-          candle1.setLEDs(255, 0, 0);
-        }
-        if (ally.get() == Alliance.Blue) {
-          // Put what you want it to do here.
-          candle1.setLEDs(0, 0, 255);
-        }
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    if (ally.isPresent()) {
+      if (ally.get() == Alliance.Red) {
+        // Put what you want it to do here.
+        candle1.animate(twinkleredAnimation);
+      }
+      if (ally.get() == Alliance.Blue) {
+        // Put what you want it to do here.
+        candle1.animate(twinkleblueAnimation);
       }
     }
+
   }
 
   // Function to set the motor speeds

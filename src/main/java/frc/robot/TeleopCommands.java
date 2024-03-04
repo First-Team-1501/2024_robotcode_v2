@@ -4,6 +4,7 @@ package frc.robot;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
@@ -16,13 +17,16 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ResetRobot;
 import frc.robot.commands.climber.SetClimberPosition;
 import frc.robot.commands.deck.AutoDeckAim;
+import frc.robot.commands.deck.JogDeck;
 import frc.robot.commands.deck.SetDeckPosition;
+import frc.robot.commands.elevator.JogElevator;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.ShootNote;
+import frc.robot.commands.intake.TrapOuttake;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
@@ -70,6 +74,9 @@ public class TeleopCommands
 
   // Operator Xbox Controller
   XboxController operatorXbox;
+
+  //buttonboard
+  private GenericHID buttonBoard;
   
   // Buttons for Xbox Controller
   private Trigger jogIntake;
@@ -80,6 +87,13 @@ public class TeleopCommands
   private Trigger mediumShot; // Medium shot
   private Trigger preAmp; // Ready for amp score
   private Trigger autoAim; //autoAimShooter
+
+  // Buttons for Button Board
+  private Trigger jogDeckUp;
+  private Trigger jogDeckDown;
+  private Trigger jogElevatorOut;
+  private Trigger jogElevatorIn;
+  private Trigger scoreTrap;
 
   // Buttons for Drive Joystick
   private Trigger shoot;
@@ -114,6 +128,7 @@ public class TeleopCommands
       rotationController = new CommandJoystick(1);
 
       operatorXbox = new XboxController(2);
+      buttonBoard = new GenericHID(3);
 
       // triggers
 
@@ -132,6 +147,14 @@ public class TeleopCommands
       closeShot = new JoystickButton(operatorXbox, ControllerButton.A.value);
       mediumShot = new JoystickButton(operatorXbox, ControllerButton.B.value); 
       autoAim = new JoystickButton(operatorXbox, ControllerButton.X.value);
+
+      // Button Board
+
+      jogDeckUp = new JoystickButton(buttonBoard, 11);
+      jogDeckDown = new JoystickButton(buttonBoard, 3);
+      jogElevatorIn = new JoystickButton(buttonBoard, 1);
+      jogElevatorOut = new JoystickButton(buttonBoard, 10);
+      scoreTrap = new JoystickButton(buttonBoard, 12);
 
 
       // driver
@@ -230,6 +253,23 @@ public class TeleopCommands
     )
     );
 
+
+    //  button board commands
+
+    // jog Deck Up
+    jogDeckUp.whileTrue(new JogDeck(robot.getDeck(), 2));
+    //jog Deck Down
+    jogDeckDown.whileTrue(new JogDeck(robot.getDeck(), -2));
+
+    //jog elevator out
+    jogElevatorOut.whileTrue(new JogElevator(robot.getElevator(), 1));
+    //jog elevator in
+    jogElevatorIn.whileTrue(new JogElevator(robot.getElevator(), -1));
+
+    //score trap
+    scoreTrap.whileTrue(new ScoreTrap(robot.getIntake()));
+
+
   }
 
   private void SetupDriverCommands(BooleanSupplier isRed)
@@ -255,42 +295,22 @@ public class TeleopCommands
       new SetClimberPosition(robot.getClimber(), ClimberPositions.midClimb)
       .andThen
       (
+        new TrapOuttake(robot.getIntake())
+      )
+      .andThen
+      (
         new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
-        .alongWith(new SetDeckPosition(robot.getDeck(), 110)
-        .alongWith(new SetElevatorPosition(robot.getElevator(), 0)))
+        .alongWith(new SetDeckPosition(robot.getDeck(), 110))
       )
+      
       .andThen
       (
-        new AmpDeckCommand(robot.getIntake())
+        new WaitCommand(.25)
+        .alongWith(new SetDeckPosition(robot.getDeck(), 135)
+        .alongWith(new SetElevatorPosition(robot.getElevator(),35)))
       )
-      .andThen
-      (
-        new WaitCommand(1)
-        .alongWith(new SetDeckPosition(robot.getDeck(), 138)
-        .alongWith(new SetElevatorPosition(robot.getElevator(),43)))
-      )
-      .andThen
-      (
-        new WaitCommand(0.5)
-        .raceWith
-        (new ScoreTrap(robot.getIntake())
-        .alongWith(new SetDeckPosition(robot.getDeck(), 135)))
-      )
-      .andThen
-      (
-        new WaitCommand(0.5)
-        .alongWith(new SetDeckPosition(robot.getDeck(), 140))
-        )
-      .andThen
-      (
-        new WaitCommand(1)
-        .alongWith(new SetDeckPosition(robot.getDeck(), 115))
-      )
-      .andThen
-      (
-        new SetDeckPosition(robot.getDeck(),140)
-        .alongWith(new SetElevatorPosition(robot.getElevator(), 0))
-      )
+      
+      
       
       
     );
