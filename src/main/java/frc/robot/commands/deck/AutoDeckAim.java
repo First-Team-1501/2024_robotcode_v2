@@ -70,8 +70,6 @@ public class AutoDeckAim extends Command {
   double limelight_aim_proportional()
   {
     double targetingPosition = LimelightHelpers.getTY("limelight");
-    
-
 
     return targetingPosition;
   }

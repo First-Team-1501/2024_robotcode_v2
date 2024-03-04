@@ -142,6 +142,12 @@
           "data": {
             "name": "finishAuto"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path5.4"
+          }
         }
       ]
     }
