@@ -115,7 +115,7 @@ public class RobotContainer {
     double tx = LimelightHelpers.getTX("tx");
     double ty = LimelightHelpers.getTY("ty");
     double ta = LimelightHelpers.getTA("ta");
-    LimelightHelpers.setPipelineIndex("limelight", isRed.getAsBoolean()?1:0);
+    //LimelightHelpers.setPipelineIndex("limelight", isRed.getAsBoolean()?1:0);
     double pipelineIndex = LimelightHelpers.getCurrentPipelineIndex("getpipe");
     double id = LimelightHelpers.getFiducialID("id");
     boolean tv = LimelightHelpers.getTV("tv");
