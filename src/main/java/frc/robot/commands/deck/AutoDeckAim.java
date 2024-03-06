@@ -32,7 +32,7 @@ public class AutoDeckAim extends Command {
     LIMELIGHT = limelight;
     
 
-    addRequirements(DECK_SUBSYSTEM, LIMELIGHT);
+    addRequirements(DECK_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
