@@ -30,10 +30,10 @@ public class Leds extends SubsystemBase {
   private void setupLeds() {
     twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
     twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
-    candle1 = new CANdle(1);
+    candle1 = new CANdle(48, "canivore");
     strobeAnimation = new StrobeAnimation(0, 255, 0);
 
-    alliance = DriverStation.getAlliance();
+    
 
     setLedsUsingAllianceColor();
 
@@ -41,6 +41,7 @@ public class Leds extends SubsystemBase {
 
   @Override
   public void periodic() {
+    setLedsUsingAllianceColor();
     // This method will be called once per scheduler run
   }
 
@@ -49,7 +50,7 @@ public class Leds extends SubsystemBase {
   }
 
   public void setLedsUsingAllianceColor() {
-
+    alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
       if (alliance.get() == Alliance.Red) {
         candle1.animate(twinkleredAnimation);
