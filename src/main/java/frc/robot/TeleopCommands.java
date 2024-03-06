@@ -17,6 +17,7 @@ import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.JogDeck;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.JogElevator;
+import frc.robot.commands.elevator.ResetElevatorPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.RunIntakeCommand;
@@ -49,7 +50,8 @@ public class TeleopCommands {
     LeftBumper(5),
     RightBumper(6),
 
-    Select(10);
+    Select(10),
+    Back(9);
 
     public final int value;
 
@@ -87,6 +89,7 @@ public class TeleopCommands {
   private Trigger jogElevatorOut;
   private Trigger jogElevatorIn;
   private Trigger scoreTrap;
+  private Trigger zeroElevator;
 
   // Buttons for Drive Joystick
   private Trigger shoot;
@@ -129,6 +132,7 @@ public class TeleopCommands {
     mediumShot = new JoystickButton(operatorXbox, ControllerButton.B.value);
     autoAim = new JoystickButton(operatorXbox, ControllerButton.X.value);
     home = new JoystickButton(operatorXbox, ControllerButton.Select.value);
+    zeroElevator= new JoystickButton(operatorXbox, ControllerButton.Back.value);
 
     // BUTTON BOARD
     jogDeckUp = new JoystickButton(buttonBoard, 11);
@@ -227,6 +231,10 @@ public class TeleopCommands {
 
     // Score Trap
     scoreTrap.whileTrue(new ScoreTrap(robot.getIntake()));
+
+    //Zero Elevator
+    zeroElevator.onTrue(new ResetElevatorPosition(robot.getElevator()));
+
 
   }
 
