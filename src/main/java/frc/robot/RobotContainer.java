@@ -22,7 +22,7 @@ import frc.robot.subsystems.limelight.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.stabilizer.StabilizerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-
+import frc.robot.subsystems.leds.Leds;
 
 
 import java.io.File;
@@ -52,7 +52,7 @@ public class RobotContainer {
   private ClimberSubsystem climber;
   private StabilizerSubsystem stabilizer;
   private Thumbwheel thumb;
-
+  private Leds leds;
   
 
 
@@ -81,7 +81,7 @@ public class RobotContainer {
     elevator =  new ElevatorSubsystem();
     climber = new ClimberSubsystem();
     stabilizer = new StabilizerSubsystem();
- 
+    leds = new Leds();
 
     teleop = new TeleopCommands(this, isRed);
     auto =  new AutoCommands(this);
@@ -122,7 +122,7 @@ public class RobotContainer {
   }
 
   // what follows is a bunch of getters that I couldn't possibly care about.
-
+  public Leds getLeds(){return leds;}
   public SwerveSubsystem getDrivebase(){return drivebase;}
   public IntakeSubsystem getIntake(){ return intake;}
   public ShooterSubsystem getShooter(){return shooter;}

@@ -3,21 +3,22 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems.leds;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import java.util.Optional;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.TwinkleAnimation;
-
+import com.ctre.phoenix.led.StrobeAnimation;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 
 public class Leds extends SubsystemBase {
 
   Optional<Alliance> alliance;
   private TwinkleAnimation twinkleblueAnimation;
   private TwinkleAnimation twinkleredAnimation;
+  private StrobeAnimation strobeAnimation;
 
   private CANdle candle1;
 
@@ -30,7 +31,8 @@ public class Leds extends SubsystemBase {
     twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
     twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
     candle1 = new CANdle(1);
-    
+    strobeAnimation = new StrobeAnimation(0, 255, 0);
+
     alliance = DriverStation.getAlliance();
 
     setLedsUsingAllianceColor();
@@ -40,6 +42,10 @@ public class Leds extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void setLedsToStrobe() {
+    candle1.animate(strobeAnimation);
   }
 
   public void setLedsUsingAllianceColor() {
