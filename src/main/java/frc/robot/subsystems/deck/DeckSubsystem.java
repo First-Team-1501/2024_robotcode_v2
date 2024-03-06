@@ -67,14 +67,14 @@ public class DeckSubsystem extends SubsystemBase {
     // Burn Flash
     deckMotor.burnFlash();
 
-
+    SmartDashboard.putNumber("Deck Position", get());
 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Deck Position", get());
+    
   }
 
   // Get position
