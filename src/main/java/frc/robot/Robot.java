@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import swervelib.parser.SwerveParser;
 
-
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as
@@ -22,7 +21,6 @@ import swervelib.parser.SwerveParser;
  * project, you must also update the build.gradle file in the project.
  */
 public class Robot extends TimedRobot {
-
 
   private static Robot instance;
   private Command m_autonomousCommand;
@@ -43,7 +41,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    
+
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
@@ -92,6 +90,7 @@ public class Robot extends TimedRobot {
     if (disabledTimer.hasElapsed(Constants.Drivebase.WHEEL_LOCK_TIME)) {
       m_robotContainer.setMotorBrake(false);
       disabledTimer.stop();
+      
     }
   }
 
@@ -103,7 +102,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_robotContainer.setMotorBrake(true);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    
+    m_robotContainer.getLimelight().setPipelineUsingAllianceColor();
+
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -119,7 +119,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    
+    m_robotContainer.getLimelight().setPipelineUsingAllianceColor();
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -127,7 +128,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    
+
     CommandScheduler.getInstance().schedule(m_robotContainer.onTeleopInit());
 
     m_robotContainer.setMotorBrake(true);

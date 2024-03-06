@@ -8,14 +8,12 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.deck.DeckSubsystem;
-import frc.robot.subsystems.limelight.LimelightHelpers;
-import frc.robot.subsystems.limelight.LimelightHelpers.LimelightTarget_Fiducial;
+import frc.robot.subsystems.limelight.Limelight;
+
 
 public class AutoDeckAim extends Command {
   private DeckSubsystem DECK_SUBSYSTEM;
-
-  LimelightHelpers limelight = new LimelightHelpers(); // Create a new instance of the LimelightHelpers class
-  LimelightTarget_Fiducial m_Fiducial = new LimelightTarget_Fiducial(); // Create a new instance of the LimelightTarget_Fiducial class 
+  private Limelight LIMELIGHT;
 
   double kP = 0.8;
   double kI = 0;
@@ -28,12 +26,13 @@ public class AutoDeckAim extends Command {
   
 
   /** Creates a new AutoDeckAim. */
-  public AutoDeckAim(DeckSubsystem deck) {
+  public AutoDeckAim(DeckSubsystem deck, Limelight limelight) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.DECK_SUBSYSTEM = deck;
+    DECK_SUBSYSTEM = deck;
+    LIMELIGHT = limelight;
     
 
-    addRequirements(DECK_SUBSYSTEM);
+    addRequirements(DECK_SUBSYSTEM, LIMELIGHT);
   }
 
   // Called when the command is initially scheduled.
@@ -47,7 +46,7 @@ public class AutoDeckAim extends Command {
   @Override
   public void execute() 
   {
-    pidOut = deckPIDController.calculate(limelight_aim_proportional());
+    pidOut = deckPIDController.calculate(LIMELIGHT.tX());
     SmartDashboard.putNumber("Deck PID Cont", pidOut);
     DECK_SUBSYSTEM.set(DECK_SUBSYSTEM.get() + pidOut);
 
@@ -67,10 +66,6 @@ public class AutoDeckAim extends Command {
     return false;
   }
 
-  double limelight_aim_proportional()
-  {
-    double targetingPosition = LimelightHelpers.getTY("limelight");
-
-    return targetingPosition;
-  }
 }
+
+
