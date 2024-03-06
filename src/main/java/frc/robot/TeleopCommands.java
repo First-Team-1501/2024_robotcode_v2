@@ -20,6 +20,7 @@ import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.JogDeck;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.JogElevator;
+import frc.robot.commands.elevator.ResetElevatorPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.RunIntakeCommand;
@@ -94,6 +95,7 @@ public class TeleopCommands
   private Trigger jogElevatorOut;
   private Trigger jogElevatorIn;
   private Trigger scoreTrap;
+  private Trigger zeroElevator;
 
   // Buttons for Drive Joystick
   private Trigger shoot;
@@ -155,6 +157,8 @@ public class TeleopCommands
       jogElevatorIn = new JoystickButton(buttonBoard, 1);
       jogElevatorOut = new JoystickButton(buttonBoard, 10);
       scoreTrap = new JoystickButton(buttonBoard, 12);
+      //TODO: add button number
+      zeroElevator= new JoystickButton(buttonBoard, 0);
 
 
       // driver
@@ -268,6 +272,9 @@ public class TeleopCommands
 
     //score trap
     scoreTrap.whileTrue(new ScoreTrap(robot.getIntake()));
+
+    //Zero Elevator
+    zeroElevator.onTrue(new ResetElevatorPosition(robot.getElevator()));
 
 
   }
