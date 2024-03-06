@@ -31,10 +31,12 @@ public class Limelight extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    setPipelineUsingAllianceColor();
   }
 
   private void setupLimelight() {
+
+    setPipelineUsingAllianceColor();
 
     tx = LimelightHelpers.getTX("limelight");
     ty = LimelightHelpers.getTY("limelight");
@@ -43,12 +45,16 @@ public class Limelight extends SubsystemBase {
     tv = LimelightHelpers.getTV("limelight");
     cl = LimelightHelpers.getLimelightNTDouble(null, "cl");
 
-    alliance = DriverStation.getAlliance();
+    
+
+    LimelightHelpers.getLimelightNTTable(null);
+    LimelightHelpers.getLimelightNTTableEntry(null, "tid");
+
 
     LimelightHelpers.setLEDMode_PipelineControl("limelight");
 
     smartDashboardInit();
-    setPipelineUsingAllianceColor();
+    
 
   }
 
@@ -63,7 +69,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public void setPipelineUsingAllianceColor() {
-
+    alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
       if (alliance.get() == Alliance.Red) {
         LimelightHelpers.setPipelineIndex("limelight", 1);
