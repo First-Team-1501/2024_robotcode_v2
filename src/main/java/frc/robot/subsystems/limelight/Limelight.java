@@ -89,4 +89,9 @@ public class Limelight extends SubsystemBase {
     return tv;
   }
 
+  public boolean isLocked()
+  {
+    return tX() < 0.5 && tY() < 0.5;
+  }
+
 }

@@ -33,7 +33,7 @@ public class ShootNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (LIMELIGHT.tX() < 0.5 && LIMELIGHT.tY() < 0.5)
+    if (LIMELIGHT.isLocked())
       INTAKE_SUBSYSTEM.set(1, 1);
       counter++;
   }

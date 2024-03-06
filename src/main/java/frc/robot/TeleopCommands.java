@@ -237,8 +237,8 @@ public class TeleopCommands {
 
         // Auto Aim Command
         Command driveFieldOrientedAutoAim = robot.getDrivebase().driveCommand(
-                () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
-                () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
+                () -> -MathUtil.applyDeadband(driverController.getY()/4, OperatorConstants.LEFT_Y_DEADBAND),
+                () -> -MathUtil.applyDeadband(driverController.getX()/4, OperatorConstants.LEFT_X_DEADBAND),
                 () -> -robot.limelight_aim_proportional());
 
         // Run intake to shoot note
@@ -259,7 +259,6 @@ public class TeleopCommands {
                         .andThen(
                                 new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
                                         .alongWith(new SetDeckPosition(robot.getDeck(), 110)))
-
                         .andThen(
                                 new WaitCommand(.25)
                                         .alongWith(new SetDeckPosition(robot.getDeck(), 135)
