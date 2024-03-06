@@ -24,45 +24,37 @@ import swervelib.parser.PIDFConfig;
  * wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants 
-{
-  public enum ShootParams
-  {
-      CloseUp(DeckPositions.closeup, ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed),
-      Auto1(DeckPositions.closeup, ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed),
-      Auto2(DeckPositions.closeup, ShooterConfig.auto2LeftSpeed, ShooterConfig.auto2RightSpeed),
-      Auto3(DeckPositions.closeup, ShooterConfig.closeRightSpeed, ShooterConfig.closeLeftSpeed),
+public final class Constants {
+  public enum ShootParams {
+    CloseUp(DeckPositions.closeup, ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed),
+    Auto1(DeckPositions.closeup, ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed),
+    Auto2(DeckPositions.closeup, ShooterConfig.auto2LeftSpeed, ShooterConfig.auto2RightSpeed),
+    Auto3(DeckPositions.closeup, ShooterConfig.closeRightSpeed, ShooterConfig.closeLeftSpeed),
 
-      Podium(DeckPositions.podium, ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed),
-      Far(DeckPositions.backline, ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed);
+    Podium(DeckPositions.podium, ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed),
+    Far(DeckPositions.backline, ShooterConfig.farLeftSpeed, ShooterConfig.farRightSpeed);
 
+    private double deckPosition;
+    private double leftSpeed;
+    private double rightSpeed;
 
-      
-      private double deckPosition;
-      private double leftSpeed;
-      private double rightSpeed;
+    private ShootParams(double deck, double left, double right) {
+      deckPosition = deck;
+      leftSpeed = left;
+      rightSpeed = right;
+    }
 
-      private ShootParams(double deck, double left, double right)
-      {
-          deckPosition = deck;
-          leftSpeed = left;
-          rightSpeed = right;
-      }
+    public double getDeckPosition() {
+      return deckPosition;
+    }
 
-      public double getDeckPosition()
-      {
-        return deckPosition;
-      }
+    public double getLeftSpeed() {
+      return leftSpeed;
+    }
 
-      public double getLeftSpeed()
-      {
-        return leftSpeed;
-      }
-
-      public double getRightSpeed()
-      {
-        return rightSpeed;
-      }
+    public double getRightSpeed() {
+      return rightSpeed;
+    }
   }
 
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound

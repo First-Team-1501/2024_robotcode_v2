@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.io.File;
-import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
@@ -48,7 +47,7 @@ public class SwerveSubsystem extends SubsystemBase {
    *
    * @param directory Directory of swerve drive config files.
    */
-  public SwerveSubsystem(File directory, BooleanSupplier isRed) {
+  public SwerveSubsystem(File directory) {
     // Angle conversion factor is 360 / (GEAR RATIO * ENCODER RESOLUTION)
     // In this case the gear ratio is 12.8 motor revolutions per wheel rotation.
     // The encoder resolution per motor revolution is 1 per motor revolution.
@@ -81,7 +80,7 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveDrive.setHeadingCorrection(true,0.3); // Heading correction should only
     // be used while controlling the robot via angle.
 
-    setupPathPlanner(isRed);
+    setupPathPlanner();
     swerveDrive.setMotorIdleMode(false);
 
   }
@@ -100,7 +99,7 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Setup AutoBuilder for PathPlanner.
    */
-  public void setupPathPlanner(BooleanSupplier isRed) {
+  public void setupPathPlanner() {
     AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
         this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
