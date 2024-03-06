@@ -56,7 +56,8 @@ public class TeleopCommands
     LeftBumper(5),
     RightBumper(6),
 
-    Select(10);
+    Select(10),
+    Back(9);
 
 
     public final int value;
@@ -149,6 +150,8 @@ public class TeleopCommands
       closeShot = new JoystickButton(operatorXbox, ControllerButton.A.value);
       mediumShot = new JoystickButton(operatorXbox, ControllerButton.B.value); 
       autoAim = new JoystickButton(operatorXbox, ControllerButton.X.value);
+      zeroElevator= new JoystickButton(operatorXbox, ControllerButton.Back.value);
+
 
       // Button Board
 
@@ -157,8 +160,6 @@ public class TeleopCommands
       jogElevatorIn = new JoystickButton(buttonBoard, 1);
       jogElevatorOut = new JoystickButton(buttonBoard, 10);
       scoreTrap = new JoystickButton(buttonBoard, 12);
-      //TODO: add button number
-      zeroElevator= new JoystickButton(buttonBoard, 0);
 
 
       // driver
