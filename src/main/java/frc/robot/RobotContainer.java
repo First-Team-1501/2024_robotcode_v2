@@ -23,15 +23,7 @@ import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.stabilizer.StabilizerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-import com.ctre.phoenix.led.CANdle;
-import com.ctre.phoenix.led.RainbowAnimation;
-import com.ctre.phoenix.led.LarsonAnimation;
-import com.ctre.phoenix.led.FireAnimation;
-import com.ctre.phoenix.led.StrobeAnimation;
-import com.ctre.phoenix.led.TwinkleAnimation;
-import com.ctre.phoenix.led.TwinkleOffAnimation;
-import com.ctre.phoenix.led.RgbFadeAnimation;
-import com.ctre.phoenix.led.SingleFadeAnimation;
+
 
 import java.io.File;
 import java.util.function.BooleanSupplier;
@@ -61,18 +53,7 @@ public class RobotContainer {
   private StabilizerSubsystem stabilizer;
   private Thumbwheel thumb;
 
-  //Stuff for the CANdle
-  RainbowAnimation rAnimation = new RainbowAnimation(1, 1, 8);
-  CANdle candle1 = new CANdle(48, "canivore");
-  FireAnimation fireAnimation = new FireAnimation(01, 0, 90, 1, 0);
-  LarsonAnimation larsonAnimation = new LarsonAnimation(52, 155, 235);
-  RgbFadeAnimation rgbAnimation = new RgbFadeAnimation();
-  StrobeAnimation strobeAnimation = new StrobeAnimation(255, 255, 255, 255, 1, 8);
-  TwinkleAnimation twinklewhiteAnimation = new TwinkleAnimation(255, 255, 255);
-  TwinkleAnimation twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
-  TwinkleAnimation twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
-  TwinkleOffAnimation twinkleOffAnimation = new TwinkleOffAnimation(255, 255, 255);
-  SingleFadeAnimation singleFadeAnimation = new SingleFadeAnimation(255, 255, 255, 255, 1, 8);
+  
 
 
 
@@ -94,7 +75,7 @@ public class RobotContainer {
       
     );
 
-    intake = new IntakeSubsystem(candle1);
+    intake = new IntakeSubsystem();
     shooter = new ShooterSubsystem();
     deck = new DeckSubsystem();
     elevator =  new ElevatorSubsystem();
@@ -150,7 +131,7 @@ public class RobotContainer {
   public ClimberSubsystem getClimber(){return climber;}
   public StabilizerSubsystem getStabilizer(){return stabilizer;}
   public Thumbwheel getThumbwheel(){return thumb;}
-  public CANdle getCandle(){return candle1;}
+  //public CANdle getCandle(){return candle1;}
 
   
   /**
