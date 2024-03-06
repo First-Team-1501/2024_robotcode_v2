@@ -31,7 +31,7 @@ public class Leds extends SubsystemBase {
     twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
     twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
     candle1 = new CANdle(48, "canivore");
-    strobeAnimation = new StrobeAnimation(0, 255, 0);
+    strobeAnimation = new StrobeAnimation(0, 255, 0, 0, 98.0 / 256.0, 68);
 
     
 

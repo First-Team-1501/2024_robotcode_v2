@@ -20,9 +20,8 @@ import frc.robot.subsystems.limelight.Limelight;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.stabilizer.StabilizerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-
 import frc.robot.subsystems.leds.Leds;
-
+import frc.robot.subsystems.thumbwheel.Thumbwheel;
 
 
 import java.io.File;
@@ -112,8 +111,8 @@ public class RobotContainer {
     return thumb;
   }
 
-  public CANdle getCandle() {
-    return candle1;
+  public Leds getLeds() {
+    return leds;
   }
 
   public Limelight getLimelight() {
