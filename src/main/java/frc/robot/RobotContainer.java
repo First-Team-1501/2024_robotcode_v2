@@ -112,7 +112,7 @@ public class RobotContainer {
   {
       //Stuff for the Limelight
     //This is the value from the Limelight.
-    double tx = LimelightHelpers.getTX("tx");
+    double tx = LimelightHelpers.getTX("tx");//Test comment, will need this value when coding auto shoot
     double ty = LimelightHelpers.getTY("ty");
     double ta = LimelightHelpers.getTA("ta");
     LimelightHelpers.setPipelineIndex("limelight", isRed.getAsBoolean()?1:0);
