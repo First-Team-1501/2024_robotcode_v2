@@ -45,6 +45,10 @@ public class Limelight extends SubsystemBase {
 
     alliance = DriverStation.getAlliance();
 
+    LimelightHelpers.getLimelightNTTable(null);
+    LimelightHelpers.getLimelightNTTableEntry(null, "tid");
+
+
     LimelightHelpers.setLEDMode_PipelineControl("limelight");
 
     smartDashboardInit();
