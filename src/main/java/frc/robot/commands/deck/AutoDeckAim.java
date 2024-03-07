@@ -14,7 +14,6 @@ import frc.robot.subsystems.limelight.LimelightHelpers;
 
 public class AutoDeckAim extends Command {
   private DeckSubsystem DECK_SUBSYSTEM;
-  private Limelight LIMELIGHT;
 
   double kP = 0.8;
   double kI = 0;
@@ -30,7 +29,6 @@ public class AutoDeckAim extends Command {
   public AutoDeckAim(DeckSubsystem deck, Limelight limelight) {
     // Use addRequirements() here to declare subsystem dependencies.
     DECK_SUBSYSTEM = deck;
-    LIMELIGHT = limelight;
     
 
     addRequirements(DECK_SUBSYSTEM);
