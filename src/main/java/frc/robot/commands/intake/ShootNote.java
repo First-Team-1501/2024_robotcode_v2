@@ -12,16 +12,12 @@ import frc.robot.subsystems.limelight.LimelightHelpers;
 public class ShootNote extends Command {
 
   private IntakeSubsystem INTAKE_SUBSYSTEM;
-  private Limelight LIMELIGHT;
   private int counter;
-  private double tx;
-  private double ty;
 
   /** Creates a new ShootNote. */
   public ShootNote(IntakeSubsystem intake, Limelight limelight) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.INTAKE_SUBSYSTEM = intake;
-    LIMELIGHT = limelight;
 
     addRequirements(INTAKE_SUBSYSTEM);
   }
