@@ -12,6 +12,7 @@ import com.ctre.phoenix.led.TwinkleAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.limelight.LimelightHelpers;
 
 public class Leds extends SubsystemBase {
 
@@ -33,15 +34,23 @@ public class Leds extends SubsystemBase {
     candle1 = new CANdle(48, "canivore");
     strobeAnimation = new StrobeAnimation(0, 255, 0, 0, 98.0 / 256.0, 68);
 
-    
-
     setLedsUsingAllianceColor();
 
   }
 
   @Override
   public void periodic() {
-    setLedsUsingAllianceColor();
+    if ((LimelightHelpers.getTX("limelight") < 3) &&
+        (LimelightHelpers.getTY("limelight") < 3) &&
+        (LimelightHelpers.getTX("limelight") > -3) &&
+        (LimelightHelpers.getTY("limelight") > -3) &&
+        LimelightHelpers.getTV("limelight"))  {
+
+      setLedsToStrobe();
+    } else {
+      setLedsUsingAllianceColor();
+    }
+
     // This method will be called once per scheduler run
   }
 

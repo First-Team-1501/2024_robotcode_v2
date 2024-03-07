@@ -32,6 +32,8 @@ public class Limelight extends SubsystemBase {
   @Override
   public void periodic() {
     setPipelineUsingAllianceColor();
+    tx = LimelightHelpers.getTX("limelight");
+    ty = LimelightHelpers.getTY("limelight");
   }
 
   private void setupLimelight() {
@@ -66,6 +68,7 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("Pipeline Index", pipelineIndex);
     SmartDashboard.putNumber("Limelight CL", cl);
     SmartDashboard.putBoolean("Has Target", tv);
+    SmartDashboard.putBoolean("TargetLocked", isLocked());
   }
 
   public void setPipelineUsingAllianceColor() {
@@ -97,7 +100,7 @@ public class Limelight extends SubsystemBase {
 
   public boolean isLocked()
   {
-    return tX() < 0.5 && tY() < 0.5;
+    return (tX() < 0.5 && tX() > -0.5) && (tY() < 0.5 && tY() > -0.5);
   }
 
 }

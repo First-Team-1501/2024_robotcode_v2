@@ -17,6 +17,7 @@ import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.limelight.Limelight;
+import frc.robot.subsystems.limelight.LimelightHelpers;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.stabilizer.StabilizerSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -140,7 +141,7 @@ public class RobotContainer {
     double baseValue = 0.28;
 
     try (PIDController pidCont = new PIDController(kP, kI, kD)) {
-      double targetingAngularVelocity = pidCont.calculate(-limelight.tX());
+      double targetingAngularVelocity = pidCont.calculate(-LimelightHelpers.getTX("limelight"));
 
       if (targetingAngularVelocity > 0) {
         targetingAngularVelocity += baseValue;

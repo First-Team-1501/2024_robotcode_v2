@@ -237,15 +237,17 @@ public class TeleopCommands {
 
         // Auto Aim Command
         Command driveFieldOrientedAutoAim = robot.getDrivebase().driveCommand(
-                () -> -MathUtil.applyDeadband(driverController.getY()/4, OperatorConstants.LEFT_Y_DEADBAND),
-                () -> -MathUtil.applyDeadband(driverController.getX()/4, OperatorConstants.LEFT_X_DEADBAND),
+                () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
+                () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
                 () -> -robot.limelight_aim_proportional());
 
         // Run intake to shoot note
         shoot.whileTrue(new ShootNote(robot.getIntake(), robot.getLimelight())
-                .alongWith(driveFieldOrientedAutoAim));
-        shootAlt.whileTrue(new ShootNote(robot.getIntake(), robot.getLimelight())
-                .alongWith(driveFieldOrientedAutoAim));
+                //.alongWith(driveFieldOrientedAutoAim)
+                );
+        shoot.whileTrue(driveFieldOrientedAutoAim);
+        //shootAlt.whileTrue(new ShootNote(robot.getIntake(), robot.getLimelight())
+                //.alongWith(driveFieldOrientedAutoAim));
 
         // Preclimb position
         preclimb.onTrue(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb)
