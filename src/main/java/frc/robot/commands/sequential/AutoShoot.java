@@ -46,7 +46,7 @@ public class AutoShoot extends SequentialCommandGroup {
     }
 
     addCommands( new ParallelRaceGroup(
-        new ShootNote(intakeSubsystem),
+        new ShootNote(intakeSubsystem, limelight),
         new WaitCommand(.25)
       ),
       new SetDeckPosition(deckSubsystem, DeckPositions.home));
