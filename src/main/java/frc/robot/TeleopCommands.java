@@ -24,6 +24,7 @@ import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.ShootNote;
+import frc.robot.commands.intake.SimpleShootNote;
 import frc.robot.commands.intake.TrapOuttake;
 import frc.robot.commands.reset.ResetRobot;
 import frc.robot.commands.sequential.RetractIntakeSequence;
@@ -92,9 +93,10 @@ public class TeleopCommands {
 
     // Buttons for Drive Joystick
     private Trigger shoot;
-    private Trigger shootAlt;
     private Trigger climb;
     private Trigger preclimb;
+    private Trigger simpleshoot;
+    private Trigger simpleshootAlt;
 
     // Buttons for Roation Joystick
     private Trigger zeroGyro;
@@ -142,13 +144,15 @@ public class TeleopCommands {
         scoreTrap = new JoystickButton(buttonBoard, 12);
 
         // DRIVER
-        shoot = driverController.button(1);
-        shootAlt = driverController.button(11);
+        simpleshoot = driverController.button(1);
+        simpleshootAlt = driverController.button(11);
         climb = driverController.button(2);
         preclimb = driverController.button(3);
         zeroGyro = rotationController.button(1);
         autoSteer = rotationController.button(2);
         autoSteerAlt = rotationController.button(6);
+        shoot = driverController.button(10);
+        
 
         // ROBORIO
         reset = new Trigger(() -> RobotController.getUserButton());
@@ -250,8 +254,10 @@ public class TeleopCommands {
         // Run intake to shoot note
         shoot.whileTrue(new ShootNote(robot.getIntake(), robot.getLimelight()));
         shoot.whileTrue(driveFieldOrientedAutoAim);
-        shootAlt.whileTrue(new ShootNote(robot.getIntake(), robot.getLimelight()));
-        shootAlt.whileTrue(driveFieldOrientedAutoAim);
+
+        //runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
+        simpleshoot.onTrue(new SimpleShootNote(robot.getIntake()));
+        simpleshootAlt.onTrue(new SimpleShootNote(robot.getIntake()));
         
 
         // Preclimb position
