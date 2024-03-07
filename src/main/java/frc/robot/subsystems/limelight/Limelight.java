@@ -6,6 +6,7 @@ package frc.robot.subsystems.limelight;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.Optional;
@@ -69,6 +70,7 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("Limelight CL", cl);
     SmartDashboard.putBoolean("Has Target", tv);
     SmartDashboard.putBoolean("TargetLocked", isLocked());
+
   }
 
   public void setPipelineUsingAllianceColor() {
