@@ -93,7 +93,6 @@ public class TeleopCommands {
 
     // Buttons for Drive Joystick
     private Trigger shoot;
-    private Trigger shootAlt;
     private Trigger climb;
     private Trigger preclimb;
     private Trigger simpleshoot;
@@ -255,8 +254,6 @@ public class TeleopCommands {
         // Run intake to shoot note
         shoot.whileTrue(new ShootNote(robot.getIntake(), robot.getLimelight()));
         shoot.whileTrue(driveFieldOrientedAutoAim);
-        shootAlt.whileTrue(new ShootNote(robot.getIntake(), robot.getLimelight()));
-        shootAlt.whileTrue(driveFieldOrientedAutoAim);
 
         //runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
         simpleshoot.onTrue(new SimpleShootNote(robot.getIntake()));
