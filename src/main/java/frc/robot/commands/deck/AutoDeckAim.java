@@ -7,6 +7,7 @@ package frc.robot.commands.deck;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.limelight.Limelight;
 import frc.robot.subsystems.limelight.LimelightHelpers;
@@ -22,6 +23,7 @@ public class AutoDeckAim extends Command {
   PIDController deckPIDController = new PIDController(kP, kI, kD);
 
   double pidOut;
+  double increment = 5;
  
   
 
@@ -45,9 +47,16 @@ public class AutoDeckAim extends Command {
   @Override
   public void execute() 
   {
-    pidOut = deckPIDController.calculate(LimelightHelpers.getTY("limelight"));
-    SmartDashboard.putNumber("Deck PID Cont", pidOut);
-    DECK_SUBSYSTEM.set(DECK_SUBSYSTEM.get() + pidOut);
+    if(LimelightHelpers.getTV("limelight"))
+    {
+      pidOut = deckPIDController.calculate(LimelightHelpers.getTY("limelight"));
+      SmartDashboard.putNumber("Deck PID Cont", pidOut);
+      DECK_SUBSYSTEM.set(DECK_SUBSYSTEM.get() + pidOut);
+
+    }
+    else{
+      DECK_SUBSYSTEM.set(DeckPositions.podium);
+    }
 
   }
 
