@@ -7,11 +7,11 @@ package frc.robot.commands.sequential;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShootParams;
 import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.intake.ShootNote;
+import frc.robot.commands.intake.SimpleShootNote;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
@@ -30,8 +30,8 @@ public class AutoShoot extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands
     (
-      new InstantCommand(()->shooter.set(param.getLeftSpeed(), param.getRightSpeed())),
-      new SetDeckPosition(deckSubsystem, param.getDeckPosition())
+      new InstantCommand(()->shooter.set(param.getLeftSpeed(), param.getRightSpeed()))
+      //new SetDeckPosition(deckSubsystem, param.getDeckPosition())
      
      
     );
@@ -41,17 +41,14 @@ public class AutoShoot extends SequentialCommandGroup {
        addCommands(
         new ParallelRaceGroup(
           new AutoDeckAim(deckSubsystem, limelight),
-          new WaitCommand(1))
+          new ShootNote(intakeSubsystem, limelight))
           );
     }
+    else{
+      addCommands(new SimpleShootNote(intakeSubsystem));
+    }
 
-    addCommands( new ParallelRaceGroup(
-        new ShootNote(intakeSubsystem, limelight),
-        new WaitCommand(.25)
-      ),
-      new SetDeckPosition(deckSubsystem, DeckPositions.home));
-
-
+    addCommands(new SetDeckPosition(deckSubsystem, DeckPositions.home));
   
   }
 }

@@ -5,6 +5,7 @@
 package frc.robot.commands.sequential;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.RunIntakeCommand;
@@ -25,7 +26,7 @@ public class IntakeSequence extends SequentialCommandGroup {
     addCommands(
       new SetElevatorPosition(elevator, ElevatorPositions.intake),
       new SetDeckPosition(deck, DeckPositions.intake),
-      new RunIntakeCommand(intake),
+      new RunIntakeCommand(intake).raceWith(new WaitCommand(3)),
       new SetDeckPosition(deck, DeckPositions.home)
       .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.zero))
     );
