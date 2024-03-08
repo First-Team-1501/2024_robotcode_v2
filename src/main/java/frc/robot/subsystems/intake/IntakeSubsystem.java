@@ -4,14 +4,11 @@
 
 package frc.robot.subsystems.intake;
 
-
-
-
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -22,12 +19,10 @@ public class IntakeSubsystem extends SubsystemBase {
   private DigitalInput intakeSensor;
   private DigitalInput outtakeSensor;
 
-
-
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
 
-    //candle1 = candle;
+    // candle1 = candle;
 
     // Initialize motors
     topMotor = new CANSparkMax(IntakeConfig.top_ID, IntakeConfig.top_motorType);
@@ -74,15 +69,15 @@ public class IntakeSubsystem extends SubsystemBase {
     // Initialize digital inputs
     intakeSensor = new DigitalInput(IntakeConfig.intakeSensorID);
     outtakeSensor = new DigitalInput(IntakeConfig.outtakeSensorID);
+
+    ShuffleBoardInit();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Has Note", hasNote());
-    SmartDashboard.putBoolean("Outtake Sensor", readyToScoreTrap());
-
-  
+    // SmartDashboard.putBoolean("Has Note", hasNote());
+    // SmartDashboard.putBoolean("Outtake Sensor", readyToScoreTrap());
 
   }
 
@@ -106,6 +101,24 @@ public class IntakeSubsystem extends SubsystemBase {
   // Function to see if note is ready to outtake (to score in the trap)
   public boolean readyToScoreTrap() {
     return (outtakeSensor.get());
+  }
+
+  public void ShuffleBoardInit() {
+    // Put what you want to send to ShuffleBoard here
+    // Shuffleboard.getTab("Intake").add("Has Note", intakeSensor.get());
+    // Shuffleboard.getTab("Intake").addBoolean(getName(), null)("Outtake Sensor",
+    // outtakeSensor.get());
+    Shuffleboard.getTab("Drive Tab")
+        .add("Has Note", intakeSensor.get())
+        .withWidget(BuiltInWidgets.kBooleanBox) // specify the widget here
+        .withPosition(0, 1)
+        .getEntry();
+
+    Shuffleboard.getTab("Drive Tab")
+        .add("Outtake Sensor", outtakeSensor.get())
+        .withWidget(BuiltInWidgets.kBooleanBox) // specify the widget here
+        .withPosition(2, 0)
+        .getEntry();
   }
 
 }

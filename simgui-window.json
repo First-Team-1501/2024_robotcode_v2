@@ -5,11 +5,11 @@
   "MainWindow": {
     "GLOBAL": {
       "fps": "120",
-      "height": "907",
+      "height": "966",
       "maximized": "1",
       "style": "0",
       "userScale": "2",
-      "width": "1582",
+      "width": "1728",
       "xpos": "0",
       "ypos": "23"
     }
@@ -58,7 +58,7 @@
     "###Timing": {
       "Collapsed": "0",
       "Pos": "5,150",
-      "Size": "135,196"
+      "Size": "133,77"
     },
     "Debug##Default": {
       "Collapsed": "0",
