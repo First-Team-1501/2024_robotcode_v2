@@ -30,8 +30,8 @@ public class AutoShoot extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands
     (
-      new InstantCommand(()->shooter.set(param.getLeftSpeed(), param.getRightSpeed())),
-      new SetDeckPosition(deckSubsystem, param.getDeckPosition())
+      new InstantCommand(()->shooter.set(param.getLeftSpeed(), param.getRightSpeed()))
+      //new SetDeckPosition(deckSubsystem, param.getDeckPosition())
      
      
     );
