@@ -23,7 +23,7 @@ public class AutoCommands {
                 () -> 0, () -> 0,
                 () -> -robot.limelight_aim_proportional()));
 
-        double shooterDelay = 1;
+        double shooterDelay = 0.75;
 
         NamedCommands.registerCommand("startAuto1", new ParallelRaceGroup(
                 new RevShooter(robot.getShooter(), ShootParams.Auto1.getLeftSpeed(), ShootParams.Auto1.getRightSpeed()),

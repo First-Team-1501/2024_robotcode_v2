@@ -28,7 +28,7 @@ public final class Constants {
   public enum ShootParams {
     CloseUp(DeckPositions.closeup, ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed),
     Auto1(DeckPositions.closeup, ShooterConfig.closeLeftSpeed, ShooterConfig.closeRightSpeed),
-    Auto2(DeckPositions.closeup, ShooterConfig.auto2LeftSpeed, ShooterConfig.auto2RightSpeed),
+    Auto2(DeckPositions.zero, ShooterConfig.auto2LeftSpeed, ShooterConfig.auto2RightSpeed),
     Auto3(DeckPositions.closeup, ShooterConfig.closeRightSpeed, ShooterConfig.closeLeftSpeed),
 
     Podium(DeckPositions.podium, ShooterConfig.podiumLeftSpeed, ShooterConfig.podiumRightSpeed),

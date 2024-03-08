@@ -4,12 +4,15 @@
 
 package frc.robot.subsystems.stabilizer;
 
+import java.util.Map;
+
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class StabilizerSubsystem extends SubsystemBase {
@@ -71,12 +74,14 @@ public class StabilizerSubsystem extends SubsystemBase {
 
     set(StabilizerPositions.zero);
 
+    ShuffleBoardInit();
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Stabilizer Position", get());
+    //SmartDashboard.putNumber("Stabilizer Position", get());
   }
 
   // Get position
@@ -92,6 +97,15 @@ public class StabilizerSubsystem extends SubsystemBase {
   public void resetEncoder()
   {
     stabilizerEncoder.setPosition(0);
+  }
+
+  public void ShuffleBoardInit()
+  {
+    //SmartDashboard.putNumber("Stabilizer Position", get());
+
+    Shuffleboard.getTab("Stabilizer")
+      .add("Stabilizer Position", stabilizerEncoder.getPosition())
+      .getEntry();
   }
 
 }
