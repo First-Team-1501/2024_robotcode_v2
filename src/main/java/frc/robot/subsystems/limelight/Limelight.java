@@ -43,8 +43,8 @@ public class Limelight extends SubsystemBase {
     setPipelineUsingAllianceColor();
     tx = LimelightHelpers.getTX("limelight");
     ty = LimelightHelpers.getTY("limelight");
-    tx = LimelightHelpers.getTX("limelight2");
-    ty = LimelightHelpers.getTY("limelight2");
+    tx = LimelightHelpers.getTX("limelight-intake");
+    ty = LimelightHelpers.getTY("limelight-intake");
   }
 
   private void setupLimelight() {
@@ -58,11 +58,11 @@ public class Limelight extends SubsystemBase {
     tv = LimelightHelpers.getTV("limelight");
     cl = LimelightHelpers.getLimelightNTDouble(null, "cl");
 
-    tx2 = LimelightHelpers.getTX("limelight2");
-    ty2 = LimelightHelpers.getTY("limelight2");
-    ta2 = LimelightHelpers.getTA("limelight2");
-    pipelineIndex2 = LimelightHelpers.getCurrentPipelineIndex("limelight2");
-    tv2 = LimelightHelpers.getTV("limelight2");
+    tx2 = LimelightHelpers.getTX("limelight-intake");
+    ty2 = LimelightHelpers.getTY("limelight-intake");
+    ta2 = LimelightHelpers.getTA("limelight-intake");
+    pipelineIndex2 = LimelightHelpers.getCurrentPipelineIndex("limelight-intake");
+    tv2 = LimelightHelpers.getTV("limelight-intake");
     cl2 = LimelightHelpers.getLimelightNTDouble(null, "cl");
 
 
@@ -121,12 +121,12 @@ public class Limelight extends SubsystemBase {
     alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
       if (alliance.get() == Alliance.Red) {
-        LimelightHelpers.setPipelineIndex("limelight2", 1);
+        LimelightHelpers.setPipelineIndex("limelight-intake", 1);
 
       }
       if (alliance.get() == Alliance.Blue) {
         // Put what you want it to do here.
-        LimelightHelpers.setPipelineIndex("limelight2", 0);
+        LimelightHelpers.setPipelineIndex("limelight-intake", 0);
       }
     }
   }
