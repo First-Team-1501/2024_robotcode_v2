@@ -30,6 +30,8 @@ import frc.robot.commands.reset.ResetRobot;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
+import frc.robot.commands.swervedrive.drivebase.NoteAutoAim;
+import frc.robot.commands.swervedrive.drivebase.SpeakerAutoAim;
 import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.elevator.ElevatorPositions;
@@ -102,6 +104,7 @@ public class TeleopCommands {
     private Trigger zeroGyro;
     private Trigger autoSteer;
     private Trigger autoSteerAlt;
+    private Trigger notePickup;
 
     // Button for Roborio
     private Trigger reset;
@@ -152,6 +155,7 @@ public class TeleopCommands {
         autoSteer = rotationController.button(2);
         autoSteerAlt = rotationController.button(6);
         shoot = driverController.button(10);
+        notePickup = rotationController.button(2);
         
 
         // ROBORIO
@@ -251,6 +255,8 @@ public class TeleopCommands {
                 () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
                 () -> -robot.limelight_aim_proportional());
 
+        
+
         // Run intake to shoot note
         shoot.whileTrue(new ShootNote(robot.getIntake(), robot.getLimelight()));
         shoot.whileTrue(driveFieldOrientedAutoAim);
@@ -283,8 +289,10 @@ public class TeleopCommands {
         zeroGyro.onTrue(new InstantCommand(robot.getDrivebase()::zeroGyro));
 
         // Auto Aim Swerve
-        autoSteer.whileTrue(driveFieldOrientedAutoAim);
-        autoSteerAlt.whileTrue(driveFieldOrientedAutoAim);
+        autoSteer.whileTrue(new SpeakerAutoAim(robot.getDrivebase(), driverController, rotationController));
+        autoSteerAlt.whileTrue(new SpeakerAutoAim(robot.getDrivebase(), driverController, rotationController));
+
+        notePickup.whileTrue(new NoteAutoAim(robot.getDrivebase(), driverController, rotationController));
 
         // Reset Robot
         reset.onTrue(new ResetRobot(robot));
