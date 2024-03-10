@@ -23,6 +23,14 @@ public class Limelight extends SubsystemBase {
   private boolean tv; //Whether the limelight has any valid targets (0 or 1)
   private double cl; //Capture pipeline latency (ms). Time between the end of the exposure of the middle row of the sensor to the beginning of the tracking pipeline.
 
+  private double tx2; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees / LL2: -29.8 to 29.8 degrees)
+  private double ty2; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees / LL2: -24.85 to 24.85 degrees)
+  private double ta2; //Target Area (0% of image to 100% of image)
+
+  private double pipelineIndex2;
+  private boolean tv2; //Whether the limelight has any valid targets (0 or 1)
+  private double cl2; //Capture pipeline latency (ms). Time between the end of the exposure of the middle row of the sensor to the beginning of the tracking pipeline.
+
   /** Creates a new Limelight. */
   public Limelight() {
 
@@ -35,6 +43,8 @@ public class Limelight extends SubsystemBase {
     setPipelineUsingAllianceColor();
     tx = LimelightHelpers.getTX("limelight");
     ty = LimelightHelpers.getTY("limelight");
+    tx = LimelightHelpers.getTX("limelight2");
+    ty = LimelightHelpers.getTY("limelight2");
   }
 
   private void setupLimelight() {
@@ -47,6 +57,14 @@ public class Limelight extends SubsystemBase {
     pipelineIndex = LimelightHelpers.getCurrentPipelineIndex("limelight");
     tv = LimelightHelpers.getTV("limelight");
     cl = LimelightHelpers.getLimelightNTDouble(null, "cl");
+
+    tx2 = LimelightHelpers.getTX("limelight2");
+    ty2 = LimelightHelpers.getTY("limelight2");
+    ta2 = LimelightHelpers.getTA("limelight2");
+    pipelineIndex2 = LimelightHelpers.getCurrentPipelineIndex("limelight2");
+    tv2 = LimelightHelpers.getTV("limelight2");
+    cl2 = LimelightHelpers.getLimelightNTDouble(null, "cl");
+
 
     
 
@@ -71,6 +89,14 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putBoolean("Has Target", tv);
     SmartDashboard.putBoolean("TargetLocked", isLocked());
 
+    SmartDashboard.putNumber("Limelight tX", tx2);
+    SmartDashboard.putNumber("Limelight tY", ty2);
+    SmartDashboard.putNumber("Limelight tA", ta2);
+    SmartDashboard.putNumber("Pipeline Index", pipelineIndex2);
+    SmartDashboard.putNumber("Limelight CL", cl2);
+    SmartDashboard.putBoolean("Has Target", tv2);
+    //SmartDashboard.putBoolean("TargetLocked", isLocked());
+
     Shuffleboard.getTab("Drive Tab")
     .add("Target Locked", isLocked())
     .withWidget("Boolean Box")
@@ -89,6 +115,18 @@ public class Limelight extends SubsystemBase {
       if (alliance.get() == Alliance.Blue) {
         // Put what you want it to do here.
         LimelightHelpers.setPipelineIndex("limelight", 0);
+      }
+    }
+
+    alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+      if (alliance.get() == Alliance.Red) {
+        LimelightHelpers.setPipelineIndex("limelight2", 1);
+
+      }
+      if (alliance.get() == Alliance.Blue) {
+        // Put what you want it to do here.
+        LimelightHelpers.setPipelineIndex("limelight2", 0);
       }
     }
   }
