@@ -29,6 +29,9 @@ public class ClimberSubsystem extends SubsystemBase {
     climberMasterMotor = new CANSparkMax(ClimberConfig.ID, ClimberConfig.motorType);
     climberSlaveMotor = new CANSparkMax(ClimberConfig.followerID, ClimberConfig.motorType);
 
+    climberMasterMotor.setIdleMode(ClimberConfig.idleMode);
+    climberSlaveMotor.setIdleMode(ClimberConfig.idleMode);
+
     // Initialize encoder instance
     climberEncoder = climberMasterMotor.getEncoder();
 
