@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShootParams;
-import frc.robot.commands.sequential.IntakeSequence;
+import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.AutoShoot;
 import frc.robot.commands.shooter.RevShooter;
 
@@ -36,7 +36,7 @@ public class AutoCommands {
                 new WaitCommand(shooterDelay)));
 
         NamedCommands.registerCommand("getPiece",
-                new IntakeSequence(robot.getIntake(), robot.getDeck(), robot.getElevator()));
+                new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(), robot.getDrivebase()));
 
         NamedCommands.registerCommand("shootAuto2",
                 new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(), ShootParams.Auto2, false, robot.getLimelight()));
