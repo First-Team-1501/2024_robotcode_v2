@@ -24,22 +24,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "getPiece"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Path3"
-                }
-              }
-            ]
+            "pathName": "Path3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path3.1"
           }
         },
         {
@@ -65,6 +58,31 @@
           "type": "path",
           "data": {
             "pathName": "Path3.2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path3.1"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootAutoAim"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              }
+            ]
           }
         },
         {

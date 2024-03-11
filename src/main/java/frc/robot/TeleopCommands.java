@@ -27,6 +27,7 @@ import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.intake.SimpleShootNote;
 import frc.robot.commands.intake.TrapOuttake;
 import frc.robot.commands.reset.ResetRobot;
+import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
@@ -101,6 +102,7 @@ public class TeleopCommands {
     private Trigger simpleshootAlt;
     private Trigger jogClimberUp;
     private Trigger jogClimberDown;
+    private Trigger autoNotePickup;
 
     // Buttons for Roation Joystick
     private Trigger zeroGyro;
@@ -160,6 +162,7 @@ public class TeleopCommands {
         notePickup = rotationController.button(7);
         jogClimberUp = driverController.button(5);
         jogClimberDown = driverController.button(4);
+        autoNotePickup = driverController.button(7);
         
 
         // ROBORIO
@@ -300,6 +303,7 @@ public class TeleopCommands {
         autoSteerAlt.whileTrue(new SpeakerAutoAim(robot.getDrivebase(), driverController, rotationController));
 
         notePickup.whileTrue(new NoteAutoAim(robot.getDrivebase(), driverController, rotationController));
+        autoNotePickup.whileTrue(new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(), robot.getDrivebase()));
 
         // Reset Robot
         reset.onTrue(new ResetRobot(robot));

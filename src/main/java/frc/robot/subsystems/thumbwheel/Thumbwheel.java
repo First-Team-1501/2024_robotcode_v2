@@ -3,6 +3,7 @@ package frc.robot.subsystems.thumbwheel;
 import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Thumbwheel extends SubsystemBase {
@@ -39,6 +40,7 @@ public class Thumbwheel extends SubsystemBase {
     }
 
     public void ShuffleBoardInit() {
+        SmartDashboard.putNumber("Thumb",getValue());
         
     }
 }
