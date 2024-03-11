@@ -155,7 +155,7 @@ public class TeleopCommands {
         autoSteer = rotationController.button(2);
         autoSteerAlt = rotationController.button(6);
         shoot = driverController.button(10);
-        notePickup = rotationController.button(2);
+        notePickup = rotationController.button(7);
         
 
         // ROBORIO
