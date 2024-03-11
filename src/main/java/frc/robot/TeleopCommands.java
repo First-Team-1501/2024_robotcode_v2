@@ -99,6 +99,8 @@ public class TeleopCommands {
     private Trigger preclimb;
     private Trigger simpleshoot;
     private Trigger simpleshootAlt;
+    private Trigger jogClimberUp;
+    private Trigger jogClimberDown;
 
     // Buttons for Roation Joystick
     private Trigger zeroGyro;
@@ -156,6 +158,8 @@ public class TeleopCommands {
         autoSteerAlt = rotationController.button(6);
         shoot = driverController.button(10);
         notePickup = rotationController.button(7);
+        jogClimberUp = driverController.button(5);
+        jogClimberDown = driverController.button(4);
         
 
         // ROBORIO
@@ -284,6 +288,9 @@ public class TeleopCommands {
                                                 .alongWith(new SetElevatorPosition(robot.getElevator(), 35))))
 
         );
+
+        jogClimberUp.whileTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.climb));
+        jogClimberDown.whileTrue(new SetClimberPosition(robot.getClimber(), 0));
 
         // Zero Gyro
         zeroGyro.onTrue(new InstantCommand(robot.getDrivebase()::zeroGyro));
