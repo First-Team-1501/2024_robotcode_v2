@@ -42,7 +42,7 @@ public class SpeakerAutoAim extends Command {
     if(LimelightHelpers.getTV("limelight"))
     {
       translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
-      DRIVEBASE.drive(translation, -limelight_aim_proportional(),false);
+      DRIVEBASE.drive(translation, -limelight_aim_proportional(),true);
     }
     else
     {
