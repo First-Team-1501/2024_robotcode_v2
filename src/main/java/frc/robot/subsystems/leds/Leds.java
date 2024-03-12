@@ -21,7 +21,8 @@ public class Leds extends SubsystemBase {
   private StrobeAnimation strobeAnimation;
   private TwinkleAnimation twinkleblueguitarAnimation;
   private TwinkleAnimation twinkleredguitarAnimation;
-  private TwinkleAnimation twinkleintakeAnimation;
+  //private TwinkleAnimation twinkleintakeAnimation;
+  private StrobeAnimation strobeintakeAnimation;
 
   private final int THUNDERSTUCK_LEDS = 68;
   private final int GUITAR_LEDS = 80;
@@ -31,6 +32,7 @@ public class Leds extends SubsystemBase {
   private final double STROBE_SPEED = 98.0 / 256.0;
 
   private CANdle candle1;
+  private static boolean intaking;
 
   /** Creates a new CANdle */
   public Leds() {
@@ -47,7 +49,7 @@ public class Leds extends SubsystemBase {
         0,
         TOTAL_LEDS,
         null,
-        THUNDERSTUCK_LEDS_OFFSET);
+        0);
     // twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
     twinkleredAnimation = new TwinkleAnimation(
         255,
@@ -57,7 +59,7 @@ public class Leds extends SubsystemBase {
         0,
         TOTAL_LEDS,
         null,
-        THUNDERSTUCK_LEDS_OFFSET);
+        0);
     candle1 = new CANdle(48, "canivore");
     // strobeAnimation = new StrobeAnimation(0, 255, 0, 0, 98.0 / 256.0, 68);
     strobeAnimation = new StrobeAnimation(0, 255, 0, 0, STROBE_SPEED, THUNDERSTUCK_LEDS, 0);
@@ -67,7 +69,7 @@ public class Leds extends SubsystemBase {
         255,
         0,
         0,
-        GUITAR_LEDS,
+        TOTAL_LEDS,
         null,
         GUITAR_LEDS_OFFSET);
     twinkleredguitarAnimation = new TwinkleAnimation(
@@ -76,11 +78,13 @@ public class Leds extends SubsystemBase {
         0,
         0,
         0,
-        GUITAR_LEDS,
+        TOTAL_LEDS,
         null,
         GUITAR_LEDS_OFFSET);
 
-    twinkleintakeAnimation = new TwinkleAnimation(0, 0, 0, 255, STROBE_SPEED, TOTAL_LEDS, null, 0);
+    ///twinkleintakeAnimation = new TwinkleAnimation(0, 0, 0, 255, STROBE_SPEED, TOTAL_LEDS, null, 0);
+    strobeintakeAnimation = new StrobeAnimation(0, 0, 0, 255, STROBE_SPEED, TOTAL_LEDS, 0);
+
     intaking = false;
 
     setLedsUsingAllianceColor();
@@ -94,8 +98,12 @@ public class Leds extends SubsystemBase {
         (LimelightHelpers.getTY("limelight") > -3) &&
         LimelightHelpers.getTV("limelight")) {
       setLedsToStrobe();
-    } else if (intaking) {
-    } else {
+        }
+    else if(intaking){
+      setLedsToStrobe();
+    }
+    else {
+      candle1.animate(strobeintakeAnimation);
       setLedsUsingAllianceColor();
     }
     // This method will be called once per scheduler run
@@ -132,8 +140,9 @@ public class Leds extends SubsystemBase {
     }
   }
 
-  public void setIntakeStatus(boolean status)
-  {
+  
+
+  public static void setIntakeStatus(boolean status) {
     intaking = status;
   }
 }

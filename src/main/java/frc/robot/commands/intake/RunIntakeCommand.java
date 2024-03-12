@@ -7,13 +7,14 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.intake.IntakeConfig;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.leds.Leds;
 
 public class RunIntakeCommand extends Command {
 
   private IntakeSubsystem INTAKE_SUBSYSTEM;
 
   /** Creates a new RunIntakeCommand. */
-  public RunIntakeCommand(IntakeSubsystem intake) {
+  public RunIntakeCommand(IntakeSubsystem intake, Leds leds) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.INTAKE_SUBSYSTEM = intake;
 
@@ -23,6 +24,7 @@ public class RunIntakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Leds.setIntakeStatus(true);
     //System.out.println("Starting RunIntakeCommand");
   }
 
@@ -36,6 +38,11 @@ public class RunIntakeCommand extends Command {
       return;
     }
     INTAKE_SUBSYSTEM.stop();
+
+    if(INTAKE_SUBSYSTEM.readyToScoreTrap())
+    {
+      Leds.setIntakeStatus(false);
+    }
   }
 
   // Called once the command ends or is interrupted.

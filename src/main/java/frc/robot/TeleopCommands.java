@@ -194,14 +194,14 @@ public class TeleopCommands {
                 new SetDeckPosition(robot.getDeck(), DeckPositions.home)
                         .andThen(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake)).andThen(
                                 new SetDeckPosition(robot.getDeck(), DeckPositions.intake)
-                                        .alongWith(new RunIntakeCommand(robot.getIntake())))
+                                        .alongWith(new RunIntakeCommand(robot.getIntake(), robot.getLeds())))
                         .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
                                 .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))))
                 .onFalse(
                         new SetDeckPosition(robot.getDeck(), DeckPositions.home)
                                 .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)));
 
-        jogIntake.whileTrue(new RunIntakeCommand(robot.getIntake()));
+        jogIntake.whileTrue(new RunIntakeCommand(robot.getIntake(), robot.getLeds()));
 
         runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
 
@@ -303,7 +303,7 @@ public class TeleopCommands {
         autoSteerAlt.whileTrue(new SpeakerAutoAim(robot.getDrivebase(), driverController, rotationController));
 
         notePickup.whileTrue(new NoteAutoAim(robot.getDrivebase(), driverController, rotationController));
-        autoNotePickup.whileTrue(new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(), robot.getDrivebase()));
+        autoNotePickup.whileTrue(new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(), robot.getDrivebase(), robot.getLeds()));
 
         // Reset Robot
         reset.onTrue(new ResetRobot(robot));

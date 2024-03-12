@@ -14,19 +14,20 @@ import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.leds.Leds;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class IntakeSequence extends SequentialCommandGroup {
   /** Creates a new IntakeSequence. */
-  public IntakeSequence(IntakeSubsystem intake, DeckSubsystem deck, ElevatorSubsystem elevator) {
+  public IntakeSequence(IntakeSubsystem intake, DeckSubsystem deck, ElevatorSubsystem elevator, Leds leds) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new SetElevatorPosition(elevator, ElevatorPositions.intake),
       new SetDeckPosition(deck, DeckPositions.intake),
-      new RunIntakeCommand(intake).raceWith(new WaitCommand(3)),
+      new RunIntakeCommand(intake, leds).raceWith(new WaitCommand(3)),
       new SetDeckPosition(deck, DeckPositions.home)
       .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.zero))
     );

@@ -36,7 +36,7 @@ public class AutoCommands {
                 new WaitCommand(shooterDelay)));
 
         NamedCommands.registerCommand("getPiece",
-                new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(), robot.getDrivebase()));
+                new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(), robot.getDrivebase(), robot.getLeds()));
 
         NamedCommands.registerCommand("shootAuto2",
                 new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(), ShootParams.Auto2, false, robot.getLimelight()));
