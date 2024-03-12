@@ -97,11 +97,13 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putBoolean("Has Target", tv2);
     //SmartDashboard.putBoolean("TargetLocked", isLocked());
 
-    Shuffleboard.getTab("Drive Tab")
+    Shuffleboard.getTab("Info")
     .add("Target Locked", isLocked())
     .withWidget("Boolean Box")
     .withPosition(2, 2)
     .getEntry();
+
+    Shuffleboard.selectTab("Drive Tab");
 
   }
 

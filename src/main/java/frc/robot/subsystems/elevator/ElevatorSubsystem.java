@@ -104,7 +104,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     // Add to Shuffleboard
     //SmartDashboard.putNumber("Elevator Position", get());
 
-   Shuffleboard.getTab("Drive Tab")
+   Shuffleboard.getTab("Info")
       .add("Elevator Position", elevatorEncoder.getPosition())
       .withWidget(BuiltInWidgets.kNumberBar)
       .withProperties(Map.of("min", 0, "max", 50))

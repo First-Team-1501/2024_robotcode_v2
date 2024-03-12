@@ -111,7 +111,7 @@ public class ClimberSubsystem extends SubsystemBase {
     // Add to Shuffleboard
     //SmartDashboard.putNumber("Climber Position", get());
 
-    Shuffleboard.getTab("Drive Tab")
+    Shuffleboard.getTab("Info")
       .add("Climber Position", climberEncoder.getPosition())
       .withWidget(BuiltInWidgets.kNumberBar)
       .withProperties(Map.of("min", 0, "max", 290))

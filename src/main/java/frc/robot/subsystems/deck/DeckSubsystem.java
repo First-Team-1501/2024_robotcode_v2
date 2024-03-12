@@ -101,7 +101,7 @@ public class DeckSubsystem extends SubsystemBase {
   {
     //SmartDashboard.putNumber("Deck Position", get());
 
-    Shuffleboard.getTab("Drive Tab")
+    Shuffleboard.getTab("Info")
     .add("Deck Position", deckEncoder.getPosition())
     .withWidget(BuiltInWidgets.kDial)
     .withProperties(Map.of("min", 0, "max", 150))

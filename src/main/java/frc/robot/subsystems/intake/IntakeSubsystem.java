@@ -108,13 +108,13 @@ public class IntakeSubsystem extends SubsystemBase {
     // Shuffleboard.getTab("Intake").add("Has Note", intakeSensor.get());
     // Shuffleboard.getTab("Intake").addBoolean(getName(), null)("Outtake Sensor",
     // outtakeSensor.get());
-    Shuffleboard.getTab("Drive Tab")
+    Shuffleboard.getTab("Info")
         .add("Has Note", intakeSensor.get())
         .withWidget(BuiltInWidgets.kBooleanBox) // specify the widget here
         .withPosition(0, 1)
         .getEntry();
 
-    Shuffleboard.getTab("Drive Tab")
+    Shuffleboard.getTab("Info")
         .add("Outtake Sensor", outtakeSensor.get())
         .withWidget(BuiltInWidgets.kBooleanBox) // specify the widget here
         .withPosition(2, 0)

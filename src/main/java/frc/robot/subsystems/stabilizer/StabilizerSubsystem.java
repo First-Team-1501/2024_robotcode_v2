@@ -99,7 +99,7 @@ public class StabilizerSubsystem extends SubsystemBase {
   {
     //SmartDashboard.putNumber("Stabilizer Position", get());
 
-    Shuffleboard.getTab("Stabilizer")
+    Shuffleboard.getTab("Info")
       .add("Stabilizer Position", stabilizerEncoder.getPosition())
       .getEntry();
   }
