@@ -7,6 +7,8 @@ package frc.robot.subsystems.leds;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.StrobeAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation;
+import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,7 +31,9 @@ public class Leds extends SubsystemBase {
   private final int TOTAL_LEDS = 148;
   private final int GUITAR_LEDS_OFFSET = 68;
   private final int THUNDERSTUCK_LEDS_OFFSET = 0;
+  private final int TOTAL_LED_OFFSET = 0;
   private final double STROBE_SPEED = 98.0 / 256.0;
+
 
   private CANdle candle1;
   private static boolean intaking;
@@ -47,9 +51,9 @@ public class Leds extends SubsystemBase {
         255,
         0,
         0,
-        TOTAL_LEDS,
-        null,
-        0);
+        TOTAL_LEDS, 
+        TwinklePercent.Percent30,
+        GUITAR_LEDS_OFFSET);
     // twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
     twinkleredAnimation = new TwinkleAnimation(
         255,
@@ -58,7 +62,7 @@ public class Leds extends SubsystemBase {
         0,
         0,
         TOTAL_LEDS,
-        null,
+        TwinklePercent.Percent76,
         0);
     candle1 = new CANdle(48, "canivore");
     // strobeAnimation = new StrobeAnimation(0, 255, 0, 0, 98.0 / 256.0, 68);
@@ -70,7 +74,7 @@ public class Leds extends SubsystemBase {
         0,
         0,
         TOTAL_LEDS,
-        null,
+        TwinklePercent.Percent88,
         GUITAR_LEDS_OFFSET);
     twinkleredguitarAnimation = new TwinkleAnimation(
         255,
@@ -79,11 +83,11 @@ public class Leds extends SubsystemBase {
         0,
         0,
         TOTAL_LEDS,
-        null,
+        TwinklePercent.Percent30,
         GUITAR_LEDS_OFFSET);
 
     ///twinkleintakeAnimation = new TwinkleAnimation(0, 0, 0, 255, STROBE_SPEED, TOTAL_LEDS, null, 0);
-    strobeintakeAnimation = new StrobeAnimation(0, 0, 0, 255, STROBE_SPEED, TOTAL_LEDS, 0);
+    strobeintakeAnimation = new StrobeAnimation(0, 0, 0, 255, STROBE_SPEED, TOTAL_LEDS, TOTAL_LED_OFFSET);
 
     intaking = false;
 
