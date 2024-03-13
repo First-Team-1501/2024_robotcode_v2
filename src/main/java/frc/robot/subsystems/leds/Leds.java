@@ -5,8 +5,10 @@
 package frc.robot.subsystems.leds;
 
 import com.ctre.phoenix.led.CANdle;
+import com.ctre.phoenix.led.CANdleConfiguration;
 import com.ctre.phoenix.led.StrobeAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation;
+import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -33,6 +35,7 @@ public class Leds extends SubsystemBase {
   private final int THUNDERSTUCK_LEDS_OFFSET = 0;
   private final int TOTAL_LED_OFFSET = 0;
   private final double STROBE_SPEED = 98.0 / 256.0;
+  private final int LedCount = 148;
 
 
   private CANdle candle1;
@@ -41,6 +44,10 @@ public class Leds extends SubsystemBase {
   /** Creates a new CANdle */
   public Leds() {
     setupLeds();
+    CANdleConfiguration configAll = new CANdleConfiguration();
+    configAll.statusLedOffWhenActive = true;
+    configAll.stripType = LEDStripType.GRB;
+    candle1.configAllSettings(configAll, 100);
   }
 
   private void setupLeds() {
@@ -51,7 +58,7 @@ public class Leds extends SubsystemBase {
         255,
         0,
         0,
-        TOTAL_LEDS, 
+        LedCount, 
         TwinklePercent.Percent30,
         GUITAR_LEDS_OFFSET);
     // twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
