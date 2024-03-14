@@ -18,7 +18,7 @@ public class Thumbwheel extends SubsystemBase {
         for (int i = ioLineStart; i < ioLineStart + 4; i++) {
             binaryControls.add(new DigitalInput(i));
 
-            ShuffleBoardInit();
+            shuffleBoardInit();
 
         }
 
@@ -39,7 +39,7 @@ public class Thumbwheel extends SubsystemBase {
         return (Integer.parseInt(s, 2));
     }
 
-    public void ShuffleBoardInit() {
+    public void shuffleBoardInit() {
         SmartDashboard.putNumber("Thumb",getValue());
         
     }

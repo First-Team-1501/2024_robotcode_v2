@@ -8,7 +8,7 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class StabilizerSubsystem extends SubsystemBase {
@@ -70,7 +70,7 @@ public class StabilizerSubsystem extends SubsystemBase {
 
     set(StabilizerPositions.zero);
 
-    ShuffleBoardInit();
+    shuffleBoardInit();
 
   }
 
@@ -95,13 +95,13 @@ public class StabilizerSubsystem extends SubsystemBase {
     stabilizerEncoder.setPosition(0);
   }
 
-  public void ShuffleBoardInit()
+  public void shuffleBoardInit()
   {
-    //SmartDashboard.putNumber("Stabilizer Position", get());
+    SmartDashboard.putNumber("Stabilizer Position", get());
 
-    Shuffleboard.getTab("Info")
+    /*Shuffleboard.getTab("Info")
       .add("Stabilizer Position", stabilizerEncoder.getPosition())
-      .getEntry();
+      .getEntry();*/
   }
 
 }

@@ -4,15 +4,12 @@
 
 package frc.robot.subsystems.elevator;
 
-import java.util.Map;
-
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.deck.DeckConfig;
 
@@ -74,7 +71,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     // Set to position mode
     elevatorPID.setReference(get(), ElevatorConfig.controlType);
 
-    ShuffleBoardInit();
+    shuffleBoardInit();
 
   }
 
@@ -99,17 +96,22 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorEncoder.setPosition(0);
   }
 
-  public void ShuffleBoardInit()
+  public void setMaxOutput(double output)
+  {
+    elevatorPID.setOutputRange(-output, output);
+  }
+
+  public void shuffleBoardInit()
   {
     // Add to Shuffleboard
-    //SmartDashboard.putNumber("Elevator Position", get());
+    SmartDashboard.putNumber("Elevator Position", get());
 
-   Shuffleboard.getTab("Info")
+   /*Shuffleboard.getTab("Info")
       .add("Elevator Position", elevatorEncoder.getPosition())
       .withWidget(BuiltInWidgets.kNumberBar)
       .withProperties(Map.of("min", 0, "max", 50))
       .withSize(2, 1)
       .withPosition(1, 1)
-      .getEntry();
+      .getEntry();*/
   }
 }
