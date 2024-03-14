@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShootParams;
 import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.AutoShoot;
+import frc.robot.commands.sequential.IntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 
 public class AutoCommands {
@@ -35,7 +36,10 @@ public class AutoCommands {
                 new RevShooter(robot.getShooter(), ShootParams.Auto3.getLeftSpeed(), ShootParams.Auto3.getRightSpeed()),
                 new WaitCommand(shooterDelay)));
 
+        
         NamedCommands.registerCommand("getPiece",
+                new IntakeSequence(robot.getIntake(), robot.getDeck(), robot.getElevator()));
+        NamedCommands.registerCommand("getPieceAuto",
                 new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(), robot.getDrivebase()));
 
         NamedCommands.registerCommand("shootAuto2",
@@ -52,7 +56,7 @@ public class AutoCommands {
     }
 
     public Command SelectAuto() {
-        switch (robot.getThumbwheel().getValue() % 8) {
+        switch (robot.getThumbwheel().getValue()) {
 
             case 1:
                 return robot.getDrivebase().getAutoCommand("Auto1");
@@ -60,15 +64,6 @@ public class AutoCommands {
                 return robot.getDrivebase().getAutoCommand("Auto2");
             case 3:
                 return robot.getDrivebase().getAutoCommand("Auto3");
-
-            case 4: // 3 piece
-                return robot.getDrivebase().getAutoCommand("Auto4");
-
-            case 5: // 4 piece
-                return robot.getDrivebase().getAutoCommand("Auto5");
-
-            case 6: // 3 piece
-                return robot.getDrivebase().getAutoCommand("Auto6");
 
             default:
                 return new InstantCommand();

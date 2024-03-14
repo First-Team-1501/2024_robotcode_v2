@@ -26,7 +26,7 @@ public class IntakeSequence extends SequentialCommandGroup {
     addCommands(
       new SetElevatorPosition(elevator, ElevatorPositions.intake),
       new SetDeckPosition(deck, DeckPositions.intake),
-      new RunIntakeCommand(intake).raceWith(new WaitCommand(3)),
+      new RunIntakeCommand(intake).raceWith(new WaitCommand(4)),
       new SetDeckPosition(deck, DeckPositions.home)
       .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.zero))
     );

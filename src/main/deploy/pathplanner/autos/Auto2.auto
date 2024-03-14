@@ -28,15 +28,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "getPiece"
+                  "pathName": "Path2.1"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Path5.1"
+                  "name": "getPiece"
                 }
               }
             ]
@@ -66,15 +66,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "getPiece"
+                  "pathName": "Path2.2"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Path5.2"
+                  "name": "getPiece"
                 }
               }
             ]
@@ -87,13 +87,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shootAutoAim"
+                  "name": "AutoAimRotate"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoAimRotate"
+                  "name": "shootAutoAim"
                 }
               }
             ]
@@ -104,15 +104,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "getPiece"
+                  "pathName": "Path2.3"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Path5.3"
+                  "name": "getPiece"
                 }
               }
             ]
@@ -125,13 +125,50 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shootAutoAim"
+                  "name": "AutoAimRotate"
                 }
               },
               {
                 "type": "named",
                 "data": {
+                  "name": "shootAutoAim"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path2.4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "getPieceAuto"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path2.5"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
                   "name": "AutoAimRotate"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootAutoAim"
                 }
               }
             ]
@@ -141,12 +178,6 @@
           "type": "named",
           "data": {
             "name": "finishAuto"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path5.4"
           }
         }
       ]

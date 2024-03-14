@@ -23,7 +23,7 @@ public class AutoDeckAim extends Command {
   PIDController deckPIDController = new PIDController(kP, kI, kD);
 
   double pidOut;
-  double increment = 5;
+  //double increment = 5;
  
   
 
