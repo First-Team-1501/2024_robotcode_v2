@@ -52,12 +52,12 @@ public class Leds extends SubsystemBase {
 
   private void setupLeds() {
     // twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
-    twinkleblueAnimation = new TwinkleAnimation(0,0,255,0,0,LedCount,TwinklePercent.Percent30,GUITAR_LEDS_OFFSET);
+    twinkleblueAnimation = new TwinkleAnimation(0,0,255,0,0,LedCount,TwinklePercent.Percent30,TOTAL_LED_OFFSET);
     // twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
     twinkleredAnimation = new TwinkleAnimation(255,0,0,0, 0,TOTAL_LEDS,TwinklePercent.Percent76,0);
     candle1 = new CANdle(48, "canivore");
     // strobeAnimation = new StrobeAnimation(0, 255, 0, 0, 98.0 / 256.0, 68);
-    strobeAnimation = new StrobeAnimation(0, 255, 0, 0, STROBE_SPEED, THUNDERSTUCK_LEDS, 0);
+    strobeAnimation = new StrobeAnimation(0, 255, 0, 255, STROBE_SPEED, THUNDERSTUCK_LEDS, 0);
     twinkleblueguitarAnimation = new TwinkleAnimation(0,0,255,0,0,TOTAL_LEDS,TwinklePercent.Percent88,GUITAR_LEDS_OFFSET);
     twinkleredguitarAnimation = new TwinkleAnimation( 255,0, 0, 0, 0,TOTAL_LEDS,TwinklePercent.Percent30,GUITAR_LEDS_OFFSET);
 
@@ -67,6 +67,7 @@ public class Leds extends SubsystemBase {
     intaking = false;
 
     setLedsUsingAllianceColor();
+    setLedsIntake();
   }
 
   @Override
@@ -79,10 +80,11 @@ public class Leds extends SubsystemBase {
       setLedsToStrobe();
         }
     else if(intaking){
-      setLedsToStrobe();
+      //setLedsToStrobe();
+      setLedsIntake();
     }
     else {
-      candle1.animate(strobeintakeAnimation);
+      //candle1.animate(strobeintakeAnimation);
       setLedsUsingAllianceColor();
     }
     // This method will be called once per scheduler run
@@ -104,6 +106,7 @@ public class Leds extends SubsystemBase {
 
   public void setLedsIntake() {
     // Put what you want them to do in here.
+    candle1.animate(strobeintakeAnimation);
   }
 
   public void setLedsUsingAllianceColor() {
