@@ -347,7 +347,11 @@ public class TeleopCommands {
 
                 notePickup.whileTrue(new NoteAutoAim(robot.getDrivebase(), driverController, rotationController));
                 autoNotePickup.whileTrue(new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),
-                                robot.getDrivebase()));
+                                robot.getDrivebase()))
+                                .onFalse(
+                                                new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                                                                .alongWith(new SetElevatorPosition(robot.getElevator(),
+                                                                                ElevatorPositions.zero)));
 
                 // Reset Robot
                 reset.onTrue(new ResetRobot(robot));

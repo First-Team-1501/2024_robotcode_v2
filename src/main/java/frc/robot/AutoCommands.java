@@ -6,10 +6,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShootParams;
+import frc.robot.commands.deck.SetDeckPosition;
+import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.AutoShoot;
 import frc.robot.commands.sequential.IntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
+import frc.robot.subsystems.deck.DeckPositions;
+import frc.robot.subsystems.elevator.ElevatorPositions;
 
 public class AutoCommands {
 
@@ -37,6 +41,9 @@ public class AutoCommands {
                 new WaitCommand(shooterDelay)));
 
         
+        NamedCommands.registerCommand("extendIntake", 
+                new SetDeckPosition(robot.getDeck(), DeckPositions.intake)
+                .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.intake)));
         NamedCommands.registerCommand("getPiece",
                 new IntakeSequence(robot.getIntake(), robot.getDeck(), robot.getElevator()));
         NamedCommands.registerCommand("getPieceAuto",
