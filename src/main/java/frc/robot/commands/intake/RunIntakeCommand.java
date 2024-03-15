@@ -49,6 +49,7 @@ public class RunIntakeCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     INTAKE_SUBSYSTEM.stop();
+    Leds.setIntakeStatus(false);
     //System.out.println("Ending RunIntakeCommand");
   }
 
