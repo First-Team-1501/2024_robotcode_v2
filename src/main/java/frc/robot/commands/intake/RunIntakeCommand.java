@@ -24,7 +24,7 @@ public class RunIntakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //Leds.setIntakeStatus(true);
+    Leds.setIntakeStatus(true);
     //System.out.println("Starting RunIntakeCommand");
   }
 
@@ -41,7 +41,7 @@ public class RunIntakeCommand extends Command {
 
     if(INTAKE_SUBSYSTEM.readyToScoreTrap())
     {
-     // Leds.setIntakeStatus(false);
+     Leds.setIntakeStatus(false);
     }
   }
 

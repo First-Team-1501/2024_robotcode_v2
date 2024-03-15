@@ -4,15 +4,12 @@
 
 package frc.robot.subsystems.climber;
 
-import java.util.Map;
-
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberSubsystem extends SubsystemBase {
@@ -82,7 +79,7 @@ public class ClimberSubsystem extends SubsystemBase {
     // Set to position mode
     climberPID.setReference(get(), ClimberConfig.controlType);
 
-    ShuffleBoardInit();
+    shuffleBoardInit();
 
   }
 
@@ -107,17 +104,17 @@ public class ClimberSubsystem extends SubsystemBase {
     climberEncoder.setPosition(0);
   }
 
-  public void ShuffleBoardInit() {
+  public void shuffleBoardInit() {
     // Add to Shuffleboard
-    //SmartDashboard.putNumber("Climber Position", get());
+    SmartDashboard.putNumber("Climber Position", get());
 
-    Shuffleboard.getTab("Info")
+    /*Shuffleboard.getTab("Info")
       .add("Climber Position", climberEncoder.getPosition())
       .withWidget(BuiltInWidgets.kNumberBar)
       .withProperties(Map.of("min", 0, "max", 290))
       .withSize(2, 1)
       .withPosition(0, 0)
-      .getEntry();
+      .getEntry();*/
 
       
   }

@@ -6,8 +6,7 @@ package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -70,7 +69,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeSensor = new DigitalInput(IntakeConfig.intakeSensorID);
     outtakeSensor = new DigitalInput(IntakeConfig.outtakeSensorID);
 
-    ShuffleBoardInit();
+    shuffleBoardInit();
   }
 
   @Override
@@ -103,12 +102,14 @@ public class IntakeSubsystem extends SubsystemBase {
     return (outtakeSensor.get());
   }
 
-  public void ShuffleBoardInit() {
+  public void shuffleBoardInit() {
     // Put what you want to send to ShuffleBoard here
-    // Shuffleboard.getTab("Intake").add("Has Note", intakeSensor.get());
-    // Shuffleboard.getTab("Intake").addBoolean(getName(), null)("Outtake Sensor",
+    //Shuffleboard.getTab("Intake").addBoolean("Has Note", intakeSensor.get());
+    //Shuffleboard.getTab("Intake").addBoolean("Outake Sensor", outtakeSensor.get());
+    SmartDashboard.putBoolean("Has Note", intakeSensor.get());
+    SmartDashboard.putBoolean("Outake Sensor", outtakeSensor.get());
     // outtakeSensor.get());
-    Shuffleboard.getTab("Info")
+    /*Shuffleboard.getTab("Info")
         .add("Has Note", intakeSensor.get())
         .withWidget(BuiltInWidgets.kBooleanBox) // specify the widget here
         .withPosition(0, 1)
@@ -118,7 +119,7 @@ public class IntakeSubsystem extends SubsystemBase {
         .add("Outtake Sensor", outtakeSensor.get())
         .withWidget(BuiltInWidgets.kBooleanBox) // specify the widget here
         .withPosition(2, 0)
-        .getEntry();
+        .getEntry();*/
   }
 
 }

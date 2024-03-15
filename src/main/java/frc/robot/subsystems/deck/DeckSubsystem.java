@@ -8,12 +8,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import java.util.Map;
-
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DeckSubsystem extends SubsystemBase {
@@ -72,7 +69,7 @@ public class DeckSubsystem extends SubsystemBase {
     deckMotor.burnFlash();
 
     //SmartDashboard.putNumber("Deck Position", get());
-    ShuffleBoardInit();
+    shuffleBoardInit();
 
   }
 
@@ -97,16 +94,16 @@ public class DeckSubsystem extends SubsystemBase {
     deckEncoder.setPosition(0);
   }
 
-  public void ShuffleBoardInit()
+  public void shuffleBoardInit()
   {
-    //SmartDashboard.putNumber("Deck Position", get());
+    SmartDashboard.putNumber("Deck Position", get());
 
-    Shuffleboard.getTab("Info")
+    /*Shuffleboard.getTab("Info")
     .add("Deck Position", deckEncoder.getPosition())
     .withWidget(BuiltInWidgets.kDial)
     .withProperties(Map.of("min", 0, "max", 150))
     .withPosition(0, 2)
-    .getEntry();
+    .getEntry();*/
   }
 
 }
