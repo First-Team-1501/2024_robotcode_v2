@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.Drivebase;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.climber.SetClimberPosition;
 import frc.robot.commands.deck.AutoDeckAim;
@@ -32,6 +33,7 @@ import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
+import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.NoteAutoAim;
 import frc.robot.commands.swervedrive.drivebase.SpeakerAutoAim;
 import frc.robot.subsystems.climber.ClimberPositions;
@@ -113,6 +115,7 @@ public class TeleopCommands {
         private Trigger autoSteer;
         private Trigger autoSteerAlt;
         private Trigger notePickup;
+        private Trigger headingMode;
 
         // Button for Roborio
         private Trigger reset;
@@ -162,13 +165,16 @@ public class TeleopCommands {
                 simpleshootAlt = driverController.button(11);
                 climb = driverController.button(2);
                 preclimb = driverController.button(3);
+                jogClimberUp = driverController.button(5);
+                jogClimberDown = driverController.button(4);
+                autoNotePickup = driverController.button(10);
+
+                // ROTATION
                 zeroGyro = rotationController.button(1);
                 autoSteer = rotationController.button(2);
                 autoSteerAlt = rotationController.button(6);
                 notePickup = rotationController.button(7);
-                jogClimberUp = driverController.button(5);
-                jogClimberDown = driverController.button(4);
-                autoNotePickup = driverController.button(10);
+                headingMode = rotationController.button(3);
 
                 // ROBORIO
                 reset = new Trigger(() -> RobotController.getUserButton());
@@ -372,6 +378,12 @@ public class TeleopCommands {
                         new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),robot.getDrivebase(),robot.getLeds()))
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
                                 .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)));
+
+                headingMode.whileTrue(
+                        new AbsoluteDrive(robot.getDrivebase(),
+                        d                    
+                        )
+                );
 
                 // Reset Robot
                 reset.onTrue(new ResetRobot(robot));
