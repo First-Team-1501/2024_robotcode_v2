@@ -4,17 +4,24 @@
 
 package frc.robot.subsystems.deck;
 
+import java.util.Map;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DeckSubsystem extends SubsystemBase {
 
+  GenericEntry deckPosition;
+  
   // Create motor, encoder, and PID instances
   private CANSparkMax deckMotor;
   private RelativeEncoder deckEncoder;
@@ -70,12 +77,14 @@ public class DeckSubsystem extends SubsystemBase {
 
     //SmartDashboard.putNumber("Deck Position", get());
     shuffleBoardInit();
+    
 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    deckPosition.setDouble(get());
     
   }
 
@@ -103,16 +112,16 @@ public class DeckSubsystem extends SubsystemBase {
   public void shuffleBoardInit()
   {
     // ? Added the deckEncoder.getPostion() to the line of code we will see if it works.
-    SmartDashboard.putNumber("Deck Position", deckEncoder.getPosition());
+    //SmartDashboard.putNumber("Deck Position", deckEncoder.getPosition());
 
     //SmartDashboard.putNumber("Deck Position", get());
 
-    /*Shuffleboard.getTab("Info")
-    .add("Deck Position", deckEncoder.getPosition())
+    deckPosition = Shuffleboard.getTab("Info")
+    .add("Deck Position2", deckEncoder.getPosition())
     .withWidget(BuiltInWidgets.kDial)
     .withProperties(Map.of("min", 0, "max", 150))
     .withPosition(0, 2)
-    .getEntry();*/
+    .getEntry();
   }
 
 }
