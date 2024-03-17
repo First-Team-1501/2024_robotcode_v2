@@ -102,8 +102,10 @@ public class DeckSubsystem extends SubsystemBase {
 
   public void shuffleBoardInit()
   {
+    // ? Added the deckEncoder.getPostion() to the line of code we will see if it works.
+    SmartDashboard.putNumber("Deck Position", deckEncoder.getPosition());
 
-    SmartDashboard.putNumber("Deck Position", get());
+    //SmartDashboard.putNumber("Deck Position", get());
 
     /*Shuffleboard.getTab("Info")
     .add("Deck Position", deckEncoder.getPosition())
