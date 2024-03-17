@@ -118,7 +118,7 @@ public class DeckSubsystem extends SubsystemBase {
     deckPosition = Shuffleboard.getTab("Info")
     .add("Deck Position2", deckEncoder.getPosition())
     .withWidget(BuiltInWidgets.kDial)
-    .withProperties(Map.of("min", 0, "max", 150))
+    .withProperties(Map.of("min", 0, "max", 160))
     .withPosition(0, 2)
     .getEntry();
   }
