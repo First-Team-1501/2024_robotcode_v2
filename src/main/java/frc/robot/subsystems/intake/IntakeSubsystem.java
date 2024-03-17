@@ -5,8 +5,10 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkMax;
+
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -17,6 +19,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private DigitalInput intakeSensor;
   private DigitalInput outtakeSensor;
+
+  //This is for shuffleboard
+  GenericEntry hasNote;
+  GenericEntry outtakeSensorEntry;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -77,6 +83,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     // SmartDashboard.putBoolean("Has Note", hasNote());
     // SmartDashboard.putBoolean("Outtake Sensor", readyToScoreTrap());
+    updateShuffleboard();
 
   }
 
@@ -106,21 +113,27 @@ public class IntakeSubsystem extends SubsystemBase {
     // Put what you want to send to ShuffleBoard here
     //Shuffleboard.getTab("Intake").addBoolean("Has Note", intakeSensor.get());
     //Shuffleboard.getTab("Intake").addBoolean("Outake Sensor", outtakeSensor.get());
-    SmartDashboard.putBoolean("Has Note", intakeSensor.get());
-    SmartDashboard.putBoolean("Outake Sensor", outtakeSensor.get());
+    //SmartDashboard.putBoolean("Has Note", intakeSensor.get());
+    //SmartDashboard.putBoolean("Outake Sensor", outtakeSensor.get());
     // outtakeSensor.get());
-    /*Shuffleboard.getTab("Info")
+    hasNote = Shuffleboard.getTab("Info")
         .add("Has Note", intakeSensor.get())
-        .withWidget(BuiltInWidgets.kBooleanBox) // specify the widget here
+        .withWidget("Boolean Box") // specify the widget here
         .withPosition(0, 1)
         .getEntry();
 
-    Shuffleboard.getTab("Info")
+    outtakeSensorEntry = Shuffleboard.getTab("Info")
         .add("Outtake Sensor", outtakeSensor.get())
-        .withWidget(BuiltInWidgets.kBooleanBox) // specify the widget here
+        .withWidget("Boolean Box") // specify the widget here
         .withPosition(2, 0)
-        .getEntry();*/
+        .getEntry();
 
+  }
+
+  public void updateShuffleboard() {
+    // Update Shuffleboard
+    hasNote.setBoolean(intakeSensor.get());
+    outtakeSensorEntry.setBoolean(outtakeSensor.get());
   }
 
 }

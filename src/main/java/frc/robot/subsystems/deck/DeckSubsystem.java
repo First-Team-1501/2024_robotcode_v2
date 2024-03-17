@@ -83,7 +83,7 @@ public class DeckSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    deckPosition.setDouble(get());
+    updateShuffleboard();
     
   }
 
@@ -121,6 +121,11 @@ public class DeckSubsystem extends SubsystemBase {
     .withProperties(Map.of("min", 0, "max", 150))
     .withPosition(0, 2)
     .getEntry();
+  }
+
+  public void updateShuffleboard()
+  {
+    deckPosition.setDouble(get());
   }
 
 }

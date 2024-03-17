@@ -5,11 +5,15 @@
 package frc.robot.subsystems.climber;
 
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
+
+import java.util.Map;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberSubsystem extends SubsystemBase {
@@ -19,6 +23,9 @@ public class ClimberSubsystem extends SubsystemBase {
   private CANSparkMax climberSlaveMotor;
   private RelativeEncoder climberEncoder;
   private SparkPIDController climberPID;
+
+  //This is for Shuffleboard.
+  GenericEntry climberPosition;
 
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
@@ -87,6 +94,7 @@ public class ClimberSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     //SmartDashboard.putNumber("Climber Position", get());
+    updateShuffleboard();
   }
 
   // Get position
@@ -106,18 +114,21 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void shuffleBoardInit() {
     // Add to Shuffleboard
-    SmartDashboard.putNumber("Climber Position", get());
+    //SmartDashboard.putNumber("Climber Position", get());
 
-    /*Shuffleboard.getTab("Info")
+    climberPosition = Shuffleboard.getTab("Info")
       .add("Climber Position", climberEncoder.getPosition())
-      .withWidget(BuiltInWidgets.kNumberBar)
+      .withWidget("Number Bar")
       .withProperties(Map.of("min", 0, "max", 290))
       .withSize(2, 1)
       .withPosition(0, 0)
-      .getEntry();*/
+      .getEntry();
 
+    }
 
-      
-  }
+    public void updateShuffleboard()
+    {
+      climberPosition.setDouble(climberEncoder.getPosition());
+    }
 
 }
