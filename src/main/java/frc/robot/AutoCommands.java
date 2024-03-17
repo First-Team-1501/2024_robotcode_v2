@@ -53,10 +53,10 @@ public class AutoCommands {
                                                 .alongWith(new SetElevatorPosition(robot.getElevator(),
                                                                 ElevatorPositions.intake)));
                 NamedCommands.registerCommand("getPiece",
-                                new IntakeSequence(robot.getIntake(), robot.getDeck(), robot.getElevator()));
+                                new IntakeSequence(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds()));
                 NamedCommands.registerCommand("getPieceAuto",
                                 new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),
-                                                robot.getDrivebase()));
+                                                robot.getDrivebase(), robot.getLeds()));
 
                 NamedCommands.registerCommand("shootAuto2",
                                 new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(), ShootParams.Auto2,
@@ -74,6 +74,7 @@ public class AutoCommands {
                                                 ShootParams.Podium, true, robot.getLimelight()));
 
                 NamedCommands.registerCommand("simpleShoot", new SimpleShootNote(robot.getIntake()));
+        }
 
         public Command SelectAuto() {
                 switch (robot.getThumbwheel().getValue()) {

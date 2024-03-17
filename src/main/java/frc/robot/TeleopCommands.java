@@ -212,7 +212,7 @@ public class TeleopCommands {
                         .andThen
                         (
                                 new SetDeckPosition(robot.getDeck(),DeckPositions.intake)
-                                .alongWith(new RunIntakeCommand(robot.getIntake()))
+                                .alongWith(new RunIntakeCommand(robot.getIntake(), robot.getLeds()))
                         )
                         .andThen
                         (
@@ -229,7 +229,7 @@ public class TeleopCommands {
                         )
                 );
 
-                jogIntake.whileTrue(new RunIntakeCommand(robot.getIntake()));
+                jogIntake.whileTrue(new RunIntakeCommand(robot.getIntake(), robot.getLeds()));
 
                 runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
 
@@ -289,7 +289,7 @@ public class TeleopCommands {
 
                 //auto note pickup
                 operatorAutoNotePickup.whileTrue(
-                        new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),robot.getDrivebase()))
+                        new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),robot.getDrivebase(), robot.getLeds()))
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
                                 .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)));
 
@@ -363,7 +363,7 @@ public class TeleopCommands {
 
                 notePickup.whileTrue(new NoteAutoAim(robot.getDrivebase(), driverController, rotationController));
                 autoNotePickup.whileTrue(
-                        new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),robot.getDrivebase()))
+                        new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),robot.getDrivebase(),robot.getLeds()))
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
                                 .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)));
 
