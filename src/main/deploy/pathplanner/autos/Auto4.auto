@@ -43,7 +43,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shootAutoAim"
+                  "name": "simpleShoot"
                 }
               }
             ]
@@ -81,7 +81,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shootAutoAim"
+                  "name": "simpleShoot"
                 }
               }
             ]
@@ -119,7 +119,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shootAutoAim"
+                  "name": "simpleShoot"
                 }
               }
             ]
@@ -157,7 +157,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shootAutoAim"
+                  "name": "simpleShoot"
                 }
               }
             ]
@@ -195,7 +195,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shootAutoAim"
+                  "name": "simpleShoot"
                 }
               }
             ]

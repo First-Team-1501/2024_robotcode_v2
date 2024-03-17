@@ -201,22 +201,32 @@ public class TeleopCommands {
         private void SetupOperatorCommands() {
 
                 // Intake sequence: extend elevator, lower deck, and intake
-                runIntake.whileTrue(
+                runIntake.whileTrue
+                (
+                        new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                        .andThen
+                        (
+                                new SetElevatorPosition(robot.getElevator(),ElevatorPositions.intake)
+                        )
+                        .andThen
+                        (
+                                new SetDeckPosition(robot.getDeck(),DeckPositions.intake)
+                                .alongWith(new RunIntakeCommand(robot.getIntake()))
+                        )
+                        .andThen
+                        (
                                 new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                                                .andThen(new SetElevatorPosition(robot.getElevator(),
-                                                                ElevatorPositions.intake))
-                                                .andThen(
-                                                                new SetDeckPosition(robot.getDeck(),
-                                                                                DeckPositions.intake)
-                                                                                .alongWith(new RunIntakeCommand(
-                                                                                                robot.getIntake())))
-                                                .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                                                                .alongWith(new SetElevatorPosition(robot.getElevator(),
-                                                                                ElevatorPositions.zero))))
-                                .onFalse(
-                                                new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                                                                .alongWith(new SetElevatorPosition(robot.getElevator(),
-                                                                                ElevatorPositions.zero)));
+                                .alongWith(new SetElevatorPosition(robot.getElevator(),ElevatorPositions.zero))
+                        )
+                )
+                .onFalse
+                (
+                        new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                        .andThen
+                        (
+                                new SetElevatorPosition(robot.getElevator(),ElevatorPositions.zero)
+                        )
+                );
 
                 jogIntake.whileTrue(new RunIntakeCommand(robot.getIntake()));
 
