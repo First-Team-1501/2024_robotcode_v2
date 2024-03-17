@@ -297,6 +297,12 @@ public class TeleopCommands {
 
         private void SetupDriverCommands() {
 
+                Command headingMode = robot.getDrivebase().driveCommand(
+                        () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
+                        () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
+                        () -> -rotationController.getX(),
+                        () -> -rotationController.getY());
+
 
                 // runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
                 simpleshoot.onTrue(new SimpleShootNote(robot.getIntake()));
