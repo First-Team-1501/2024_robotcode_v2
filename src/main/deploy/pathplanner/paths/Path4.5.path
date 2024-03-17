@@ -70,7 +70,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Path4",
   "previewStartingState": {
     "rotation": 14.858614447924596,
     "velocity": 0
