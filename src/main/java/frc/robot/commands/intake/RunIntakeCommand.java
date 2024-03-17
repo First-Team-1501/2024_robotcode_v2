@@ -34,11 +34,13 @@ public class RunIntakeCommand extends Command {
   {
     if(!isFinished())
     {
-      INTAKE_SUBSYSTEM.set( IntakeConfig.runningSpeed, IntakeConfig.runningSpeed);
-      return;
+      INTAKE_SUBSYSTEM.set( IntakeConfig.runningSpeed, IntakeConfig.runningSpeed);   
     }
-    INTAKE_SUBSYSTEM.stop();
-
+    else
+    {
+      INTAKE_SUBSYSTEM.stop();
+    }
+    
     if(INTAKE_SUBSYSTEM.readyToScoreTrap())
     {
      Leds.setIntakeStatus(false);
