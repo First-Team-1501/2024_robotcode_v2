@@ -38,7 +38,7 @@ public class ShootNote extends Command {
         (LimelightHelpers.getTX("limelight") > -3) &&
         (LimelightHelpers.getTY("limelight") > -3) &&
         LimelightHelpers.getTV("limelight")) {
-      if(counter>10)INTAKE_SUBSYSTEM.set(1, 1);
+      if(counter>2)INTAKE_SUBSYSTEM.set(1, 1);
       counter++;
     }
   }
@@ -53,7 +53,7 @@ public class ShootNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return counter > 30;
+    return counter > 12;
   }
 
   public boolean targetLocked() {

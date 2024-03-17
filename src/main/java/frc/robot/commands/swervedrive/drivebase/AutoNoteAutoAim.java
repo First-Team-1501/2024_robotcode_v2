@@ -63,13 +63,13 @@ public class AutoNoteAutoAim extends Command {
   public double drive_speed()
   {
     double tY = LimelightHelpers.getTY("limelight-intake");
-    double outputSpeed = (26 + tY) / 10;
+    double outputSpeed = (26 + tY) / 12;
     return outputSpeed;
   }
 
   public double limelight_aim_proportional_note() {
 
-    double kP = 0.03;
+    double kP = 0.04;
     double kI = 0;
     double kD = 0.00000000000000000001;
     double maxTolerance = 3;

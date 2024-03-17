@@ -2,43 +2,32 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.308995050422533,
-      "y": 5.528332498106438
+      "x": 1.4199314885116257,
+      "y": 4.113892912470511
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "startAuto3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shootAuto3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path4.1"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "getPiece"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path4.2"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Path4.1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "startAuto4"
+                }
+              }
+            ]
           }
         },
         {
@@ -48,13 +37,165 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shootAutoAim"
+                  "name": "AutoAimRotate"
                 }
               },
               {
                 "type": "named",
                 "data": {
+                  "name": "simpleShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Path4.2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "getPiece"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
                   "name": "AutoAimRotate"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "simpleShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Path4.3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "getPiece"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "simpleShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Path4.4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "getPiece"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "simpleShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Path4.5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "getPiece"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "simpleShoot"
                 }
               }
             ]

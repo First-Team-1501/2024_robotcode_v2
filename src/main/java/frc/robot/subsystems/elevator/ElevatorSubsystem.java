@@ -8,9 +8,6 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-
-//import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-//import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.deck.DeckConfig;
@@ -96,6 +93,11 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void resetEncoder()
   {
     elevatorEncoder.setPosition(0);
+  }
+
+  public void setMaxOutput(double output)
+  {
+    elevatorPID.setOutputRange(-output, output);
   }
 
   public void shuffleBoardInit()

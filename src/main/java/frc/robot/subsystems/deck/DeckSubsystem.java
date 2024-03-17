@@ -94,8 +94,15 @@ public class DeckSubsystem extends SubsystemBase {
     deckEncoder.setPosition(0);
   }
 
+
+  public void setMaxOutput(double output)
+  {
+    deckPID.setOutputRange(-output, output);
+  }
+
   public void shuffleBoardInit()
   {
+
     SmartDashboard.putNumber("Deck Position", get());
 
     /*Shuffleboard.getTab("Info")

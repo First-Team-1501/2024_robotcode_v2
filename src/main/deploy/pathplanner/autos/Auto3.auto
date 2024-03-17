@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.66,
-      "y": 6.74
+      "x": 1.4106867853375344,
+      "y": 5.4821089822359825
     },
-    "rotation": 59.74
+    "rotation": -51.91122711902471
   },
   "command": {
     "type": "sequential",
@@ -21,18 +21,6 @@
           "type": "named",
           "data": {
             "name": "shootAuto3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path3.1"
           }
         },
         {
@@ -52,18 +40,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path3.2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Path3.1"
           }
         },
         {

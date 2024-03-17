@@ -120,6 +120,7 @@ public class IntakeSubsystem extends SubsystemBase {
         .withWidget(BuiltInWidgets.kBooleanBox) // specify the widget here
         .withPosition(2, 0)
         .getEntry();*/
+
   }
 
 }
