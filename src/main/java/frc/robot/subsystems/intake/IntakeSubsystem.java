@@ -104,8 +104,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void shuffleBoardInit() {
     // Put what you want to send to ShuffleBoard here
-    // Shuffleboard.getTab("Intake").add("Has Note", intakeSensor.get());
-    // Shuffleboard.getTab("Intake").addBoolean(getName(), null)("Outtake Sensor",
+    //Shuffleboard.getTab("Intake").addBoolean("Has Note", intakeSensor.get());
+    //Shuffleboard.getTab("Intake").addBoolean("Outake Sensor", outtakeSensor.get());
+    SmartDashboard.putBoolean("Has Note", intakeSensor.get());
+    SmartDashboard.putBoolean("Outake Sensor", outtakeSensor.get());
     // outtakeSensor.get());
     /*Shuffleboard.getTab("Info")
         .add("Has Note", intakeSensor.get())
@@ -119,8 +121,6 @@ public class IntakeSubsystem extends SubsystemBase {
         .withPosition(2, 0)
         .getEntry();*/
 
-    SmartDashboard.putBoolean("Has Note", intakeSensor.get());
-    SmartDashboard.putBoolean("Outake Sensor", outtakeSensor.get());
   }
 
 }

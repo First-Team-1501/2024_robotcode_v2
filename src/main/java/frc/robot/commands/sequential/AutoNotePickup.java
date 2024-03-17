@@ -14,6 +14,7 @@ import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.leds.Leds;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -22,14 +23,14 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 public class AutoNotePickup extends SequentialCommandGroup {
   /** Creates a new AutoNotePickup. */
 
-  public AutoNotePickup(DeckSubsystem deck, ElevatorSubsystem elevator, IntakeSubsystem intake, SwerveSubsystem drivebase) {
+  public AutoNotePickup(DeckSubsystem deck, ElevatorSubsystem elevator, IntakeSubsystem intake, SwerveSubsystem drivebase, Leds leds) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands
     (
       new SetDeckPosition(deck, DeckPositions.intake)
       .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.intake)),
-      new RunIntakeCommand(intake)
+      new RunIntakeCommand(intake, leds)
       .raceWith(new AutoNoteAutoAim(drivebase, intake, 1.5)),
       new SetDeckPosition(deck, DeckPositions.home)
       .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.zero))

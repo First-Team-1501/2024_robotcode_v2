@@ -75,8 +75,6 @@ public class AutoCommands {
 
                 NamedCommands.registerCommand("simpleShoot", new SimpleShootNote(robot.getIntake()));
 
-        }
-
         public Command SelectAuto() {
                 switch (robot.getThumbwheel().getValue()) {
 
