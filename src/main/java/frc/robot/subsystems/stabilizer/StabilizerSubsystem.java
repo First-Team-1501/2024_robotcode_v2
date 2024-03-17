@@ -8,7 +8,9 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class StabilizerSubsystem extends SubsystemBase {
@@ -17,6 +19,9 @@ public class StabilizerSubsystem extends SubsystemBase {
   private CANSparkMax stabilizerMotor;
   private RelativeEncoder stabilizerEncoder;
   private SparkPIDController stabilizerPID;
+
+  //This is for Shuffleboard.
+  GenericEntry stabilizerPosition;
   
   /** Creates a new StabilizerSubsystem. */
   public StabilizerSubsystem() 
@@ -78,6 +83,7 @@ public class StabilizerSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     //SmartDashboard.putNumber("Stabilizer Position", get());
+    updateShuffleboard();
   }
 
   // Get position
@@ -97,11 +103,16 @@ public class StabilizerSubsystem extends SubsystemBase {
 
   public void shuffleBoardInit()
   {
-    SmartDashboard.putNumber("Stabilizer Position", get());
+    //SmartDashboard.putNumber("Stabilizer Position", get());
 
-    /*Shuffleboard.getTab("Info")
+    stabilizerPosition = Shuffleboard.getTab("Info")
       .add("Stabilizer Position", stabilizerEncoder.getPosition())
-      .getEntry();*/
+      .getEntry();
+  }
+
+  public void updateShuffleboard()
+  {
+    stabilizerPosition.setDouble(stabilizerEncoder.getPosition());
   }
 
 }
