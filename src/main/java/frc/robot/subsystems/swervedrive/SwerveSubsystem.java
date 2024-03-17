@@ -41,7 +41,7 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
-  public double maximumSpeed = Units.feetToMeters(17);
+  public double maximumSpeed = Units.feetToMeters(17.6);
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -52,7 +52,7 @@ public class SwerveSubsystem extends SubsystemBase {
     // Angle conversion factor is 360 / (GEAR RATIO * ENCODER RESOLUTION)
     // In this case the gear ratio is 12.8 motor revolutions per wheel rotation.
     // The encoder resolution per motor revolution is 1 per motor revolution.
-    double angleConversionFactor = SwerveMath.calculateDegreesPerSteeringRotation(12.8);
+    double angleConversionFactor = SwerveMath.calculateDegreesPerSteeringRotation(150/7);
     // Motor conversion factor is (PI * WHEEL DIAMETER IN METERS) / (GEAR RATIO *
     // ENCODER RESOLUTION).
     // In this case the wheel diameter is 4 inches, which must be converted to
@@ -113,7 +113,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 swerveDrive.swerveController.config.headingPIDF.i,
                 swerveDrive.swerveController.config.headingPIDF.d),
             // Rotation PID constants
-            5.4,
+            15.0,
             // Max module speed, in m/s
             swerveDrive.swerveDriveConfiguration.getDriveBaseRadiusMeters(),
             // Drive base radius in meters. Distance from robot center to furthest module.
@@ -125,7 +125,6 @@ public class SwerveSubsystem extends SubsystemBase {
               // Boolean supplier that controls when the path will be mirrored for the red alliance
               // This will flip the path being followed to the red side of the field.
               // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
               var alliance = DriverStation.getAlliance();
               if (alliance.isPresent()) {
                 return alliance.get() == DriverStation.Alliance.Red;

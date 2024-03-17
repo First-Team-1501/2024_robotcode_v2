@@ -23,6 +23,7 @@ public class AutoDeckAim extends Command {
   PIDController deckPIDController = new PIDController(kP, kI, kD);
 
   double pidOut;
+  double count;
   //double increment = 5;
  
   
@@ -40,7 +41,7 @@ public class AutoDeckAim extends Command {
   @Override
   public void initialize() 
   {
-
+    count = 50;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,13 +50,18 @@ public class AutoDeckAim extends Command {
   {
     if(LimelightHelpers.getTV("limelight"))
     {
+      count = 0;
       pidOut = deckPIDController.calculate(LimelightHelpers.getTY("limelight"));
       SmartDashboard.putNumber("Deck PID Cont", pidOut);
       DECK_SUBSYSTEM.set(DECK_SUBSYSTEM.get() + pidOut);
 
     }
+    else if(count < 50)
+    {
+      count++;
+    }
     else{
-      DECK_SUBSYSTEM.set(DeckPositions.podium);
+      DECK_SUBSYSTEM.set(DeckPositions.auto);
     }
 
   }

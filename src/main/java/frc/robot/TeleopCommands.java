@@ -25,7 +25,6 @@ import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ScoreTrap;
-import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.intake.SimpleShootNote;
 import frc.robot.commands.intake.TrapOuttake;
 import frc.robot.commands.reset.ResetRobot;
@@ -88,6 +87,7 @@ public class TeleopCommands {
         private Trigger preAmp;
         private Trigger autoAim;
         private Trigger home;
+        private Trigger operatorAutoNotePickup;
 
         // Buttons for Button Board
         private Trigger jogDeckUp;
@@ -95,9 +95,10 @@ public class TeleopCommands {
         private Trigger jogElevatorOut;
         private Trigger jogElevatorIn;
         private Trigger scoreTrap;
+        private Trigger sourceForward;
+        private Trigger middleForward;
 
         // Buttons for Drive Joystick
-        private Trigger shoot;
         private Trigger climb;
         private Trigger preclimb;
         private Trigger simpleshoot;
@@ -151,6 +152,9 @@ public class TeleopCommands {
                 jogElevatorIn = new JoystickButton(buttonBoard, 1);
                 jogElevatorOut = new JoystickButton(buttonBoard, 10);
                 scoreTrap = new JoystickButton(buttonBoard, 12);
+                sourceForward = new JoystickButton(buttonBoard, 8);
+                middleForward = new JoystickButton(buttonBoard, 9);
+                operatorAutoNotePickup = new JoystickButton(buttonBoard, 6);
 
                 // DRIVER
                 simpleshoot = driverController.button(1);
@@ -160,11 +164,10 @@ public class TeleopCommands {
                 zeroGyro = rotationController.button(1);
                 autoSteer = rotationController.button(2);
                 autoSteerAlt = rotationController.button(6);
-                shoot = driverController.button(10);
                 notePickup = rotationController.button(7);
                 jogClimberUp = driverController.button(5);
                 jogClimberDown = driverController.button(4);
-                autoNotePickup = driverController.button(7);
+                autoNotePickup = driverController.button(10);
 
                 // ROBORIO
                 reset = new Trigger(() -> RobotController.getUserButton());
@@ -242,12 +245,9 @@ public class TeleopCommands {
                                                 ShooterConfig.podiumRightSpeed)))
                                 .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
-                home.onTrue(
-                                new SetElevatorPosition(robot.getElevator(), 0)
-                                                .andThen(
-                                                                new SetDeckPosition(robot.getDeck(), 0))
-                                                .andThen(
-                                                                new SetStabilizerPosition(robot.getStabilizer(), 0)));
+                home.onTrue(new SetElevatorPosition(robot.getElevator(), 0)
+                                        .andThen(new SetDeckPosition(robot.getDeck(), 0))
+                                        .andThen(new SetStabilizerPosition(robot.getStabilizer(), 0)));
 
                 zeroElevator.onTrue(new ResetElevatorPosition(robot.getElevator()));
 
@@ -266,21 +266,26 @@ public class TeleopCommands {
                 // Score Trap
                 scoreTrap.whileTrue(new ScoreTrap(robot.getIntake()));
 
+                //source forwarding
+                sourceForward.whileTrue(new SetDeckPosition(robot.getDeck(), 3)
+                        .alongWith(new RevShooter(robot.getShooter(),0.5 ,0.4)))
+                        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+
+                //middle forwarding
+                middleForward.whileTrue(new SetDeckPosition(robot.getDeck(), 3)
+                        .alongWith(new RevShooter(robot.getShooter(),0.55 ,0.45)))
+                        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+
+                //auto note pickup
+                operatorAutoNotePickup.whileTrue(
+                        new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),robot.getDrivebase()))
+                        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                                .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)));
+
         }
 
         private void SetupDriverCommands() {
 
-                // Auto Aim Command
-                Command driveFieldOrientedAutoAim = robot.getDrivebase().driveCommand(
-                                () -> -MathUtil.applyDeadband(driverController.getY(),
-                                                OperatorConstants.LEFT_Y_DEADBAND),
-                                () -> -MathUtil.applyDeadband(driverController.getX(),
-                                                OperatorConstants.LEFT_X_DEADBAND),
-                                () -> -robot.limelight_aim_proportional());
-
-                // Run intake to shoot note
-                shoot.whileTrue(new ShootNote(robot.getIntake(), robot.getLimelight()));
-                shoot.whileTrue(driveFieldOrientedAutoAim);
 
                 // runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
                 simpleshoot.onTrue(new SimpleShootNote(robot.getIntake()));
@@ -346,12 +351,10 @@ public class TeleopCommands {
                 autoSteerAlt.whileTrue(new SpeakerAutoAim(robot.getDrivebase(), driverController, rotationController));
 
                 notePickup.whileTrue(new NoteAutoAim(robot.getDrivebase(), driverController, rotationController));
-                autoNotePickup.whileTrue(new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),
-                                robot.getDrivebase()))
-                                .onFalse(
-                                                new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                                                                .alongWith(new SetElevatorPosition(robot.getElevator(),
-                                                                                ElevatorPositions.zero)));
+                autoNotePickup.whileTrue(
+                        new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),robot.getDrivebase()))
+                        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                                .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)));
 
                 // Reset Robot
                 reset.onTrue(new ResetRobot(robot));

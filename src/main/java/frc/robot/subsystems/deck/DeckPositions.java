@@ -23,4 +23,6 @@ public class DeckPositions {
     public static double trap = 110;
 
     public static double climb = 110;
+
+    public static double auto = 20;
 }
