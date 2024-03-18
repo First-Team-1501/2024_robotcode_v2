@@ -4,15 +4,12 @@
 
 package frc.robot.commands.sequential;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ShootParams;
 import frc.robot.commands.deck.AutoDeckAim;
-import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.intake.SimpleShootNote;
-import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.limelight.Limelight;
