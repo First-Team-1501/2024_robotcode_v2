@@ -38,7 +38,7 @@ public class ShootNote extends Command {
         (LimelightHelpers.getTX("limelight") > -3) &&
         (LimelightHelpers.getTY("limelight") > -3) &&
         LimelightHelpers.getTV("limelight")) {
-      if(counter>2)INTAKE_SUBSYSTEM.set(1, 1);
+      if(counter>1)INTAKE_SUBSYSTEM.set(1, 1);
       counter++;
     }
   }
@@ -57,9 +57,9 @@ public class ShootNote extends Command {
   }
 
   public boolean targetLocked() {
-    return (LimelightHelpers.getTX("limelight") < 0.5) &&
-        (LimelightHelpers.getTY("limelight") < 0.5) &&
-        (LimelightHelpers.getTX("limelight") > -0.5) &&
-        (LimelightHelpers.getTY("limelight") > -0.5);
+    return (LimelightHelpers.getTX("limelight") < 2) &&
+        (LimelightHelpers.getTY("limelight") < 2) &&
+        (LimelightHelpers.getTX("limelight") > 2) &&
+        (LimelightHelpers.getTY("limelight") > 2);
   }
 }

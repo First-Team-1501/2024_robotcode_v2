@@ -63,9 +63,9 @@ public class SpeakerAutoAim extends Command {
 
   public double limelight_aim_proportional() {
 
-    double kP = 0.04;
-    double kI = 0;
-    double kD = 0.00000000000001;
+    double kP = 0.06; //0.04 
+    double kI = 0.000001;
+    double kD = 0.000000000000000000000000001; //0.00000000000001;
     double maxTolerance = 3;
 
     try (PIDController pidCont = new PIDController(kP, kI, kD)) {

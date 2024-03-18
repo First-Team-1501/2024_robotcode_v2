@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7912916726734353,
-      "y": 4.335765788648695
+      "x": 0.9669410329811648,
+      "y": 4.3912340076932415
     },
-    "rotation": -59.42077312751099
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -16,30 +16,49 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "Path1.0"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "startAuto2"
                 }
               },
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 0.75
+                  "name": "setDeckPosAuto1"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "shootAuto2"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootAuto1Aim"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Path1.3"
+            "pathName": "Path1.1"
           }
         },
         {

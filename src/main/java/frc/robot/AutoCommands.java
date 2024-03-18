@@ -9,6 +9,7 @@ import frc.robot.Constants.ShootParams;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.SimpleShootNote;
+import frc.robot.commands.sequential.Auto1Shoot;
 import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.AutoShoot;
 import frc.robot.commands.sequential.IntakeSequence;
@@ -37,7 +38,7 @@ public class AutoCommands {
                                 new WaitCommand(shooterDelay)));
                 NamedCommands.registerCommand("startAuto2", new ParallelRaceGroup(
                                 new RevShooter(robot.getShooter(), ShootParams.Auto2.getLeftSpeed(),
-                                                ShootParams.Auto2.getRightSpeed()),
+                                                ShootParams.Auto2.getRightSpeed(), false),
                                 new WaitCommand(shooterDelay)));
                 NamedCommands.registerCommand("startAuto3", new ParallelRaceGroup(
                                 new RevShooter(robot.getShooter(), ShootParams.Auto3.getLeftSpeed(),
@@ -72,8 +73,13 @@ public class AutoCommands {
                 NamedCommands.registerCommand("shootAutoAim",
                                 new AutoShoot(robot.getShooter(), robot.getDeck(), robot.getIntake(),
                                                 ShootParams.Podium, true, robot.getLimelight()));
+                NamedCommands.registerCommand("shootAuto1Aim", 
+                        new Auto1Shoot(robot.getDeck(), robot.getIntake(),
+                                                ShootParams.Podium, true, robot.getLimelight()));
 
                 NamedCommands.registerCommand("simpleShoot", new SimpleShootNote(robot.getIntake()));
+
+                NamedCommands.registerCommand("setDeckPosAuto1", new SetDeckPosition(robot.getDeck(), DeckPositions.podium));
         }
 
         public Command SelectAuto() {

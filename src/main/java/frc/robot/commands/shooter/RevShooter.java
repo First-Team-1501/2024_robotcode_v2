@@ -33,13 +33,13 @@ public class RevShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Starting RevShooter Command");
+    SHOOTER_SUBSYSTEM.set(left, right);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SHOOTER_SUBSYSTEM.set(left, right);
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -49,12 +49,11 @@ public class RevShooter extends Command {
     {
       SHOOTER_SUBSYSTEM.stop();
     }
-    System.out.println("Ending RevShooterCommand");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !stop;
   }
 }

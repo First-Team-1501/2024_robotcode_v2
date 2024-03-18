@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.limelight.LimelightHelpers;
 import java.util.Optional;
+import com.ctre.phoenix.led.RainbowAnimation;
 
 public class Leds extends SubsystemBase {
 
@@ -21,6 +22,7 @@ public class Leds extends SubsystemBase {
   private TwinkleAnimation twinkleredAnimation;
   private StrobeAnimation strobeAnimation;
   private StrobeAnimation strobeintakeAnimation;
+  private RainbowAnimation rainbowAnimation;
 
   private final double STROBE_SPEED = 98.0 / 256.0;
 
@@ -39,15 +41,20 @@ public class Leds extends SubsystemBase {
     strobeAnimation = new StrobeAnimation(0, 255, 0, 255, 98.0 / 256.0, 68, 0);
     strobeintakeAnimation = new StrobeAnimation(255, 255, 255, 255, STROBE_SPEED, 148, 0);
     intaking = false;
+    rainbowAnimation = new RainbowAnimation(1, .75, 148);
 
   }
 
   @Override
   public void periodic() {
-    if ((LimelightHelpers.getTX("limelight") < 3) &&
-        (LimelightHelpers.getTY("limelight") < 3) &&
-        (LimelightHelpers.getTX("limelight") > -3) &&
-        (LimelightHelpers.getTY("limelight") > -3) &&
+    
+  }
+
+  public void teleopLEDs(){
+    if ((LimelightHelpers.getTX("limelight") < 5) &&
+        (LimelightHelpers.getTY("limelight") < 2) &&
+        (LimelightHelpers.getTX("limelight") > -5) &&
+        (LimelightHelpers.getTY("limelight") > -2) &&
         LimelightHelpers.getTV("limelight")) {
       setLedsToStrobe();
     } else if (intaking) {
@@ -59,6 +66,10 @@ public class Leds extends SubsystemBase {
 
   public void setLedsToStrobe() {
     candle1.animate(strobeAnimation);
+  }
+
+  public void rainbow(){
+    candle1.animate(rainbowAnimation);
   }
 
   public void setLedsIntake() {

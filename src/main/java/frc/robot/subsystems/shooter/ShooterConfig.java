@@ -6,8 +6,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 public class ShooterConfig {
 
     // Shooter side speeds
-    public static double auto2LeftSpeed = 0.9;
-    public static double auto2RightSpeed = 0.8;
+    public static double auto2LeftSpeed = 1;
+    public static double auto2RightSpeed = 0.9;
 
     public static double closeLeftSpeed = 0.6;
     public static double closeRightSpeed = 0.5;
@@ -47,7 +47,7 @@ public class ShooterConfig {
 
     // Current Limits
     public static int left_smartCurrentStallLimit = 40; // 40 for big neo, 20 for small neo
-    public static int left_smartCurrentFreeLimit = 25; // 30 for big neo, 15 for small neo
+    public static int left_smartCurrentFreeLimit = 30; // 30 for big neo, 15 for small neo
 
     // Conversion Factors
     public static double left_velocityConversionFactor = 1;
@@ -82,7 +82,7 @@ public class ShooterConfig {
 
     // Current Limits
     public static int right_smartCurrentStallLimit = 40; // 40 for big neo, 20 for small neo
-    public static int right_smartCurrentFreeLimit = 25; // 30 for big neo, 15 for small neo
+    public static int right_smartCurrentFreeLimit = 30; // 30 for big neo, 15 for small neo
 
     
 

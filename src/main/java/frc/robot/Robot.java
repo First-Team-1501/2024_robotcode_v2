@@ -48,6 +48,7 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_robotContainer.getLeds().rainbow();
 
     // Create a timer to disable motor brake a few seconds after disable. This will
     // let the robot stop
@@ -85,6 +86,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.setMotorBrake(true);
     disabledTimer.reset();
     disabledTimer.start();
+    m_robotContainer.getLeds().rainbow();
   }
 
   @Override
@@ -105,7 +107,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.setMotorBrake(true);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     m_robotContainer.getLimelight().setPipelineUsingAllianceColor();
-    m_robotContainer.getDeck().set(DeckPositions.zero);
+    
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -118,6 +120,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    m_robotContainer.getLeds().teleopLEDs();
   }
 
   @Override
@@ -142,6 +145,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    m_robotContainer.getLeds().teleopLEDs();
   }
 
   @Override

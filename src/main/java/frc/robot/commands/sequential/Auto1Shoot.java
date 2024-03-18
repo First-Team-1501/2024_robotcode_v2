@@ -4,11 +4,10 @@
 
 package frc.robot.commands.sequential;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ShootParams;
-import frc.robot.commands.deck.AutoDeckAim;
+import frc.robot.commands.deck.Auto1DeckAim;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.intake.ShootNote;
 import frc.robot.commands.intake.SimpleShootNote;
@@ -16,20 +15,20 @@ import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.limelight.Limelight;
-import frc.robot.subsystems.shooter.ShooterSubsystem;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoShoot extends SequentialCommandGroup {
-  /** Creates a new Shoot. */
-  public AutoShoot(ShooterSubsystem shooter, DeckSubsystem deckSubsystem, IntakeSubsystem intakeSubsystem, ShootParams param, boolean autoAim, Limelight limelight ) {
-   
+public class Auto1Shoot extends SequentialCommandGroup {
+  /** Creates a new Auto1Shoot. */
+  public Auto1Shoot(DeckSubsystem deckSubsystem, IntakeSubsystem intakeSubsystem, ShootParams param, boolean autoAim, Limelight limelight) {
+
     if(autoAim)
     {
        addCommands(
         new ParallelRaceGroup(
-          new AutoDeckAim(deckSubsystem, limelight),
+          new Auto1DeckAim(deckSubsystem, limelight),
           new ShootNote(intakeSubsystem, limelight))
           );
     }
@@ -37,7 +36,6 @@ public class AutoShoot extends SequentialCommandGroup {
       addCommands(new SimpleShootNote(intakeSubsystem));
     }
 
-    //addCommands(new SetDeckPosition(deckSubsystem, DeckPositions.home));
-  
+    addCommands(new SetDeckPosition(deckSubsystem, DeckPositions.home));
   }
 }

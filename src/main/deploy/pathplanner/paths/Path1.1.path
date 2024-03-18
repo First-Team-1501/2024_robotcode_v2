@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7450681568029801,
-        "y": 4.354255194996877
+        "x": 3.26,
+        "y": 2.86
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8805945900180085,
-        "y": 1.3774607729395643
+        "x": 4.646705476113654,
+        "y": 1.602720368323619
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.687840240545346,
-        "y": 0.785799769797738
+        "x": 7.6323720215007995,
+        "y": 0.8042891761459202
       },
       "prevControl": {
-        "x": 7.678595537371254,
-        "y": 0.7210868475791011
+        "x": 7.623127318326707,
+        "y": 0.7395762539272833
       },
       "nextControl": {
-        "x": 7.702746876504555,
-        "y": 0.8901462215121875
+        "x": 7.647278657460008,
+        "y": 0.9086356278603697
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.2596274201557414,
+        "x": 3.26,
         "y": 2.8566132807941296
       },
       "prevControl": {
-        "x": 5.108568054973949,
-        "y": 1.127853787239107
+        "x": 5.515707574478212,
+        "y": 1.2110561158059263
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,13 +62,19 @@
       "name": "intake",
       "waypointRelativePos": 0.45,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
                 "name": "getPiece"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "setDeckPosAuto1"
               }
             }
           ]
@@ -78,7 +84,7 @@
   ],
   "globalConstraints": {
     "maxVelocity": 5.0,
-    "maxAcceleration": 3.5,
+    "maxAcceleration": 3.15,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 360.0
   },
@@ -90,7 +96,7 @@
   "reversed": false,
   "folder": "Path1",
   "previewStartingState": {
-    "rotation": -60.945395900922826,
+    "rotation": -40.06078445787381,
     "velocity": 0
   },
   "useDefaultConstraints": true

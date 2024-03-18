@@ -1,0 +1,82 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.commands.deck;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.deck.DeckPositions;
+import frc.robot.subsystems.deck.DeckSubsystem;
+import frc.robot.subsystems.limelight.Limelight;
+import frc.robot.subsystems.limelight.LimelightHelpers;
+
+public class Auto1DeckAim extends Command {
+  /** Creates a new Auto1DeckAim. */
+  private DeckSubsystem DECK_SUBSYSTEM;
+
+  double kP = 0.8;
+  double kI = 0;
+  double kD = 0;
+
+  PIDController deckPIDController = new PIDController(kP, kI, kD);
+
+  double pidOut;
+  double count;
+  //double increment = 5;
+ 
+  
+
+  /** Creates a new AutoDeckAim. */
+  public Auto1DeckAim(DeckSubsystem deck, Limelight limelight) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    DECK_SUBSYSTEM = deck;
+    
+
+    addRequirements(DECK_SUBSYSTEM);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() 
+  {
+    count = 50;
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() 
+  {
+    if(LimelightHelpers.getTV("limelight"))
+    {
+      count = 0;
+      pidOut = deckPIDController.calculate(LimelightHelpers.getTY("limelight") + 2.0);
+      SmartDashboard.putNumber("Deck PID Cont", pidOut);
+      DECK_SUBSYSTEM.set(DECK_SUBSYSTEM.get() + pidOut);
+
+    }
+    else if(count < 50)
+    {
+      count++;
+    }
+    else{
+      DECK_SUBSYSTEM.set(DeckPositions.auto);
+    }
+
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) 
+  {
+
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() 
+  {
+    return false;
+  }
+}

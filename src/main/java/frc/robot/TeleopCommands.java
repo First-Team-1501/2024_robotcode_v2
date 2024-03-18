@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.Drivebase;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.climber.SetClimberPosition;
 import frc.robot.commands.deck.AutoDeckAim;
@@ -33,7 +32,6 @@ import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
-import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.NoteAutoAim;
 import frc.robot.commands.swervedrive.drivebase.SpeakerAutoAim;
 import frc.robot.subsystems.climber.ClimberPositions;
@@ -303,11 +301,11 @@ public class TeleopCommands {
 
         private void SetupDriverCommands() {
 
-                Command headingMode = robot.getDrivebase().driveCommand(
+                Command driveWithHeading = robot.getDrivebase().driveCommand(
                         () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
                         () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
                         () -> -rotationController.getX(),
-                        () -> -rotationController.getY());
+                        () -> rotationController.getY());
 
 
                 // runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
@@ -379,11 +377,7 @@ public class TeleopCommands {
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
                                 .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)));
 
-                headingMode.whileTrue(
-                        new AbsoluteDrive(robot.getDrivebase(),
-                        d                    
-                        )
-                );
+                headingMode.whileTrue(driveWithHeading);
 
                 // Reset Robot
                 reset.onTrue(new ResetRobot(robot));
