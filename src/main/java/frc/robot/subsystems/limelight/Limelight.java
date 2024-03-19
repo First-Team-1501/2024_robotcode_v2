@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.Optional;
 
@@ -104,12 +103,12 @@ public class Limelight extends SubsystemBase {
   public void shuffleboardintakeInit() {
     // This adds the Limelight-Intake tx value to Shuffleboard
     limelightIntakeTX = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TX", limelightIntakeTX)
+      .add("Limelight Intake TX", LimelightHelpers.getTX("limelight-intake"))
       .getEntry();
 
     // This adds the Limelight-Intake ty value to Shuffleboard
     limelightIntakeTY = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TY", limelightIntakeTY)
+      .add("Limelight Intake TY", LimelightHelpers.getTY("limelight-intake"))
       .getEntry();
 
     // This adds the Limelight-Intake ta value to Shuffleboard
