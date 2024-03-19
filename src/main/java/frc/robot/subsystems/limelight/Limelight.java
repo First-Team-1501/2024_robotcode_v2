@@ -113,56 +113,56 @@ public class Limelight extends SubsystemBase {
 
     // This adds the Limelight-Intake ta value to Shuffleboard
     limelightIntakeTA = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TA", limelightIntakeTA)
+      .add("Limelight Intake TA", LimelightHelpers.getTA("limelight-intake"))
       .getEntry();
 
     // This adds the Limelight-Intake pipeline index value to Shuffleboard
     limelightIntakePipelineIndex = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake Pipeline Index", limelightIntakePipelineIndex)
+      .add("Limelight Intake Pipeline Index", LimelightHelpers.getCurrentPipelineIndex("limelight-intake"))
       .getEntry();
 
     // This adds the Limelight-Intake tv value to Shuffleboard
     limelightIntakeTV = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TV", limelightIntakeTV)
+      .add("Limelight Intake TV", LimelightHelpers.getTV("limelight-intake"))
       .withWidget("Boolean Box")
       .getEntry();
 
     // This adds the Limelight-Intake cl value to Shuffleboard
     limelightIntakeCL = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake CL", limelightIntakeCL)
+      .add("Limelight Intake CL", LimelightHelpers.getLimelightNTDouble("limelight-intake", "cl"))
       .getEntry();
   }
 
   public void shuffleboardInit() {
     // This adds the Limelight tx value to Shuffleboard
     limelightTX = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TX", limelightTX)
+      .add("Limelight Intake TX", LimelightHelpers.getTX("limelight"))
       .getEntry();
 
     // This adds the Limelight ty value to Shuffleboard
     limelightTY = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TY", limelightTY)
+      .add("Limelight Intake TY", LimelightHelpers.getTY("limelight"))
       .getEntry();
 
     // This adds the Limelight ta value to Shuffleboard
     limelightTA = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TA", limelightTA)
+      .add("Limelight Intake TA", LimelightHelpers.getTA("limelight"))
       .getEntry();
 
     // This adds the Limelight pipeline index value to Shuffleboard
     limelightPipelineIndex = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake Pipeline Index", limelightPipelineIndex)
+      .add("Limelight Intake Pipeline Index", LimelightHelpers.getCurrentPipelineIndex("limelight"))
       .getEntry();
 
     // This adds the Limelight tv value to Shuffleboard
     limelightTV = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TV", limelightTV)
+      .add("Limelight Intake TV", LimelightHelpers.getTV("limelight"))
       .withWidget("Boolean Box")
       .getEntry();
 
     // This adds the Limelight cl value to Shuffleboard
     limelightCL = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake CL", limelightCL)
+      .add("Limelight Intake CL", LimelightHelpers.getLimelightNTDouble("limelight", "cl"))
       .getEntry();
     
       // ! This is the default tab that the shuffleboard will open to.
