@@ -20,6 +20,7 @@ import frc.robot.commands.deck.SetDeckMaxOutput;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.JogElevator;
 import frc.robot.commands.elevator.ResetElevatorPosition;
+import frc.robot.commands.elevator.SetElevatorAmpLimit;
 import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
@@ -30,6 +31,7 @@ import frc.robot.commands.intake.SimpleShootNote;
 import frc.robot.commands.intake.TrapOuttake;
 import frc.robot.commands.reset.ResetRobot;
 import frc.robot.commands.sequential.AutoNotePickup;
+import frc.robot.commands.sequential.IntakeSequenceTeleop;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
@@ -237,25 +239,16 @@ public class TeleopCommands {
                 // Intake sequence: extend elevator, lower deck, and intake
                 runIntake.whileTrue
                 (
-                        new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                        .andThen
-                        (
-                                new SetElevatorPosition(robot.getElevator(),ElevatorPositions.intake)
-                        )
-                        .andThen
-                        (
-                                new SetDeckPosition(robot.getDeck(),DeckPositions.intake)
-                                .alongWith(new RunIntakeCommand(robot.getIntake(), robot.getLeds()))
-                        )
-                        .andThen
-                        (
-                                new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                                .alongWith(new SetElevatorPosition(robot.getElevator(),ElevatorPositions.zero))
-                        )
+                        new IntakeSequenceTeleop(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds())
                 )
                 .onFalse
                 (
-                        new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                        new SetElevatorAmpLimit(robot.getElevator(), 30, 40)
+                        .andThen(new SetElevatorMaxOutput(robot.getElevator(), 1.0))
+                        .alongWith
+                        (
+                                new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                        )
                         .andThen
                         (
                                 new SetElevatorPosition(robot.getElevator(),ElevatorPositions.zero)

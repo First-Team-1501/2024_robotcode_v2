@@ -108,9 +108,9 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorPID.setOutputRange(-output, output);
   }
 
-  public void changeAmpLimits(int current)
+  public void changeAmpLimits(int stallCurrent, int freeCurrent)
   {
-    elevatorMotor.setSmartCurrentLimit(current, ElevatorConfig.smartCurrentFreeLimit);
+    elevatorMotor.setSmartCurrentLimit(stallCurrent, freeCurrent);
   }
 
   public void shuffleBoardInit()
