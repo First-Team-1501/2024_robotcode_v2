@@ -73,5 +73,6 @@
       "bold": false,
       "italic": false
     }
-  ]
+  ],
+  "a-file-icon-vscode.folderTheme": "specific"
 }
