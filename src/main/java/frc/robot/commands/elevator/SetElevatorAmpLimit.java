@@ -7,32 +7,27 @@ package frc.robot.commands.elevator;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 
-public class SetElevatorMaxOutput extends Command {
-  /** Creates a new SetElevatorMaxOutput. */
+public class SetElevatorAmpLimit extends Command {
+  /** Creates a new SetElevatorAmpLimit. */
   ElevatorSubsystem ELEVATOR_SUBSYSTEM;
-  double OUTPUT;
-  boolean done;
-  public SetElevatorMaxOutput(ElevatorSubsystem elevator, double output) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  int STALL_CURRENT;
+  int FREE_CURRENT;
+  public SetElevatorAmpLimit(ElevatorSubsystem elevator, int stallCurrent, int freeCurrent) {
     ELEVATOR_SUBSYSTEM = elevator;
-    OUTPUT = output;
-    done = false;
-
+    STALL_CURRENT = stallCurrent;
+    FREE_CURRENT = freeCurrent;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() 
   {
-    ELEVATOR_SUBSYSTEM.setMaxOutput(OUTPUT);
-    done = true;
+    ELEVATOR_SUBSYSTEM.changeAmpLimits(STALL_CURRENT, FREE_CURRENT);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -41,6 +36,6 @@ public class SetElevatorMaxOutput extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return done;
+    return true;
   }
 }

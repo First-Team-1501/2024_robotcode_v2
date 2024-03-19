@@ -2,6 +2,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
@@ -19,6 +20,7 @@ import frc.robot.commands.deck.SetDeckMaxOutput;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.JogElevator;
 import frc.robot.commands.elevator.ResetElevatorPosition;
+import frc.robot.commands.elevator.SetElevatorAmpLimit;
 import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
@@ -29,6 +31,7 @@ import frc.robot.commands.intake.SimpleShootNote;
 import frc.robot.commands.intake.TrapOuttake;
 import frc.robot.commands.reset.ResetRobot;
 import frc.robot.commands.sequential.AutoNotePickup;
+import frc.robot.commands.sequential.IntakeSequenceTeleop;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
@@ -122,7 +125,7 @@ public class TeleopCommands {
         public TeleopCommands(RobotContainer container) {
                 robot = container;
                 ConfigureBindings();
-                SetupDefaultCommands();
+                //SetupDefaultCommands();
                 SetupOperatorCommands();
                 SetupDriverCommands();
         }
@@ -179,12 +182,21 @@ public class TeleopCommands {
 
         }
 
-        private void SetupDefaultCommands() {
+        public void SetupDefaultCommands() {
                 // Regualar drive mode
                 Command driveFieldOrientedDirectAngle = robot.getDrivebase().driveCommand(
                                 () -> -MathUtil.applyDeadband(driverController.getY(),
                                                 OperatorConstants.LEFT_Y_DEADBAND),
                                 () -> -MathUtil.applyDeadband(driverController.getX(),
+                                                OperatorConstants.LEFT_X_DEADBAND),
+                                () -> -MathUtil.applyDeadband(rotationController.getRawAxis(0),
+                                                OperatorConstants.RIGHT_X_DEADBAND));
+
+                // ! This is for fixing the issue with the robot being inverted after running the red auto
+                Command driveFieldOrientedDirectAngleRed = robot.getDrivebase().driveCommand(
+                                () -> MathUtil.applyDeadband(driverController.getY(),
+                                                OperatorConstants.LEFT_Y_DEADBAND),
+                                () -> MathUtil.applyDeadband(driverController.getX(),
                                                 OperatorConstants.LEFT_X_DEADBAND),
                                 () -> -MathUtil.applyDeadband(rotationController.getRawAxis(0),
                                                 OperatorConstants.RIGHT_X_DEADBAND));
@@ -198,9 +210,28 @@ public class TeleopCommands {
                                 () -> -MathUtil.applyDeadband(rotationController.getRawAxis(0),
                                                 OperatorConstants.RIGHT_X_DEADBAND));
 
+
+                Command driveCommand;
+
+                                var alliance = DriverStation.getAlliance();
+                                if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) 
+                                {
+                                        //set driveCommand equal to correct command 
+                                        driveCommand = driveFieldOrientedDirectAngle;
+                                } 
+                                else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red)
+                                {
+                                        driveCommand = driveFieldOrientedDirectAngleRed;      
+                                }
+                                else 
+                                {
+                                        //set driveCommand equal to correct command
+                                        driveCommand = driveFieldOrientedDirectAngle;  
+                                }
+                
                 robot.getDrivebase().setDefaultCommand(
-                                !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle
-                                                : driveFieldOrientedDirectAngleSim);
+                                !RobotBase.isSimulation() ? driveCommand
+                                : driveFieldOrientedDirectAngleSim);
         }
 
         private void SetupOperatorCommands() {
@@ -208,25 +239,16 @@ public class TeleopCommands {
                 // Intake sequence: extend elevator, lower deck, and intake
                 runIntake.whileTrue
                 (
-                        new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                        .andThen
-                        (
-                                new SetElevatorPosition(robot.getElevator(),ElevatorPositions.intake)
-                        )
-                        .andThen
-                        (
-                                new SetDeckPosition(robot.getDeck(),DeckPositions.intake)
-                                .alongWith(new RunIntakeCommand(robot.getIntake(), robot.getLeds()))
-                        )
-                        .andThen
-                        (
-                                new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                                .alongWith(new SetElevatorPosition(robot.getElevator(),ElevatorPositions.zero))
-                        )
+                        new IntakeSequenceTeleop(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds())
                 )
                 .onFalse
                 (
-                        new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                        new SetElevatorAmpLimit(robot.getElevator(), 30, 40)
+                        .andThen(new SetElevatorMaxOutput(robot.getElevator(), 1.0))
+                        .alongWith
+                        (
+                                new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                        )
                         .andThen
                         (
                                 new SetElevatorPosition(robot.getElevator(),ElevatorPositions.zero)
@@ -307,6 +329,30 @@ public class TeleopCommands {
                         () -> -rotationController.getX(),
                         () -> rotationController.getY());
 
+                Command driveWithHeadingRed = robot.getDrivebase().driveCommand(
+                        () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
+                        () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
+                        () -> rotationController.getX(),
+                        () -> -rotationController.getY());
+
+                Command headingDrive;
+
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) 
+                        {
+                                        //set driveCommand equal to correct command 
+                                headingDrive = driveWithHeading;
+                        } 
+                        else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red)
+                        {
+                                headingDrive = driveWithHeadingRed;      
+                        }
+                        else 
+                        {
+                                        //set driveCommand equal to correct command
+                                headingDrive = driveWithHeading;  
+                        }
+
 
                 // runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
                 simpleshoot.onTrue(new SimpleShootNote(robot.getIntake()));
@@ -377,7 +423,7 @@ public class TeleopCommands {
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
                                 .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)));
 
-                headingMode.whileTrue(driveWithHeading);
+                headingMode.whileTrue(headingDrive);
 
                 // Reset Robot
                 reset.onTrue(new ResetRobot(robot));
