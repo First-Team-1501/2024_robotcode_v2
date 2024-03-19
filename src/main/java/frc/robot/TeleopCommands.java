@@ -336,6 +336,30 @@ public class TeleopCommands {
                         () -> -rotationController.getX(),
                         () -> rotationController.getY());
 
+                Command driveWithHeadingRed = robot.getDrivebase().driveCommand(
+                        () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
+                        () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
+                        () -> rotationController.getX(),
+                        () -> -rotationController.getY());
+
+                Command headingDrive;
+
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) 
+                        {
+                                        //set driveCommand equal to correct command 
+                                headingDrive = driveWithHeading;
+                        } 
+                        else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red)
+                        {
+                                headingDrive = driveWithHeadingRed;      
+                        }
+                        else 
+                        {
+                                        //set driveCommand equal to correct command
+                                headingDrive = driveWithHeading;  
+                        }
+
 
                 // runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
                 simpleshoot.onTrue(new SimpleShootNote(robot.getIntake()));
@@ -406,7 +430,7 @@ public class TeleopCommands {
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
                                 .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)));
 
-                headingMode.whileTrue(driveWithHeading);
+                headingMode.whileTrue(headingDrive);
 
                 // Reset Robot
                 reset.onTrue(new ResetRobot(robot));
