@@ -29,7 +29,7 @@ public class IntakeSequence extends SequentialCommandGroup {
       new SetElevatorPosition(elevator, ElevatorPositions.intake),
       new SetDeckPosition(deck, DeckPositions.intake)
       .alongWith(new RunIntakeCommand(intake, leds).raceWith(new WaitCommand(3)))
-      .alongWith(new SetElevatorAmpLimit(elevator, 5)),
+      .alongWith(new SetElevatorAmpLimit(elevator, 2)),
 
       new SetElevatorAmpLimit(elevator, 30),
 

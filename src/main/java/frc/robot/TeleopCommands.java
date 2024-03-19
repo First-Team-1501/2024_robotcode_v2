@@ -19,6 +19,7 @@ import frc.robot.commands.deck.SetDeckMaxOutput;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.JogElevator;
 import frc.robot.commands.elevator.ResetElevatorPosition;
+import frc.robot.commands.elevator.SetElevatorAmpLimit;
 import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
@@ -213,7 +214,11 @@ public class TeleopCommands {
                 )
                 .onFalse
                 (
-                        new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                        new SetElevatorAmpLimit(robot.getElevator(), 30)
+                        .alongWith
+                        (
+                                new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                        )
                         .andThen
                         (
                                 new SetElevatorPosition(robot.getElevator(),ElevatorPositions.zero)
