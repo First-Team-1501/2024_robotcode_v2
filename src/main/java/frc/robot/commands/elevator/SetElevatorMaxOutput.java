@@ -18,7 +18,6 @@ public class SetElevatorMaxOutput extends Command {
     OUTPUT = output;
     done = false;
 
-    addRequirements(ELEVATOR_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.

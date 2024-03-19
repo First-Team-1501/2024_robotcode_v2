@@ -243,7 +243,8 @@ public class TeleopCommands {
                 )
                 .onFalse
                 (
-                        new SetElevatorAmpLimit(robot.getElevator(), 30)
+                        new SetElevatorAmpLimit(robot.getElevator(), 30, 40)
+                        .andThen(new SetElevatorMaxOutput(robot.getElevator(), 1.0))
                         .alongWith
                         (
                                 new SetDeckPosition(robot.getDeck(), DeckPositions.home)

@@ -10,19 +10,19 @@ import frc.robot.subsystems.elevator.ElevatorSubsystem;
 public class SetElevatorAmpLimit extends Command {
   /** Creates a new SetElevatorAmpLimit. */
   ElevatorSubsystem ELEVATOR_SUBSYSTEM;
-  int CURRENT;
-  public SetElevatorAmpLimit(ElevatorSubsystem elevator, int current) {
+  int STALL_CURRENT;
+  int FREE_CURRENT;
+  public SetElevatorAmpLimit(ElevatorSubsystem elevator, int stallCurrent, int freeCurrent) {
     ELEVATOR_SUBSYSTEM = elevator;
-    CURRENT = current;
-
-    addRequirements(ELEVATOR_SUBSYSTEM);
+    STALL_CURRENT = stallCurrent;
+    FREE_CURRENT = freeCurrent;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() 
   {
-    ELEVATOR_SUBSYSTEM.changeAmpLimits(CURRENT);
+    ELEVATOR_SUBSYSTEM.changeAmpLimits(STALL_CURRENT, FREE_CURRENT);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
