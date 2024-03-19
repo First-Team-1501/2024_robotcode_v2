@@ -51,8 +51,8 @@ public class Limelight extends SubsystemBase {
   public Limelight() {
 
     setupLimelight();
-    updateShuffleboardLimelight();
-    updateShuffleboardLimelightIntake();
+    /*updateShuffleboardLimelight();
+    updateShuffleboardLimelightIntake();*/
 
   }
 
@@ -136,33 +136,33 @@ public class Limelight extends SubsystemBase {
   public void shuffleboardInit() {
     // This adds the Limelight tx value to Shuffleboard
     limelightTX = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TX", LimelightHelpers.getTX("limelight"))
+      .add("Limelight TX", LimelightHelpers.getTX("limelight"))
       .getEntry();
 
     // This adds the Limelight ty value to Shuffleboard
     limelightTY = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TY", LimelightHelpers.getTY("limelight"))
+      .add("Limelight TY", LimelightHelpers.getTY("limelight"))
       .getEntry();
 
     // This adds the Limelight ta value to Shuffleboard
     limelightTA = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TA", LimelightHelpers.getTA("limelight"))
+      .add("Limelight TA", LimelightHelpers.getTA("limelight"))
       .getEntry();
 
     // This adds the Limelight pipeline index value to Shuffleboard
     limelightPipelineIndex = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake Pipeline Index", LimelightHelpers.getCurrentPipelineIndex("limelight"))
+      .add("Limelight Pipeline Index", LimelightHelpers.getCurrentPipelineIndex("limelight"))
       .getEntry();
 
     // This adds the Limelight tv value to Shuffleboard
     limelightTV = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake TV", LimelightHelpers.getTV("limelight"))
+      .add("Limelight TV", LimelightHelpers.getTV("limelight"))
       .withWidget("Boolean Box")
       .getEntry();
 
     // This adds the Limelight cl value to Shuffleboard
     limelightCL = Shuffleboard.getTab("Limelight")
-      .add("Limelight Intake CL", LimelightHelpers.getLimelightNTDouble("limelight", "cl"))
+      .add("Limelight CL", LimelightHelpers.getLimelightNTDouble("limelight", "cl"))
       .getEntry();
     
       // ! This is the default tab that the shuffleboard will open to.
