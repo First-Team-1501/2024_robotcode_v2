@@ -121,6 +121,10 @@ public class RobotContainer {
     return limelight;
   }
 
+  public TeleopCommands getTeleop() {
+    return teleop;
+  }
+
     
 
     
