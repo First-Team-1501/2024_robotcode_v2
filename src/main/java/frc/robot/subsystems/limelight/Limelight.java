@@ -215,22 +215,22 @@ public class Limelight extends SubsystemBase {
 
   // * This is for the Limelight going to Shuffleboard.
   public void updateShuffleboardLimelight()  {
-    limelightTX.setDouble(LimelightHelpers.getTX("Limelight"));
-    limelightTY.setDouble(LimelightHelpers.getTY("Limelight"));
-    limelightTA.setDouble(LimelightHelpers.getTA("Limelight"));
-    limelightPipelineIndex.setDouble(LimelightHelpers.getCurrentPipelineIndex("Limelight"));
-    limelightTV.setBoolean(LimelightHelpers.getTV("Limelight"));
-    limelightCL.setDouble(LimelightHelpers.getLimelightNTDouble("Limelight", "cl"));
+    limelightTX.setDouble(LimelightHelpers.getTX("limelight"));
+    limelightTY.setDouble(LimelightHelpers.getTY("limelight"));
+    limelightTA.setDouble(LimelightHelpers.getTA("limelight"));
+    limelightPipelineIndex.setDouble(LimelightHelpers.getCurrentPipelineIndex("limelight"));
+    limelightTV.setBoolean(LimelightHelpers.getTV("limelight"));
+    limelightCL.setDouble(LimelightHelpers.getLimelightNTDouble("limelight", "cl"));
   }
 
   // ! This is for the Limelight-Intake going to Shuffleboard.
   public void updateShuffleboardLimelightIntake() {
-    limelightIntakeTX.setDouble(LimelightHelpers.getTX("Limelight-Intake"));
-    limelightIntakeTY.setDouble(LimelightHelpers.getTY("Limelight-Intake"));
-    limelightIntakeTA.setDouble(LimelightHelpers.getTA("Limelight-Intake"));
-    limelightIntakePipelineIndex.setDouble(LimelightHelpers.getCurrentPipelineIndex("Limelight-Intake"));
-    limelightIntakeTV.setBoolean(LimelightHelpers.getTV("Limelight-Intake"));
-    limelightIntakeCL.setDouble(LimelightHelpers.getLimelightNTDouble("Limelight-Intake", "cl"));
+    limelightIntakeTX.setDouble(LimelightHelpers.getTX("limelight-intake"));
+    limelightIntakeTY.setDouble(LimelightHelpers.getTY("limelight-intake"));
+    limelightIntakeTA.setDouble(LimelightHelpers.getTA("limelight-intake"));
+    limelightIntakePipelineIndex.setDouble(LimelightHelpers.getCurrentPipelineIndex("limelight-intake"));
+    limelightIntakeTV.setBoolean(LimelightHelpers.getTV("limelight-intake"));
+    limelightIntakeCL.setDouble(LimelightHelpers.getLimelightNTDouble("limelight-intake", "cl"));
   }
 
 }
