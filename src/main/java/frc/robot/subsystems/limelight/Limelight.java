@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.limelight;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -14,7 +15,7 @@ import java.util.Optional;
 public class Limelight extends SubsystemBase {
 
   Optional<Alliance> alliance;
-
+  /* 
   private double tx; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees / LL2: -29.8 to 29.8 degrees)
   private double ty; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees / LL2: -24.85 to 24.85 degrees)
   private double ta; //Target Area (0% of image to 100% of image)
@@ -30,40 +31,60 @@ public class Limelight extends SubsystemBase {
   private double pipelineIndex2;
   private boolean tv2; //Whether the limelight has any valid targets (0 or 1)
   private double cl2; //Capture pipeline latency (ms). Time between the end of the exposure of the middle row of the sensor to the beginning of the tracking pipeline.
+*/
+  // * This is for the Limelight going to Shuffleboard.
+  GenericEntry limelightTX;
+  GenericEntry limelightTY;
+  GenericEntry limelightTA;
+  GenericEntry limelightPipelineIndex;
+  GenericEntry limelightTV;
+  GenericEntry limelightCL;
+
+  // ! This is for the Limelight-Intake going to Shuffleboard.
+  GenericEntry limelightIntakeTX;
+  GenericEntry limelightIntakeTY;
+  GenericEntry limelightIntakeTA;
+  GenericEntry limelightIntakePipelineIndex;
+  GenericEntry limelightIntakeTV;
+  GenericEntry limelightIntakeCL;
 
   /** Creates a new Limelight. */
   public Limelight() {
 
     setupLimelight();
+    updateShuffleboardLimelight();
+    updateShuffleboardLimelightIntake();
 
   }
 
   @Override
   public void periodic() {
     setPipelineUsingAllianceColor();
-    tx = LimelightHelpers.getTX("limelight");
-    ty = LimelightHelpers.getTY("limelight");
-    tx = LimelightHelpers.getTX("limelight-intake");
-    ty = LimelightHelpers.getTY("limelight-intake");
+    //tx = LimelightHelpers.getTX("limelight");
+    //ty = LimelightHelpers.getTY("limelight");
+    //tx = LimelightHelpers.getTX("limelight-intake");
+    //ty = LimelightHelpers.getTY("limelight-intake");
+    updateShuffleboardLimelight();
+    updateShuffleboardLimelightIntake();
   }
 
   private void setupLimelight() {
 
     setPipelineUsingAllianceColor();
 
-    tx = LimelightHelpers.getTX("limelight");
-    ty = LimelightHelpers.getTY("limelight");
-    ta = LimelightHelpers.getTA("limelight");
-    pipelineIndex = LimelightHelpers.getCurrentPipelineIndex("limelight");
-    tv = LimelightHelpers.getTV("limelight");
-    cl = LimelightHelpers.getLimelightNTDouble(null, "cl");
+    //tx = LimelightHelpers.getTX("limelight");
+    //ty = LimelightHelpers.getTY("limelight");
+    //ta = LimelightHelpers.getTA("limelight");
+    //pipelineIndex = LimelightHelpers.getCurrentPipelineIndex("limelight");
+    //tv = LimelightHelpers.getTV("limelight");
+    //cl = LimelightHelpers.getLimelightNTDouble(null, "cl");
 
-    tx2 = LimelightHelpers.getTX("limelight-intake");
+    /*tx2 = LimelightHelpers.getTX("limelight-intake");
     ty2 = LimelightHelpers.getTY("limelight-intake");
     ta2 = LimelightHelpers.getTA("limelight-intake");
     pipelineIndex2 = LimelightHelpers.getCurrentPipelineIndex("limelight-intake");
     tv2 = LimelightHelpers.getTV("limelight-intake");
-    cl2 = LimelightHelpers.getLimelightNTDouble(null, "cl");
+    cl2 = LimelightHelpers.getLimelightNTDouble(null, "cl");*/
 
 
     
@@ -74,37 +95,79 @@ public class Limelight extends SubsystemBase {
 
     LimelightHelpers.setLEDMode_PipelineControl("limelight");
 
-    smartDashboardInit();
+    shuffleboardInit();
+    shuffleboardintakeInit();
     
 
   }
 
-  public void smartDashboardInit() {
+  public void shuffleboardintakeInit() {
+    // This adds the Limelight-Intake tx value to Shuffleboard
+    limelightIntakeTX = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake TX", limelightIntakeTX)
+      .getEntry();
 
-    SmartDashboard.putNumber("Limelight tX", tx);
-    SmartDashboard.putNumber("Limelight tY", ty);
-    SmartDashboard.putNumber("Limelight tA", ta);
-    SmartDashboard.putNumber("Pipeline Index", pipelineIndex);
-    SmartDashboard.putNumber("Limelight CL", cl);
-    SmartDashboard.putBoolean("Has Target", tv);
-    SmartDashboard.putBoolean("TargetLocked", isLocked());
+    // This adds the Limelight-Intake ty value to Shuffleboard
+    limelightIntakeTY = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake TY", limelightIntakeTY)
+      .getEntry();
 
-    SmartDashboard.putNumber("Limelight tX", tx2);
-    SmartDashboard.putNumber("Limelight tY", ty2);
-    SmartDashboard.putNumber("Limelight tA", ta2);
-    SmartDashboard.putNumber("Pipeline Index", pipelineIndex2);
-    SmartDashboard.putNumber("Limelight CL", cl2);
-    SmartDashboard.putBoolean("Has Target", tv2);
-    //SmartDashboard.putBoolean("TargetLocked", isLocked());
+    // This adds the Limelight-Intake ta value to Shuffleboard
+    limelightIntakeTA = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake TA", limelightIntakeTA)
+      .getEntry();
 
-    Shuffleboard.getTab("Info")
-    .add("Target Locked", isLocked())
-    .withWidget("Boolean Box")
-    .withPosition(2, 2)
-    .getEntry();
+    // This adds the Limelight-Intake pipeline index value to Shuffleboard
+    limelightIntakePipelineIndex = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake Pipeline Index", limelightIntakePipelineIndex)
+      .getEntry();
 
+    // This adds the Limelight-Intake tv value to Shuffleboard
+    limelightIntakeTV = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake TV", limelightIntakeTV)
+      .withWidget("Boolean Box")
+      .getEntry();
+
+    // This adds the Limelight-Intake cl value to Shuffleboard
+    limelightIntakeCL = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake CL", limelightIntakeCL)
+      .getEntry();
+  }
+
+  public void shuffleboardInit() {
+    // This adds the Limelight tx value to Shuffleboard
+    limelightTX = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake TX", limelightTX)
+      .getEntry();
+
+    // This adds the Limelight ty value to Shuffleboard
+    limelightTY = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake TY", limelightTY)
+      .getEntry();
+
+    // This adds the Limelight ta value to Shuffleboard
+    limelightTA = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake TA", limelightTA)
+      .getEntry();
+
+    // This adds the Limelight pipeline index value to Shuffleboard
+    limelightPipelineIndex = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake Pipeline Index", limelightPipelineIndex)
+      .getEntry();
+
+    // This adds the Limelight tv value to Shuffleboard
+    limelightTV = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake TV", limelightTV)
+      .withWidget("Boolean Box")
+      .getEntry();
+
+    // This adds the Limelight cl value to Shuffleboard
+    limelightCL = Shuffleboard.getTab("Limelight")
+      .add("Limelight Intake CL", limelightCL)
+      .getEntry();
+    
+      // ! This is the default tab that the shuffleboard will open to.
     Shuffleboard.selectTab("Drive Tab");
-
   }
 
   public void setPipelineUsingAllianceColor() {
@@ -134,21 +197,41 @@ public class Limelight extends SubsystemBase {
   }
 
   public double tX() {
-    return tx;
+    return limelightTX.getDouble(0.0);
   }
   public double tY() {
-    return ty;
+    return limelightTY.getDouble(0.0);
   }
   public double tA() {
-    return ta;
+    return limelightTA.getDouble(0.0);
   }
   public boolean hasTarget() {
-    return tv;
+    return limelightTV.getBoolean(false);
   }
 
   public boolean isLocked()
   {
     return (tX() < 0.5 && tX() > -0.5) && (tY() < 0.5 && tY() > -0.5);
+  }
+
+  // * This is for the Limelight going to Shuffleboard.
+  public void updateShuffleboardLimelight()  {
+    limelightTX.setDouble(LimelightHelpers.getTX("Limelight"));
+    limelightTY.setDouble(LimelightHelpers.getTY("Limelight"));
+    limelightTA.setDouble(LimelightHelpers.getTA("Limelight"));
+    limelightPipelineIndex.setDouble(LimelightHelpers.getCurrentPipelineIndex("Limelight"));
+    limelightTV.setBoolean(LimelightHelpers.getTV("Limelight"));
+    limelightCL.setDouble(LimelightHelpers.getLimelightNTDouble("Limelight", "cl"));
+  }
+
+  // ! This is for the Limelight-Intake going to Shuffleboard.
+  public void updateShuffleboardLimelightIntake() {
+    limelightIntakeTX.setDouble(LimelightHelpers.getTX("Limelight-Intake"));
+    limelightIntakeTY.setDouble(LimelightHelpers.getTY("Limelight-Intake"));
+    limelightIntakeTA.setDouble(LimelightHelpers.getTA("Limelight-Intake"));
+    limelightIntakePipelineIndex.setDouble(LimelightHelpers.getCurrentPipelineIndex("Limelight-Intake"));
+    limelightIntakeTV.setBoolean(LimelightHelpers.getTV("Limelight-Intake"));
+    limelightIntakeCL.setDouble(LimelightHelpers.getLimelightNTDouble("Limelight-Intake", "cl"));
   }
 
 }
