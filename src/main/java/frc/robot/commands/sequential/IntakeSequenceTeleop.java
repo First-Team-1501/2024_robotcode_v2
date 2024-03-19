@@ -5,7 +5,6 @@
 package frc.robot.commands.sequential;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorAmpLimit;
 import frc.robot.commands.elevator.SetElevatorPosition;
@@ -20,15 +19,13 @@ import frc.robot.subsystems.leds.Leds;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeSequence extends SequentialCommandGroup {
-  /** Creates a new IntakeSequence. */
-  public IntakeSequence(IntakeSubsystem intake, DeckSubsystem deck, ElevatorSubsystem elevator, Leds leds) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+public class IntakeSequenceTeleop extends SequentialCommandGroup {
+  /** Creates a new IntakeSequenceTeleop. */
+  public IntakeSequenceTeleop(IntakeSubsystem intake, DeckSubsystem deck, ElevatorSubsystem elevator, Leds leds) {
     addCommands(
       new SetElevatorPosition(elevator, ElevatorPositions.intake),
       new SetDeckPosition(deck, DeckPositions.intake)
-      .alongWith(new RunIntakeCommand(intake, leds).raceWith(new WaitCommand(3)))
+      .alongWith(new RunIntakeCommand(intake, leds))
       .alongWith(new SetElevatorAmpLimit(elevator, 5)),
 
       new SetElevatorAmpLimit(elevator, 30),

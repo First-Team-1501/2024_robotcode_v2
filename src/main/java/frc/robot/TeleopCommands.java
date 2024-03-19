@@ -29,6 +29,7 @@ import frc.robot.commands.intake.SimpleShootNote;
 import frc.robot.commands.intake.TrapOuttake;
 import frc.robot.commands.reset.ResetRobot;
 import frc.robot.commands.sequential.AutoNotePickup;
+import frc.robot.commands.sequential.IntakeSequenceTeleop;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
@@ -208,21 +209,7 @@ public class TeleopCommands {
                 // Intake sequence: extend elevator, lower deck, and intake
                 runIntake.whileTrue
                 (
-                        new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                        .andThen
-                        (
-                                new SetElevatorPosition(robot.getElevator(),ElevatorPositions.intake)
-                        )
-                        .andThen
-                        (
-                                new SetDeckPosition(robot.getDeck(),DeckPositions.intake)
-                                .alongWith(new RunIntakeCommand(robot.getIntake(), robot.getLeds()))
-                        )
-                        .andThen
-                        (
-                                new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                                .alongWith(new SetElevatorPosition(robot.getElevator(),ElevatorPositions.zero))
-                        )
+                        new IntakeSequenceTeleop(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds())
                 )
                 .onFalse
                 (
