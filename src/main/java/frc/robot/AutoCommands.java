@@ -80,6 +80,7 @@ public class AutoCommands {
                 NamedCommands.registerCommand("simpleShoot", new SimpleShootNote(robot.getIntake()));
 
                 NamedCommands.registerCommand("setDeckPosAuto1", new SetDeckPosition(robot.getDeck(), DeckPositions.podium));
+                NamedCommands.registerCommand("setDeckPosAuto5", new SetDeckPosition(robot.getDeck(), 30));
         }
 
         public Command SelectAuto() {
