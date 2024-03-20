@@ -31,9 +31,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "shootAuto2"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "simpleShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "deckHome"
+                }
+              }
+            ]
           }
         },
         {
