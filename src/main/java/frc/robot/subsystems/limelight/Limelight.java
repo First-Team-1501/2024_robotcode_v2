@@ -181,18 +181,7 @@ public class Limelight extends SubsystemBase {
         LimelightHelpers.setPipelineIndex("limelight", 0);
       }
     }
-    // why did I do this???? For the intake limelight the pipeline is the same all the time.
-    /*alliance = DriverStation.getAlliance();
-    if (alliance.isPresent()) {
-      if (alliance.get() == Alliance.Red) {
-        LimelightHelpers.setPipelineIndex("limelight-intake", 1);
-
-      }
-      if (alliance.get() == Alliance.Blue) {
-        // Put what you want it to do here.
-        LimelightHelpers.setPipelineIndex("limelight-intake", 0);
-      }
-    }*/
+   
   }
 
   public double tX() {
