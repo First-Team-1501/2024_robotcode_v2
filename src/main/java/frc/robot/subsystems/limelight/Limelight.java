@@ -71,23 +71,6 @@ public class Limelight extends SubsystemBase {
 
     setPipelineUsingAllianceColor();
 
-    //tx = LimelightHelpers.getTX("limelight");
-    //ty = LimelightHelpers.getTY("limelight");
-    //ta = LimelightHelpers.getTA("limelight");
-    //pipelineIndex = LimelightHelpers.getCurrentPipelineIndex("limelight");
-    //tv = LimelightHelpers.getTV("limelight");
-    //cl = LimelightHelpers.getLimelightNTDouble(null, "cl");
-
-    /*tx2 = LimelightHelpers.getTX("limelight-intake");
-    ty2 = LimelightHelpers.getTY("limelight-intake");
-    ta2 = LimelightHelpers.getTA("limelight-intake");
-    pipelineIndex2 = LimelightHelpers.getCurrentPipelineIndex("limelight-intake");
-    tv2 = LimelightHelpers.getTV("limelight-intake");
-    cl2 = LimelightHelpers.getLimelightNTDouble(null, "cl");*/
-
-
-    
-
     LimelightHelpers.getLimelightNTTable(null);
     LimelightHelpers.getLimelightNTTableEntry(null, "tid");
 
