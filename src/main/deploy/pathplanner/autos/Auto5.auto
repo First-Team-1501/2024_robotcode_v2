@@ -43,7 +43,45 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Path2.1"
+                  "pathName": "Path5.1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "getPiece"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "setDeckPosAuto5_1"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "simpleShoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Path5.2"
                 }
               },
               {
@@ -81,7 +119,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Path2.2"
+                  "pathName": "Path5.3"
                 }
               },
               {
@@ -119,7 +157,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Path2.3"
+                  "pathName": "Path5.4"
                 }
               },
               {
@@ -135,41 +173,10 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "setDeckPosAuto5"
+                        "name": "setDeckPosAuto5_End"
                       }
                     }
                   ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "simpleShoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Path2.4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "getPiece"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "setDeckPosAuto5"
                 }
               }
             ]

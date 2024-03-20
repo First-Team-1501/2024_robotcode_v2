@@ -58,6 +58,6 @@ public class RunIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return INTAKE_SUBSYSTEM.hasNote();
+    return INTAKE_SUBSYSTEM.readyToScoreTrap();
   }
 }
