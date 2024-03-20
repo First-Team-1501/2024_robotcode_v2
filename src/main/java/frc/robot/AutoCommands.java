@@ -94,6 +94,8 @@ public class AutoCommands {
                                 return robot.getDrivebase().getAutoCommand("Auto3");
                         case 4:
                                 return robot.getDrivebase().getAutoCommand("Auto4");
+                        case 5:
+                                return robot.getDrivebase().getAutoCommand("Auto5");
 
                         default:
                                 return new InstantCommand();
