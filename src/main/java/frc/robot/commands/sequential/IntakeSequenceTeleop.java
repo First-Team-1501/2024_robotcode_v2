@@ -24,6 +24,7 @@ public class IntakeSequenceTeleop extends SequentialCommandGroup {
   /** Creates a new IntakeSequenceTeleop. */
   public IntakeSequenceTeleop(IntakeSubsystem intake, DeckSubsystem deck, ElevatorSubsystem elevator, Leds leds) {
     addCommands(
+      new SetDeckPosition(deck, DeckPositions.home),
       new SetElevatorPosition(elevator, ElevatorPositions.intake),
       new SetDeckPosition(deck, DeckPositions.intake)
       .alongWith(new RunIntakeCommand(intake, leds))

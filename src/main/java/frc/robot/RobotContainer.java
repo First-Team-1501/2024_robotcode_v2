@@ -71,7 +71,7 @@ public class RobotContainer {
     shooter = new ShooterSubsystem();
     deck = new DeckSubsystem();
     elevator = new ElevatorSubsystem();
-    climber = new ClimberSubsystem();
+    climber = new ClimberSubsystem(thumb);
     stabilizer = new StabilizerSubsystem();
     limelight = new Limelight();
     leds = new Leds();

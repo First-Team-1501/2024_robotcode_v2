@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.climber;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 
 import java.util.Map;
@@ -15,6 +16,7 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.thumbwheel.Thumbwheel;
 
 public class ClimberSubsystem extends SubsystemBase {
 
@@ -23,12 +25,18 @@ public class ClimberSubsystem extends SubsystemBase {
   private CANSparkMax climberSlaveMotor;
   private RelativeEncoder climberEncoder;
   private SparkPIDController climberPID;
+  private int thumbwheelValue;
+  Thumbwheel THUMBWHEEL;
+  
 
   //This is for Shuffleboard.
   GenericEntry climberPosition;
 
   /** Creates a new ClimberSubsystem. */
-  public ClimberSubsystem() {
+  public ClimberSubsystem(Thumbwheel thumbwheel) {
+
+    THUMBWHEEL = thumbwheel;
+
     // Initialize motors
     climberMasterMotor = new CANSparkMax(ClimberConfig.ID, ClimberConfig.motorType);
     climberSlaveMotor = new CANSparkMax(ClimberConfig.followerID, ClimberConfig.motorType);
@@ -92,8 +100,20 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("Climber Position", get());
+    
+    thumbwheelValue = THUMBWHEEL.getValue();
+
+    if(thumbwheelValue == 15)
+    {
+      climberMasterMotor.setIdleMode(IdleMode.kCoast);
+      climberSlaveMotor.setIdleMode(IdleMode.kCoast);
+    }
+    else
+    {
+      climberMasterMotor.setIdleMode(ClimberConfig.idleMode);
+      climberSlaveMotor.setIdleMode(ClimberConfig.idleMode);
+    }
+
     updateShuffleboard();
   }
 
