@@ -2,69 +2,68 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4106867853375344,
-      "y": 5.4821089822359825
+      "x": 0.7912916726734353,
+      "y": 4.335765788648695
     },
-    "rotation": -51.91122711902471
+    "rotation": -59.42077312751099
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "startAuto3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "shootAuto3"
-          }
-        },
-        {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "shootAutoAim"
+                  "name": "startAuto2"
                 }
               },
               {
-                "type": "named",
+                "type": "wait",
                 "data": {
-                  "name": "AutoAimRotate"
+                  "waitTime": 0.5
                 }
               }
             ]
           }
         },
         {
-          "type": "race",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shootAutoAim"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoAimRotate"
-                }
-              }
-            ]
+            "name": "shootAuto2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path3.3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "simpleShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Path3.2"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "finishAuto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "simpleShoot"
           }
         }
       ]
