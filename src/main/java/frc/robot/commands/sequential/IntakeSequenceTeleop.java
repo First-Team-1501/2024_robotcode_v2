@@ -5,6 +5,7 @@
 package frc.robot.commands.sequential;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorAmpLimit;
 import frc.robot.commands.elevator.SetElevatorMaxOutput;
@@ -24,10 +25,12 @@ public class IntakeSequenceTeleop extends SequentialCommandGroup {
   /** Creates a new IntakeSequenceTeleop. */
   public IntakeSequenceTeleop(IntakeSubsystem intake, DeckSubsystem deck, ElevatorSubsystem elevator, Leds leds) {
     addCommands(
-      new SetElevatorPosition(elevator, ElevatorPositions.intake),
-      new SetDeckPosition(deck, DeckPositions.intake)
-      .alongWith(new RunIntakeCommand(intake, leds))
-      .alongWith(new SetElevatorAmpLimit(elevator, 3, 3))
+      new SetElevatorPosition(elevator, ElevatorPositions.intake)
+      .alongWith
+      (new SetDeckPosition(deck, DeckPositions.intake))
+      .alongWith
+      (new RunIntakeCommand(intake, leds).raceWith(new WaitCommand(3))),
+      new SetElevatorAmpLimit(elevator, 3, 3)
       .alongWith(new SetElevatorMaxOutput(elevator, 0.2)),
 
       new SetElevatorAmpLimit(elevator, 30, 40)

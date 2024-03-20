@@ -7,8 +7,6 @@ package frc.robot.commands.sequential;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.deck.SetDeckPosition;
-import frc.robot.commands.elevator.SetElevatorAmpLimit;
-import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.subsystems.deck.DeckPositions;
@@ -27,14 +25,16 @@ public class IntakeSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetElevatorPosition(elevator, ElevatorPositions.intake),
-      new SetDeckPosition(deck, DeckPositions.intake)
-      .alongWith(new RunIntakeCommand(intake, leds).raceWith(new WaitCommand(3)))
-      .alongWith(new SetElevatorAmpLimit(elevator, 3, 3))
-      .alongWith(new SetElevatorMaxOutput(elevator, 0.2)),
+      new SetElevatorPosition(elevator, ElevatorPositions.intake)
+      .alongWith
+      (new SetDeckPosition(deck, DeckPositions.intake))
+      .alongWith
+      (new RunIntakeCommand(intake, leds).raceWith(new WaitCommand(3))),
+      //.alongWith(new SetElevatorAmpLimit(elevator, 3, 3))
+      //.alongWith(new SetElevatorMaxOutput(elevator, 0.2)),
 
-      new SetElevatorAmpLimit(elevator, 30, 40)
-      .andThen(new SetElevatorMaxOutput(elevator, 1.0)),
+      //new SetElevatorAmpLimit(elevator, 30, 40)
+      //.andThen(new SetElevatorMaxOutput(elevator, 1.0)),
 
       new SetDeckPosition(deck, DeckPositions.home)
       .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.zero))
