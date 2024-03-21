@@ -69,7 +69,7 @@ public class AutoNoteAutoAim extends Command {
 
   public double limelight_aim_proportional_note() {
 
-    double kP = 0.04;
+    double kP = 0.05;
     double kI = 0;
     double kD = 0.00000000000000000001;
     double maxTolerance = 3;

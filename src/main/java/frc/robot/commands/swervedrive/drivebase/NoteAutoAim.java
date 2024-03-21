@@ -42,17 +42,29 @@ public class NoteAutoAim extends Command {
   public void execute() 
   {
     var alliance = DriverStation.getAlliance();
+
     if(LimelightHelpers.getTV("limelight-intake"))
+
     {
-      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,0);
+      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),false);
     }
-    else if(alliance.get() == Alliance.Blue)
+
+    else if (!LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Blue)
+
     {
       translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
     }
-    else{
+
+    else if(LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Red)
+    {
+      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),false);
+    }
+    else if (!LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Red)
+    {
+
       translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
     }
@@ -71,7 +83,7 @@ public class NoteAutoAim extends Command {
 
   public double limelight_aim_proportional_note() {
 
-    double kP = 0.03;
+    double kP = 0.05;
     double kI = 0;
     double kD = 0.00000000000000000001;
     double maxTolerance = 3;

@@ -71,23 +71,6 @@ public class Limelight extends SubsystemBase {
 
     setPipelineUsingAllianceColor();
 
-    //tx = LimelightHelpers.getTX("limelight");
-    //ty = LimelightHelpers.getTY("limelight");
-    //ta = LimelightHelpers.getTA("limelight");
-    //pipelineIndex = LimelightHelpers.getCurrentPipelineIndex("limelight");
-    //tv = LimelightHelpers.getTV("limelight");
-    //cl = LimelightHelpers.getLimelightNTDouble(null, "cl");
-
-    /*tx2 = LimelightHelpers.getTX("limelight-intake");
-    ty2 = LimelightHelpers.getTY("limelight-intake");
-    ta2 = LimelightHelpers.getTA("limelight-intake");
-    pipelineIndex2 = LimelightHelpers.getCurrentPipelineIndex("limelight-intake");
-    tv2 = LimelightHelpers.getTV("limelight-intake");
-    cl2 = LimelightHelpers.getLimelightNTDouble(null, "cl");*/
-
-
-    
-
     LimelightHelpers.getLimelightNTTable(null);
     LimelightHelpers.getLimelightNTTableEntry(null, "tid");
 
@@ -181,18 +164,7 @@ public class Limelight extends SubsystemBase {
         LimelightHelpers.setPipelineIndex("limelight", 0);
       }
     }
-    // why did I do this???? For the intake limelight the pipeline is the same all the time.
-    /*alliance = DriverStation.getAlliance();
-    if (alliance.isPresent()) {
-      if (alliance.get() == Alliance.Red) {
-        LimelightHelpers.setPipelineIndex("limelight-intake", 1);
-
-      }
-      if (alliance.get() == Alliance.Blue) {
-        // Put what you want it to do here.
-        LimelightHelpers.setPipelineIndex("limelight-intake", 0);
-      }
-    }*/
+   
   }
 
   public double tX() {

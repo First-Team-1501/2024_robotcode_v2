@@ -48,6 +48,10 @@ public class AutoCommands {
                                 new RevShooter(robot.getShooter(), ShootParams.Auto2.getLeftSpeed(),
                                                 ShootParams.Auto2.getRightSpeed(), false)
                                                 .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.podium)));
+                NamedCommands.registerCommand("startAuto5", new ParallelRaceGroup(
+                                new RevShooter(robot.getShooter(), 1.0,
+                                                0.5, false),
+                                new WaitCommand(shooterDelay)));
 
                 NamedCommands.registerCommand("extendIntake",
                                 new SetDeckPosition(robot.getDeck(), DeckPositions.intake)
@@ -79,7 +83,13 @@ public class AutoCommands {
 
                 NamedCommands.registerCommand("simpleShoot", new SimpleShootNote(robot.getIntake()));
 
+                NamedCommands.registerCommand("deckHome", new SetDeckPosition(robot.getDeck(), DeckPositions.home));
                 NamedCommands.registerCommand("setDeckPosAuto1", new SetDeckPosition(robot.getDeck(), DeckPositions.podium));
+                NamedCommands.registerCommand("setDeckPosAuto5", new SetDeckPosition(robot.getDeck(), 26));
+                NamedCommands.registerCommand("setDeckPosAuto5_1", new SetDeckPosition(robot.getDeck(), 24));
+                NamedCommands.registerCommand("setDeckPosAuto5_End", new SetDeckPosition(robot.getDeck(), 20));
+                
+                
         }
 
         public Command SelectAuto() {
@@ -93,6 +103,8 @@ public class AutoCommands {
                                 return robot.getDrivebase().getAutoCommand("Auto3");
                         case 4:
                                 return robot.getDrivebase().getAutoCommand("Auto4");
+                        case 5:
+                                return robot.getDrivebase().getAutoCommand("Auto5");
 
                         default:
                                 return new InstantCommand();

@@ -7,16 +7,15 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.intake.IntakeConfig;
 import frc.robot.subsystems.intake.IntakeSubsystem;
-import frc.robot.subsystems.leds.Leds;
 
-public class RunIntakeCommand extends Command {
 
+
+public class IndexNote extends Command {
+  /** Creates a new IndexNote. */
   private IntakeSubsystem INTAKE_SUBSYSTEM;
-
-  /** Creates a new RunIntakeCommand. */
-  public RunIntakeCommand(IntakeSubsystem intake, Leds leds) {
+  public IndexNote(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.INTAKE_SUBSYSTEM = intake;
+    INTAKE_SUBSYSTEM = intake;
 
     addRequirements(INTAKE_SUBSYSTEM);
   }
@@ -24,35 +23,20 @@ public class RunIntakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Leds.setIntakeStatus(true);
-    //System.out.println("Starting RunIntakeCommand");
+    INTAKE_SUBSYSTEM.set( IntakeConfig.runningSpeed, IntakeConfig.runningSpeed); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() 
-  {
-    if(!isFinished())
-    {
-      INTAKE_SUBSYSTEM.set( IntakeConfig.runningSpeed, IntakeConfig.runningSpeed);   
-    }
-    
-    if(INTAKE_SUBSYSTEM.readyToScoreTrap())
-    {
-     Leds.setIntakeStatus(false);
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    Leds.setIntakeStatus(false);
-    //System.out.println("Ending RunIntakeCommand");
-  }
+  public void end(boolean interrupted) {INTAKE_SUBSYSTEM.stop();}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return INTAKE_SUBSYSTEM.readyToScoreTrap();
+    return INTAKE_SUBSYSTEM.hasNote();
   }
 }

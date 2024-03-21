@@ -24,10 +24,12 @@ import frc.robot.commands.elevator.SetElevatorAmpLimit;
 import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
-import frc.robot.commands.intake.RunIntakeCommand;
+import frc.robot.commands.intake.IndexNote;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.SimpleShootNote;
+import frc.robot.commands.intake.StopIntake;
+import frc.robot.commands.intake.TrapOuttake;
 import frc.robot.commands.reset.ResetRobot;
 import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.IntakeSequenceTeleop;
@@ -89,7 +91,6 @@ public class TeleopCommands {
         private Trigger preAmp;
         private Trigger autoAim;
         private Trigger home;
-        private Trigger operatorAutoNotePickup;
 
         // Buttons for Button Board
         private Trigger jogDeckUp;
@@ -157,7 +158,6 @@ public class TeleopCommands {
                 scoreTrap = new JoystickButton(buttonBoard, 12);
                 sourceForward = new JoystickButton(buttonBoard, 8);
                 middleForward = new JoystickButton(buttonBoard, 9);
-                operatorAutoNotePickup = new JoystickButton(buttonBoard, 6);
 
                 // DRIVER
                 simpleshoot = driverController.button(1);
@@ -242,6 +242,7 @@ public class TeleopCommands {
                 .onFalse
                 (
                         new SetElevatorAmpLimit(robot.getElevator(), 30, 40)
+                        .alongWith(new StopIntake(robot.getIntake()))
                         .andThen(new SetElevatorMaxOutput(robot.getElevator(), 1.0))
                         .alongWith
                         (
@@ -253,7 +254,7 @@ public class TeleopCommands {
                         )
                 );
 
-                jogIntake.whileTrue(new RunIntakeCommand(robot.getIntake(), robot.getLeds()));
+                jogIntake.whileTrue(new IndexNote(robot.getIntake()));
 
                 runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
 
@@ -310,12 +311,6 @@ public class TeleopCommands {
                 middleForward.whileTrue(new SetDeckPosition(robot.getDeck(), 3)
                         .alongWith(new RevShooter(robot.getShooter(),0.55 ,0.45)))
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
-
-                //auto note pickup
-                operatorAutoNotePickup.whileTrue(
-                        new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),robot.getDrivebase(), robot.getLeds()))
-                        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                                .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)));
 
         }
 

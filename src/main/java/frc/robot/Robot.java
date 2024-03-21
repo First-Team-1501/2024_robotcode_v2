@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.io.File;
 import java.io.IOException;
+
+import com.pathplanner.lib.commands.FollowPathCommand;
+
 import swervelib.parser.SwerveParser;
 
 /**
@@ -52,6 +55,8 @@ public class Robot extends TimedRobot {
     // let the robot stop
     // immediately when disabled, but then also let it be pushed more
     disabledTimer = new Timer();
+
+    //FollowPathCommand.warmupCommand().schedule();
   }
 
   /**
