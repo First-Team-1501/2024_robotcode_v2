@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     // immediately when disabled, but then also let it be pushed more
     disabledTimer = new Timer();
 
-    //FollowPathCommand.warmupCommand().schedule();
+    FollowPathCommand.warmupCommand().schedule();
   }
 
   /**

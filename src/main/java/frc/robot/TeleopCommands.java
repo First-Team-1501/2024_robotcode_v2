@@ -29,7 +29,6 @@ import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.SimpleShootNote;
 import frc.robot.commands.intake.StopIntake;
-import frc.robot.commands.intake.TrapOuttake;
 import frc.robot.commands.reset.ResetRobot;
 import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.IntakeSequenceTeleop;
@@ -389,7 +388,8 @@ public class TeleopCommands {
                 autoNotePickup.whileTrue(
                         new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),robot.getDrivebase(),robot.getLeds()))
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                                .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero)));
+                        .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
+                        .alongWith(new StopIntake(robot.getIntake())));
 
                 headingMode.whileTrue(headingDrive);
 
