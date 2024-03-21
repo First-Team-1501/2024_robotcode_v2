@@ -36,10 +36,6 @@ public class RunIntakeCommand extends Command {
     {
       INTAKE_SUBSYSTEM.set( IntakeConfig.runningSpeed, IntakeConfig.runningSpeed);   
     }
-    else
-    {
-      INTAKE_SUBSYSTEM.stop();
-    }
     
     if(INTAKE_SUBSYSTEM.readyToScoreTrap())
     {
@@ -50,7 +46,6 @@ public class RunIntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    INTAKE_SUBSYSTEM.stop();
     Leds.setIntakeStatus(false);
     //System.out.println("Ending RunIntakeCommand");
   }

@@ -18,7 +18,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "startAuto2"
+                  "name": "startAuto5"
                 }
               },
               {
@@ -31,9 +31,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "shootAuto2"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "simpleShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "deckHome"
+                }
+              }
+            ]
           }
         },
         {
@@ -51,15 +64,22 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
+                      "type": "parallel",
                       "data": {
-                        "name": "getPiece"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "setDeckPosAuto5_1"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "startAuto2"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "getPiece"
+                            }
+                          }
+                        ]
                       }
                     }
                   ]

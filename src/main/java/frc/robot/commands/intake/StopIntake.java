@@ -5,15 +5,12 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.intake.IntakeConfig;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 
-
-
-public class IndexNote extends Command {
-  /** Creates a new IndexNote. */
-  private IntakeSubsystem INTAKE_SUBSYSTEM;
-  public IndexNote(IntakeSubsystem intake) {
+public class StopIntake extends Command {
+  /** Creates a new StopIntake. */
+  IntakeSubsystem INTAKE_SUBSYSTEM;
+  public StopIntake(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     INTAKE_SUBSYSTEM = intake;
 
@@ -23,7 +20,7 @@ public class IndexNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    INTAKE_SUBSYSTEM.set( IntakeConfig.runningSpeed, IntakeConfig.runningSpeed); 
+    INTAKE_SUBSYSTEM.stop();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,11 +29,11 @@ public class IndexNote extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {INTAKE_SUBSYSTEM.stop();}
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return INTAKE_SUBSYSTEM.hasNote();
+    return true;
   }
 }

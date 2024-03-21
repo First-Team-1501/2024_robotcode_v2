@@ -48,6 +48,10 @@ public class AutoCommands {
                                 new RevShooter(robot.getShooter(), ShootParams.Auto2.getLeftSpeed(),
                                                 ShootParams.Auto2.getRightSpeed(), false)
                                                 .alongWith(new SetDeckPosition(robot.getDeck(), DeckPositions.podium)));
+                NamedCommands.registerCommand("startAuto5", new ParallelRaceGroup(
+                                new RevShooter(robot.getShooter(), 1.0,
+                                                0.5, false),
+                                new WaitCommand(shooterDelay)));
 
                 NamedCommands.registerCommand("extendIntake",
                                 new SetDeckPosition(robot.getDeck(), DeckPositions.intake)

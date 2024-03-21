@@ -7,6 +7,7 @@ package frc.robot.commands.sequential;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
+import frc.robot.commands.intake.IndexNote;
 import frc.robot.commands.intake.RunIntakeCommand;
 import frc.robot.commands.swervedrive.drivebase.AutoNoteAutoAim;
 import frc.robot.subsystems.deck.DeckPositions;
@@ -28,12 +29,16 @@ public class AutoNotePickup extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands
     (
+      new SetDeckPosition(deck, DeckPositions.home),
+      new SetElevatorPosition(elevator, ElevatorPositions.intake),
       new SetDeckPosition(deck, DeckPositions.intake)
-      .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.intake)),
+      .alongWith(
       new RunIntakeCommand(intake, leds)
-      .raceWith(new AutoNoteAutoAim(drivebase, intake, 1.5)),
+      .raceWith(new AutoNoteAutoAim(drivebase, intake, 1.5))
+      ),
       new SetDeckPosition(deck, DeckPositions.home)
       .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.zero))
+      .alongWith(new IndexNote(intake))
     );
   }
 }
