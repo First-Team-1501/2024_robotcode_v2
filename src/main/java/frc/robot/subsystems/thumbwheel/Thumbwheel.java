@@ -12,6 +12,8 @@ public class Thumbwheel extends SubsystemBase {
     // TODO: configure
     final private int ioLineStart = 1;
 
+    int thumbwheelValue;
+
     public Thumbwheel() {
 
         binaryControls = new ArrayList<DigitalInput>();
@@ -25,7 +27,7 @@ public class Thumbwheel extends SubsystemBase {
     }
 
     public void periodic() {
-        //SmartDashboard.putNumber("thumb", getValue());
+        
     }
 
     public int getValue() {

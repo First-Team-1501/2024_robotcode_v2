@@ -10,11 +10,14 @@ import frc.robot.subsystems.intake.IntakeSubsystem;
 public class ScoreTrap extends Command {
 
   private IntakeSubsystem INTAKE_SUBSYSTEM;
+  private boolean hitSensor;
+  private int counter;
 
   /** Creates a new RunOuttakeCommand. */
   public ScoreTrap(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.INTAKE_SUBSYSTEM = intake;
+    
 
     addRequirements(INTAKE_SUBSYSTEM);
   }
@@ -23,12 +26,26 @@ public class ScoreTrap extends Command {
   @Override
   public void initialize() {
     //System.out.println("Starting RunOuttakeCommand");
+    INTAKE_SUBSYSTEM.set(-0.3, -0.8);
+    hitSensor = false;
+    counter = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    INTAKE_SUBSYSTEM.set(-0.8, -0.2);
+    
+    if(!hitSensor){
+      hitSensor = INTAKE_SUBSYSTEM.readyToScoreTrap();
+    }
+    else if(hitSensor){
+      counter++;
+    }
+    
+    if (counter > 28){
+      INTAKE_SUBSYSTEM.set(1.0, -1.0);
+    }
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -41,6 +58,6 @@ public class ScoreTrap extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return counter > 200;
   }
 }

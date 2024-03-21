@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -16,7 +17,6 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.climber.SetClimberPosition;
 import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.JogDeck;
-import frc.robot.commands.deck.SetDeckMaxOutput;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.JogElevator;
 import frc.robot.commands.elevator.ResetElevatorPosition;
@@ -43,7 +43,6 @@ import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.shooter.ShooterConfig;
 import frc.robot.subsystems.stabilizer.StabilizerPositions;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class TeleopCommands {
 
@@ -357,48 +356,23 @@ public class TeleopCommands {
                                 .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)));
 
                 // Climb
-                climb.onTrue(
-                        new SetClimberPosition(robot.getClimber(), ClimberPositions.midClimb)
-                                .andThen
-                                (
-                                        new TrapOuttake(robot.getIntake())
-                                )
-                                .andThen
-                                (
-                                        new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
-                                        .alongWith(new SetDeckPosition(robot.getDeck(), 91))
-                                        .alongWith(new WaitCommand(0.5))
-                                )
-                                .andThen
-                                (
-                                        new SetElevatorPosition(robot.getElevator(), 22.3)
-                                        .alongWith(new WaitCommand(0.5))
-                                )
-                                .andThen
-                                (
-                                        new SetDeckPosition(robot.getDeck(), 108)
-                                        .alongWith(new SetElevatorPosition(robot.getElevator(), 45))
-                                        .alongWith(new WaitCommand(.5))
-                                )
-                                .andThen
-                                (
-                                        new SetDeckMaxOutput(robot.getDeck(), 0.6)
-                                        .alongWith(new SetElevatorMaxOutput(robot.getElevator(), 0.6))
-                                )
-                                .andThen
-                                (
-                                        new SetDeckPosition(robot.getDeck(), 118)   
-                                        .alongWith(new WaitCommand(.5))
-                                )
-                                .andThen
-                                (
-                                        new SetDeckPosition(robot.getDeck(), 102)
-                                )
-                                .andThen(
-                                        new SetDeckMaxOutput(robot.getDeck(), 1.0)
-                                        .alongWith(new SetElevatorMaxOutput(robot.getElevator(), 1.0))
-                                )
-
+                climb.onTrue
+                (
+                        new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
+                        .alongWith
+                        (
+                                new WaitCommand(1)
+                                .andThen(new SetDeckPosition(robot.getDeck(), 99.5))
+                        )      
+                                
+                        .andThen
+                        (
+                                new SetElevatorPosition(robot.getElevator(), 45)
+                        )
+                        .andThen
+                        (
+                                new ScoreTrap(robot.getIntake())
+                        ) 
                 );
 
                 jogClimberUp.whileTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.climb));
