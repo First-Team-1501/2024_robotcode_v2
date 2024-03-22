@@ -21,6 +21,13 @@ public class AutoCommands {
 
         private RobotContainer robot;
 
+        private Command auto1;
+        private Command auto2;
+        private Command auto3;
+        private Command auto4;
+        private Command auto5;
+        private Command auto6;
+
         public AutoCommands(RobotContainer robot) {
                 this.robot = robot;
 
@@ -90,6 +97,12 @@ public class AutoCommands {
                 NamedCommands.registerCommand("setDeckPosAuto5_End", new SetDeckPosition(robot.getDeck(), 30));
                 NamedCommands.registerCommand("setDeckPosAuto6_End", new SetDeckPosition(robot.getDeck(), 20));
                 
+                auto1 = robot.getDrivebase().getAutoCommand("Auto1");
+                auto2 = robot.getDrivebase().getAutoCommand("Auto2");
+                auto3 = robot.getDrivebase().getAutoCommand("Auto3");
+                auto4 = robot.getDrivebase().getAutoCommand("Auto4");
+                auto5 = robot.getDrivebase().getAutoCommand("Auto5");
+                auto6 = robot.getDrivebase().getAutoCommand("Auto6");
                 
                 
         }
@@ -98,17 +111,17 @@ public class AutoCommands {
                 switch (robot.getThumbwheel().getValue()) {
 
                         case 1:
-                                return robot.getDrivebase().getAutoCommand("Auto1");
+                                return auto1;
                         case 2:
-                                return robot.getDrivebase().getAutoCommand("Auto2");
+                                return auto2;
                         case 3:
-                                return robot.getDrivebase().getAutoCommand("Auto3");
+                                return auto3;
                         case 4:
-                                return robot.getDrivebase().getAutoCommand("Auto4");
+                                return auto4;
                         case 5:
-                                return robot.getDrivebase().getAutoCommand("Auto5");
+                                return auto5;
                         case 6:
-                                return robot.getDrivebase().getAutoCommand("Auto6");
+                                return auto6;
 
                         default:
                                 return new InstantCommand();
