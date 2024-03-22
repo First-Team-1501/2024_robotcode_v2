@@ -352,6 +352,7 @@ public class TeleopCommands {
 
                 // Preclimb position
                 preclimb.onTrue(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb)
+                                .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
                                 .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)));
 
                 // Climb

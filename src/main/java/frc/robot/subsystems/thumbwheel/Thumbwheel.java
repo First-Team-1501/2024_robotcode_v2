@@ -27,7 +27,7 @@ public class Thumbwheel extends SubsystemBase {
     }
 
     public void periodic() {
-        
+        SmartDashboard.putNumber("Thumb",getValue());
     }
 
     public int getValue() {
@@ -42,7 +42,7 @@ public class Thumbwheel extends SubsystemBase {
     }
 
     public void shuffleBoardInit() {
-        SmartDashboard.putNumber("Thumb",getValue());
+        
         
     }
 }
