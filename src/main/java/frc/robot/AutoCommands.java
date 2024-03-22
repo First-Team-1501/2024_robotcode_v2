@@ -87,7 +87,9 @@ public class AutoCommands {
                 NamedCommands.registerCommand("setDeckPosAuto1", new SetDeckPosition(robot.getDeck(), DeckPositions.podium));
                 NamedCommands.registerCommand("setDeckPosAuto5", new SetDeckPosition(robot.getDeck(), 26));
                 NamedCommands.registerCommand("setDeckPosAuto5_1", new SetDeckPosition(robot.getDeck(), 24));
-                NamedCommands.registerCommand("setDeckPosAuto5_End", new SetDeckPosition(robot.getDeck(), 20));
+                NamedCommands.registerCommand("setDeckPosAuto5_End", new SetDeckPosition(robot.getDeck(), 30));
+                NamedCommands.registerCommand("setDeckPosAuto6_End", new SetDeckPosition(robot.getDeck(), 20));
+                
                 
                 
         }
@@ -105,6 +107,8 @@ public class AutoCommands {
                                 return robot.getDrivebase().getAutoCommand("Auto4");
                         case 5:
                                 return robot.getDrivebase().getAutoCommand("Auto5");
+                        case 6:
+                                return robot.getDrivebase().getAutoCommand("Auto6");
 
                         default:
                                 return new InstantCommand();

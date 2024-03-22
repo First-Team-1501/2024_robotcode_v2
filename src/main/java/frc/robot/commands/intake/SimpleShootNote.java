@@ -44,7 +44,7 @@ public void end(boolean interrupted) {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return counter > 20;
+    return counter > 28;
   }
 }
 

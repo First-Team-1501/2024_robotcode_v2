@@ -41,6 +41,7 @@ public class ShootNote extends Command {
       if(counter>1)INTAKE_SUBSYSTEM.set(1, 1);
       counter++;
     }
+    else if(counter > 1) counter++;
   }
 
   // Called once the command ends or is interrupted.
@@ -53,7 +54,7 @@ public class ShootNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return counter > 12;
+    return counter > 25;
   }
 
   public boolean targetLocked() {
