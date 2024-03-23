@@ -89,9 +89,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "simpleShoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootAutoAim"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              }
+            ]
           }
         },
         {
@@ -127,9 +140,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "simpleShoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootAutoAim"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              }
+            ]
           }
         },
         {
@@ -165,9 +191,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "simpleShoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootAutoAim"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              }
+            ]
           }
         },
         {
@@ -203,9 +242,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "simpleShoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootAutoAim"
+                }
+              }
+            ]
           }
         },
         {
