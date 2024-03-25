@@ -26,6 +26,7 @@ import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.IndexNote;
 import frc.robot.commands.intake.RunOuttakeCommand;
+import frc.robot.commands.intake.ScoreAmp;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.SimpleShootNote;
 import frc.robot.commands.intake.StopIntake;
@@ -258,7 +259,7 @@ public class TeleopCommands {
                 runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
 
                 // Outtake: Spits out the note
-                jogOutake.whileTrue(new ScoreTrap(robot.getIntake()));
+                jogOutake.whileTrue(new ScoreAmp(robot.getIntake()));
 
                 // Close shot
                 closeShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.closeup)
@@ -362,12 +363,18 @@ public class TeleopCommands {
                         .alongWith
                         (
                                 new WaitCommand(1)
-                                .andThen(new SetDeckPosition(robot.getDeck(), 99.5))
+                                .andThen(new SetDeckPosition(robot.getDeck(), 120)) //101
+                                .alongWith(new AmpDeckCommand(robot.getIntake()))
                         )      
                                 
                         .andThen
                         (
                                 new SetElevatorPosition(robot.getElevator(), 45)
+                                .andThen(new SetDeckPosition(robot.getDeck(), 103))
+                        )
+                        .andThen
+                        (
+                                new WaitCommand(0.5)
                         )
                         .andThen
                         (

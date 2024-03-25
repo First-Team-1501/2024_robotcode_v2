@@ -56,7 +56,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Path6.1"
+                  "pathName": "Path7.1"
                 }
               },
               {
@@ -114,7 +114,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Path6.2"
+                  "pathName": "Path7.2"
                 }
               },
               {
@@ -165,7 +165,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Path6.3"
+                  "pathName": "Path7.3"
                 }
               },
               {
@@ -216,7 +216,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Path6.4"
+                  "pathName": "Path7.4"
                 }
               },
               {
@@ -242,9 +242,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "simpleShoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shootAutoAim"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimRotate"
+                }
+              }
+            ]
           }
         },
         {

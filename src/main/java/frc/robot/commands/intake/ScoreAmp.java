@@ -7,50 +7,36 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 
-public class ScoreTrap extends Command {
-
-  private IntakeSubsystem INTAKE_SUBSYSTEM;
-  private int counter;
-
-  /** Creates a new RunOuttakeCommand. */
-  public ScoreTrap(IntakeSubsystem intake) {
+public class ScoreAmp extends Command {
+  /** Creates a new ScoreAmp. */
+  IntakeSubsystem INTAKE_SUBSYSTEM;
+  public ScoreAmp(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.INTAKE_SUBSYSTEM = intake;
-    
-
+    INTAKE_SUBSYSTEM = intake;
     addRequirements(INTAKE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    //System.out.println("Starting RunOuttakeCommand");
-    INTAKE_SUBSYSTEM.set(-0.3, -0.8);
-    counter = 0;
+  public void initialize() 
+  {
+    INTAKE_SUBSYSTEM.set(-1.0, -.6);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-    counter++;
-
-    if (counter > 6){
-      INTAKE_SUBSYSTEM.set(1.0, -1.0);
-    }
-    
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
+  public void end(boolean interrupted) 
+  {
     INTAKE_SUBSYSTEM.stop();
-    //System.out.println("Ending RunOuttakeCommand");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return counter > 200;
+    return false;
   }
 }
