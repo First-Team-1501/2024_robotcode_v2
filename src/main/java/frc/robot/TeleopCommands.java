@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.climber.SetClimberPosition;
-import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.JogDeck;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.JogElevator;
@@ -34,6 +33,7 @@ import frc.robot.commands.reset.ResetRobot;
 import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.IntakeSequenceTeleop;
 import frc.robot.commands.sequential.RetractIntakeSequence;
+import frc.robot.commands.sequential.TeleopAimShoot;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
 import frc.robot.commands.swervedrive.drivebase.NoteAutoAim;
@@ -276,10 +276,12 @@ public class TeleopCommands {
                 preAmp.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.amp)
                                 .alongWith(new AmpDeckCommand(robot.getIntake())));
 
-                autoAim.whileTrue(new AutoDeckAim(robot.getDeck(), robot.getLimelight())
+                /*autoAim.whileTrue(new AutoDeckAim(robot.getDeck(), robot.getLimelight())
                                 .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed,
                                                 ShooterConfig.podiumRightSpeed)))
-                                .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+                                .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));*/
+                
+                autoAim.whileTrue(new TeleopAimShoot(robot.getShooter(), robot.getDeck(), robot.getLimelight(), robot.getDrivebase(), driverController, rotationController, robot.getIntake()));
 
                 home.onTrue(new SetElevatorPosition(robot.getElevator(), 0)
                                         .andThen(new SetDeckPosition(robot.getDeck(), 0))

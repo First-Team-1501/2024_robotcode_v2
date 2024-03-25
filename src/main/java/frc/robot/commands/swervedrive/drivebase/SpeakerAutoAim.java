@@ -44,7 +44,7 @@ public class SpeakerAutoAim extends Command {
     var alliance = DriverStation.getAlliance();
     if(LimelightHelpers.getTV("limelight")&& alliance.get() == Alliance.Blue)
     {
-      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY()/4, OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -limelight_aim_proportional(),true);
     }
     else if (!LimelightHelpers.getTV("limelight")&& alliance.get() == Alliance.Blue)
@@ -54,7 +54,7 @@ public class SpeakerAutoAim extends Command {
     }
     else if(LimelightHelpers.getTV("limelight")&& alliance.get() == Alliance.Red)
     {
-      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY()/4, OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -limelight_aim_proportional(),true);
     }
     else if (!LimelightHelpers.getTV("limelight")&& alliance.get() == Alliance.Red)
