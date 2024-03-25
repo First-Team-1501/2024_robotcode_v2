@@ -37,7 +37,8 @@ public class ShootNote extends Command {
         (LimelightHelpers.getTY("limelight") < 3) &&
         (LimelightHelpers.getTX("limelight") > -3) &&
         (LimelightHelpers.getTY("limelight") > -3) &&
-        LimelightHelpers.getTV("limelight")) {
+        (LimelightHelpers.getTV("limelight")) &&
+        (LimelightHelpers.getTA("limelight") > 0.2) ) {
       if(counter>1)INTAKE_SUBSYSTEM.set(1, 1);
       counter++;
     }
