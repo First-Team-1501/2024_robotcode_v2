@@ -3,12 +3,13 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "Path6",
+    "Path7",
     "Path1",
     "Path2",
     "Path3",
     "Path4",
-    "Path5"
+    "Path5",
+    "Path6"
   ],
   "autoFolders": [],
   "defaultMaxVel": 5.0,
