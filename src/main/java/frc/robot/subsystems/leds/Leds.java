@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.limelight.LimelightHelpers;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
+
 import java.util.Optional;
 import com.ctre.phoenix.led.RainbowAnimation;
 
@@ -28,10 +30,12 @@ public class Leds extends SubsystemBase {
 
   private CANdle candle1;
   private static boolean intaking;
+  ShooterSubsystem SHOOTER_SUBSYSTEM;
 
   /** Creates a new CANdle */
-  public Leds() {
+  public Leds(ShooterSubsystem shooter) {
     setupLeds();
+    SHOOTER_SUBSYSTEM = shooter;
   }
 
   private void setupLeds() {
@@ -55,7 +59,8 @@ public class Leds extends SubsystemBase {
         (LimelightHelpers.getTY("limelight") < 2) &&
         (LimelightHelpers.getTX("limelight") > -5) &&
         (LimelightHelpers.getTY("limelight") > -2) &&
-        LimelightHelpers.getTV("limelight")) {
+        LimelightHelpers.getTV("limelight") &&
+        SHOOTER_SUBSYSTEM.getRPM() > 4000) {
       setLedsToStrobe();
     } else if (intaking) {
       setLedsIntake();

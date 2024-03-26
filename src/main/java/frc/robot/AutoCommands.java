@@ -87,7 +87,7 @@ public class AutoCommands {
                                                 ShootParams.Podium, true, robot.getLimelight()));
                 NamedCommands.registerCommand("shootAuto1Aim", 
                         new Auto1Shoot(robot.getDeck(), robot.getIntake(),
-                                                ShootParams.Podium, true, robot.getLimelight()));
+                                                ShootParams.Podium, true, robot.getLimelight(), robot.getShooter()));
 
                 NamedCommands.registerCommand("simpleShoot", new SimpleShootNote(robot.getIntake()));
 

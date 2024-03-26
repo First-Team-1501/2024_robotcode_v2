@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.climber.SetClimberPosition;
+import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.JogDeck;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.JogElevator;
@@ -27,10 +28,11 @@ import frc.robot.commands.intake.IndexNote;
 import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ScoreAmp;
 import frc.robot.commands.intake.ScoreTrap;
-import frc.robot.commands.intake.SimpleShootNote;
 import frc.robot.commands.intake.StopIntake;
+import frc.robot.commands.intake.TeleopShoot;
 import frc.robot.commands.reset.ResetRobot;
 import frc.robot.commands.sequential.AutoNotePickup;
+import frc.robot.commands.sequential.IntakeSequenceAutoAim;
 import frc.robot.commands.sequential.IntakeSequenceTeleop;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.sequential.TeleopAimShoot;
@@ -100,6 +102,9 @@ public class TeleopCommands {
         private Trigger scoreTrap;
         private Trigger sourceForward;
         private Trigger middleForward;
+        private Trigger intakeAutoAim;
+        private Trigger fullAutoShooting;
+        private Trigger operatorPreClimb;
 
         // Buttons for Drive Joystick
         private Trigger climb;
@@ -158,6 +163,9 @@ public class TeleopCommands {
                 scoreTrap = new JoystickButton(buttonBoard, 12);
                 sourceForward = new JoystickButton(buttonBoard, 8);
                 middleForward = new JoystickButton(buttonBoard, 9);
+                intakeAutoAim = new JoystickButton(buttonBoard, 2);
+                fullAutoShooting = new JoystickButton(buttonBoard, 6);
+                operatorPreClimb = new JoystickButton(buttonBoard, 4);
 
                 // DRIVER
                 simpleshoot = driverController.button(1);
@@ -276,12 +284,13 @@ public class TeleopCommands {
                 preAmp.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.amp)
                                 .alongWith(new AmpDeckCommand(robot.getIntake())));
 
-                /*autoAim.whileTrue(new AutoDeckAim(robot.getDeck(), robot.getLimelight())
+                autoAim.whileTrue(new AutoDeckAim(robot.getDeck(), robot.getLimelight())
                                 .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed,
                                                 ShooterConfig.podiumRightSpeed)))
-                                .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));*/
+                                .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
                 
-                autoAim.whileTrue(new TeleopAimShoot(robot.getShooter(), robot.getDeck(), robot.getLimelight(), robot.getDrivebase(), driverController, rotationController, robot.getIntake()));
+                fullAutoShooting.whileTrue(new TeleopAimShoot(robot.getShooter(), robot.getDeck(), robot.getLimelight(), robot.getDrivebase(), driverController, rotationController, robot.getIntake()))
+                .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
                 home.onTrue(new SetElevatorPosition(robot.getElevator(), 0)
                                         .andThen(new SetDeckPosition(robot.getDeck(), 0))
@@ -313,6 +322,13 @@ public class TeleopCommands {
                 middleForward.whileTrue(new SetDeckPosition(robot.getDeck(), 3)
                         .alongWith(new RevShooter(robot.getShooter(),0.55 ,0.45)))
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+
+                intakeAutoAim.whileTrue(new IntakeSequenceAutoAim(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds(), robot.getDrivebase(), driverController, rotationController))
+                .onFalse(new RetractIntakeSequence(robot.getDeck(), robot.getElevator(), robot.getIntake()));
+
+                operatorPreClimb.onTrue(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb)
+                                .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
+                                .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)));
 
         }
 
@@ -350,8 +366,8 @@ public class TeleopCommands {
 
 
                 // runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
-                simpleshoot.onTrue(new SimpleShootNote(robot.getIntake()));
-                simpleshootAlt.onTrue(new SimpleShootNote(robot.getIntake()));
+                simpleshoot.whileTrue(new TeleopShoot(robot.getIntake()));
+                simpleshootAlt.whileTrue(new TeleopShoot(robot.getIntake()));
 
                 // Preclimb position
                 preclimb.onTrue(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb)
@@ -394,7 +410,7 @@ public class TeleopCommands {
                 autoSteer.whileTrue(new SpeakerAutoAim(robot.getDrivebase(), driverController, rotationController));
                 autoSteerAlt.whileTrue(new SpeakerAutoAim(robot.getDrivebase(), driverController, rotationController));
 
-                notePickup.whileTrue(new NoteAutoAim(robot.getDrivebase(), driverController, rotationController));
+                notePickup.whileTrue(new NoteAutoAim(robot.getDrivebase(), driverController, rotationController, robot.getIntake()));
                 autoNotePickup.whileTrue(
                         new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),robot.getDrivebase(),robot.getLeds()))
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
@@ -409,7 +425,7 @@ public class TeleopCommands {
         }
 
         public Command onTeleopInit() {
-                return new RetractIntakeSequence(robot.getDeck(), robot.getElevator())
+                return new RetractIntakeSequence(robot.getDeck(), robot.getElevator(), robot.getIntake())
                                 .andThen(new InstantCommand(() -> robot.getShooter().stop()));
         }
 

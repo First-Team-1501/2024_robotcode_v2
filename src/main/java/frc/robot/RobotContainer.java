@@ -74,7 +74,7 @@ public class RobotContainer {
     climber = new ClimberSubsystem(thumb);
     stabilizer = new StabilizerSubsystem();
     limelight = new Limelight();
-    leds = new Leds();
+    leds = new Leds(shooter);
     teleop = new TeleopCommands(this);
     auto = new AutoCommands(this);
 

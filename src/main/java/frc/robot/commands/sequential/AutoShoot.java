@@ -27,7 +27,7 @@ public class AutoShoot extends SequentialCommandGroup {
        addCommands(
         new ParallelRaceGroup(
           new AutoDeckAim(deckSubsystem, limelight),
-          new ShootNote(intakeSubsystem, limelight))
+          new ShootNote(intakeSubsystem, limelight, shooter))
           );
     }
     else{
