@@ -15,6 +15,7 @@ import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.limelight.Limelight;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -22,14 +23,14 @@ import frc.robot.subsystems.limelight.Limelight;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto1Shoot extends SequentialCommandGroup {
   /** Creates a new Auto1Shoot. */
-  public Auto1Shoot(DeckSubsystem deckSubsystem, IntakeSubsystem intakeSubsystem, ShootParams param, boolean autoAim, Limelight limelight) {
+  public Auto1Shoot(DeckSubsystem deckSubsystem, IntakeSubsystem intakeSubsystem, ShootParams param, boolean autoAim, Limelight limelight, ShooterSubsystem shooter) {
 
     if(autoAim)
     {
        addCommands(
         new ParallelRaceGroup(
           new Auto1DeckAim(deckSubsystem, limelight),
-          new ShootNote(intakeSubsystem, limelight))
+          new ShootNote(intakeSubsystem, limelight, shooter))
           );
     }
     else{

@@ -5,31 +5,35 @@
 package frc.robot.commands.sequential;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorAmpLimit;
 import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.IndexNote;
 import frc.robot.commands.intake.RunIntakeCommand;
+import frc.robot.commands.swervedrive.drivebase.NoteAutoAim;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.elevator.ElevatorPositions;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.leds.Leds;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeSequenceTeleop extends SequentialCommandGroup {
+public class IntakeSequenceAutoAim extends SequentialCommandGroup {
   /** Creates a new IntakeSequenceTeleop. */
-  public IntakeSequenceTeleop(IntakeSubsystem intake, DeckSubsystem deck, ElevatorSubsystem elevator, Leds leds) {
+  public IntakeSequenceAutoAim(IntakeSubsystem intake, DeckSubsystem deck, ElevatorSubsystem elevator, Leds leds, SwerveSubsystem drivebase, CommandJoystick driveStick, CommandJoystick rotStick) {
     addCommands(
       new SetDeckPosition(deck, DeckPositions.home),
       new SetElevatorPosition(elevator, ElevatorPositions.intake),
       new SetDeckPosition(deck, DeckPositions.intake)
       .alongWith(
-      new RunIntakeCommand(intake, leds)),
+      new RunIntakeCommand(intake, leds)
+      .raceWith(new NoteAutoAim(drivebase, driveStick, rotStick, intake))),
       new SetElevatorAmpLimit(elevator, 3, 3)
       .alongWith(new SetElevatorMaxOutput(elevator, 0.2)),
 

@@ -8,16 +8,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.limelight.Limelight;
 import frc.robot.subsystems.limelight.LimelightHelpers;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 public class ShootNote extends Command {
 
   private IntakeSubsystem INTAKE_SUBSYSTEM;
+  private ShooterSubsystem SHOOTER_SUBSYSTEM;
   private int counter;
 
   /** Creates a new ShootNote. */
-  public ShootNote(IntakeSubsystem intake, Limelight limelight) {
+  public ShootNote(IntakeSubsystem intake, Limelight limelight, ShooterSubsystem shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.INTAKE_SUBSYSTEM = intake;
+    SHOOTER_SUBSYSTEM = shooter;
 
     addRequirements(INTAKE_SUBSYSTEM);
   }
@@ -33,11 +36,13 @@ public class ShootNote extends Command {
   @Override
   public void execute() {
     
-    if ((LimelightHelpers.getTX("limelight") < 3) &&
-        (LimelightHelpers.getTY("limelight") < 3) &&
-        (LimelightHelpers.getTX("limelight") > -3) &&
-        (LimelightHelpers.getTY("limelight") > -3) &&
-        LimelightHelpers.getTV("limelight")) {
+    if ((LimelightHelpers.getTX("limelight") < 4.5) &&
+        (LimelightHelpers.getTY("limelight") < 2) &&
+        (LimelightHelpers.getTX("limelight") > -4.5) &&
+        (LimelightHelpers.getTY("limelight") > -2) &&
+        (LimelightHelpers.getTV("limelight")) &&
+        (LimelightHelpers.getTA("limelight") > 0.2) &&
+        (SHOOTER_SUBSYSTEM.getRPM() > 4500)) {
       if(counter>1)INTAKE_SUBSYSTEM.set(1, 1);
       counter++;
     }

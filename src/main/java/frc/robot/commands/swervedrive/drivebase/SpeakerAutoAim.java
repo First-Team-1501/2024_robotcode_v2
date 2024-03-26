@@ -42,7 +42,12 @@ public class SpeakerAutoAim extends Command {
   public void execute() 
   {
     var alliance = DriverStation.getAlliance();
-    if(LimelightHelpers.getTV("limelight")&& alliance.get() == Alliance.Blue)
+    if(LimelightHelpers.getTV("limelight")&& (alliance.get() == Alliance.Blue) && LimelightHelpers.getTA("limelight") > 0.2) 
+    {
+      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY() * speedMultiplier(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX() * speedMultiplier(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -limelight_aim_proportional(),true);
+    }
+    else if(LimelightHelpers.getTV("limelight")&& (alliance.get() == Alliance.Blue))
     {
       translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -limelight_aim_proportional(),true);
@@ -52,7 +57,12 @@ public class SpeakerAutoAim extends Command {
       translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
     }
-    else if(LimelightHelpers.getTV("limelight")&& alliance.get() == Alliance.Red)
+    else if(LimelightHelpers.getTV("limelight")&& alliance.get() == Alliance.Red && LimelightHelpers.getTA("limelight") > 0.2)
+    {
+      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY() * speedMultiplier(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX() * speedMultiplier(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -limelight_aim_proportional(),true);
+    }
+    else if(LimelightHelpers.getTV("limelight")&& (alliance.get() == Alliance.Red))
     {
       translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -limelight_aim_proportional(),true);
@@ -75,9 +85,18 @@ public class SpeakerAutoAim extends Command {
     return false;
   }
 
+  public double speedMultiplier()
+  {
+    double tA = LimelightHelpers.getTA("limelight");
+    
+    if (tA < 0.18) return 1;
+    else return (1 - tA);
+    
+  }
+
   public double limelight_aim_proportional() {
 
-    double kP = 0.06; //0.04 
+    double kP = 0.05; //0.04 
     double kI = 0.000001;
     double kD = 0.000000000000000000000000001; //0.00000000000001;
     double maxTolerance = 3;

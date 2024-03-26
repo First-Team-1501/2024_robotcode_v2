@@ -4,8 +4,13 @@
 
 package frc.robot.subsystems.shooter;
 
+import java.util.Map;
+
 import com.revrobotics.CANSparkFlex;
 
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -13,6 +18,8 @@ public class ShooterSubsystem extends SubsystemBase {
   // Create the motors
   private CANSparkFlex leftMotor;
   private CANSparkFlex rightMotor;
+
+  GenericEntry shooterRPM;
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
@@ -57,11 +64,16 @@ public class ShooterSubsystem extends SubsystemBase {
     // Burn flash
     leftMotor.burnFlash();
     rightMotor.burnFlash();
+
+    //Creates the shuffleboardInit
+    shuffleBoardInit();
+    
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    updateShuffleboard();
   }
 
   // Set speed of left and right motors
@@ -75,5 +87,29 @@ public class ShooterSubsystem extends SubsystemBase {
     leftMotor.set(0);
     rightMotor.set(0);
   }
+
+  public double getRPM()
+  {
+    return leftMotor.getEncoder().getVelocity();
+  }
+
+  public void shuffleBoardInit()
+  {
+    //SmartDashboard.putNumber("Stabilizer Position", get());
+
+    shooterRPM = Shuffleboard.getTab("Info")
+      .add("ShooterRPM", getRPM())
+      .withWidget(BuiltInWidgets.kDial)
+      .withProperties(Map.of("min", 0, "max", 5750))
+      .withPosition(4, 4)
+      .withSize(3, 3)
+      .getEntry();
+  }
+
+  public void updateShuffleboard()
+  {
+    shooterRPM.setDouble(getRPM());
+  }
+
 
 }
