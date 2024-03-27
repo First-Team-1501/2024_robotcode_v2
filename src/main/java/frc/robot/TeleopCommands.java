@@ -30,7 +30,6 @@ import frc.robot.commands.intake.ScoreAmp;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.intake.TeleopShoot;
-import frc.robot.commands.limelight.ChangePipeline;
 import frc.robot.commands.reset.ResetRobot;
 import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.IntakeSequenceAutoAim;

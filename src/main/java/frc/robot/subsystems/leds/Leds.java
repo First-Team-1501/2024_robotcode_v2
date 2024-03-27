@@ -7,7 +7,8 @@ package frc.robot.subsystems.leds;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.StrobeAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation;
-
+import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
+import com.ctre.phoenix.led.LarsonAnimation;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,11 +21,20 @@ import com.ctre.phoenix.led.RainbowAnimation;
 public class Leds extends SubsystemBase {
 
   Optional<Alliance> alliance;
+  // * This is for the blue alliance color
   private TwinkleAnimation twinkleblueAnimation;
+  // * This is for the red alliance color
   private TwinkleAnimation twinkleredAnimation;
-  private StrobeAnimation strobeAnimation;
+  // * This is for the strobe animation when locked onto the target
+  private StrobeAnimation strobeimation;
+  // * This is for the strobe animation when intaking
   private StrobeAnimation strobeintakeAnimation;
+  // * This is for the rainbow animation
   private RainbowAnimation rainbowAnimation;
+  // * This if for the strobe animation when ready for amp
+  private StrobeAnimation ampAnimation;
+  // * This is for the Larson effect while climbing.
+  private LarsonAnimation climbingAnimation;
 
   private final double STROBE_SPEED = 98.0 / 256.0;
 
@@ -39,14 +49,24 @@ public class Leds extends SubsystemBase {
   }
 
   private void setupLeds() {
+    // * This is for the blue alliance color
     twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
+    // * This is for the red alliance color
     twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
+    // * This creates the CANdle
     candle1 = new CANdle(48, "canivore");
-    strobeAnimation = new StrobeAnimation(0, 255, 0, 255, 98.0 / 256.0, 68, 0);
+    // * This is for the strobe animation when locked onto the target
+    strobeimation = new StrobeAnimation(0, 255, 0, 255, 98.0 / 256.0, 68, 0);
+    // * This is for the strobe animation when intaking
     strobeintakeAnimation = new StrobeAnimation(255, 255, 255, 255, STROBE_SPEED, 148, 0);
+    // * This is for the intaking boolean
     intaking = false;
+    // * This is for the rainbow animation
     rainbowAnimation = new RainbowAnimation(1, .75, 148);
-
+    // * This is for the strobe animation when ready for amp
+    ampAnimation = new StrobeAnimation(255, 255, 0, 0, STROBE_SPEED, 148, 0);
+    // * This is for the Larson effect while climbing.
+    climbingAnimation = new LarsonAnimation(127, 0, 255, 0, STROBE_SPEED, 147, BounceMode.Front, 7, 0);
   }
 
   @Override
@@ -70,7 +90,7 @@ public class Leds extends SubsystemBase {
   }
 
   public void setLedsToStrobe() {
-    candle1.animate(strobeAnimation);
+    candle1.animate(strobeimation);
   }
 
   public void rainbow(){
@@ -95,5 +115,13 @@ public class Leds extends SubsystemBase {
 
   public static void setIntakeStatus(boolean status) {
     intaking = status;
+  }
+
+  public void setAmpReady() {
+    candle1.animate(ampAnimation);
+  }
+
+  public void setClimbing() {
+    candle1.animate(climbingAnimation);
   }
 }
