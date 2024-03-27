@@ -38,6 +38,7 @@ import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.sequential.TeleopAimShoot;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
+import frc.robot.commands.swervedrive.drivebase.AmpAutoAim;
 import frc.robot.commands.swervedrive.drivebase.NoteAutoAim;
 import frc.robot.commands.swervedrive.drivebase.SpeakerAutoAim;
 import frc.robot.subsystems.climber.ClimberPositions;
@@ -283,8 +284,22 @@ public class TeleopCommands {
                                                 ShooterConfig.podiumRightSpeed)))
                                 .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
-                preAmp.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.amp)
-                                .alongWith(new AmpDeckCommand(robot.getIntake())));
+                
+                Command redAmpAim = new ChangePipeline(robot.getLimelight(), "limelight-intake", 2)
+                                .andThen(new AmpAutoAim(robot.getDrivebase(), driverController, rotationController));
+                Command blueAmpAim = new ChangePipeline(robot.getLimelight(), "limelight-intake", 1)
+                                .andThen(new AmpAutoAim(robot.getDrivebase(), driverController, rotationController));
+                Command notePipeline = new ChangePipeline(robot.getLimelight(), "limelight-intake", 0);
+
+                var alliance = DriverStation.getAlliance();
+
+                preAmp.whileTrue
+                (
+                        new SetDeckPosition(robot.getDeck(), DeckPositions.amp)
+                        .alongWith(new AmpDeckCommand(robot.getIntake()))
+                        .andThen(alliance.get() == DriverStation.Alliance.Blue ? blueAmpAim : redAmpAim)
+                )
+                .onFalse(notePipeline);
 
                 autoAim.whileTrue(new AutoDeckAim(robot.getDeck(), robot.getLimelight())
                                 .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed,
@@ -429,6 +444,7 @@ public class TeleopCommands {
                        autoAmp.whileTrue
                         (
                                 new ChangePipeline(robot.getLimelight(), "limelight-intake", 1)
+                                .andThen(new AmpAutoAim(robot.getDrivebase(), driverController, rotationController))
                         )
                         .onFalse(new ChangePipeline(robot.getLimelight(), "limelight-intake", 0));  
                 } 
@@ -437,10 +453,12 @@ public class TeleopCommands {
                         autoAmp.whileTrue
                         (
                                 new ChangePipeline(robot.getLimelight(), "limelight-intake", 2)
+                                .andThen(new AmpAutoAim(robot.getDrivebase(), driverController, rotationController))
                         )
                         .onFalse(new ChangePipeline(robot.getLimelight(), "limelight-intake", 0));    
                 }
- 
+                
+                
                 
 
         }
