@@ -121,6 +121,7 @@ public class TeleopCommands {
         private Trigger autoSteerAlt;
         private Trigger notePickup;
         private Trigger headingMode;
+        private Trigger autoAmp;
 
         // Button for Roborio
         private Trigger reset;
@@ -182,6 +183,7 @@ public class TeleopCommands {
                 autoSteerAlt = rotationController.button(6);
                 notePickup = rotationController.button(7);
                 headingMode = rotationController.button(3);
+                autoAmp = rotationController.button(11);
 
                 // ROBORIO
                 reset = new Trigger(() -> RobotController.getUserButton());
