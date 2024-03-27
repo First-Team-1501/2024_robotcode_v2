@@ -21,7 +21,7 @@ public class ClimberConfig {
     public static IdleMode idleMode = IdleMode.kBrake; // Brake for position, coast for percent
 
     // PIDF Values
-    public static double p = 0.03; // .01 good start value
+    public static double p = 0.5; // .01 good start value
     public static double i = 0;
     public static double d = 0;
     public static double f = 0;
@@ -29,12 +29,12 @@ public class ClimberConfig {
     public static double DFilter = 0;
 
     // Min + Max Output
-    public static double outputMin = -1;
+    public static double outputMin = -0.6;
     public static double outputMax = 1;
 
     // Ramp Rate
-    public static double openRampRate = 0; // Time in seconds (1 is good for percent based stuff) (percent mode)
-    public static double closedRampRate = 0; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
+    public static double openRampRate = 0.1; // Time in seconds (1 is good for percent based stuff) (percent mode)
+    public static double closedRampRate = 0.1; // IF IN POSITION MODE, THIS IS THE RAMP RATE SETTING!!!
 
     // Inverted
     public static boolean kInverted = false;
@@ -52,8 +52,8 @@ public class ClimberConfig {
     public static boolean softLimitRevEnabled = true;
 
     // Soft Limits
-    public static float softLimitFwd = 290;
-    public static float softLimitRev = 0;
+    public static float softLimitFwd = 105;
+    public static float softLimitRev = -1;
 
     // Analog for Hollow Bore
     public static double analogPositionConversion = 1;// 125:1 gear box, 16 small gear, 22 big gear = 0.00581818181/360

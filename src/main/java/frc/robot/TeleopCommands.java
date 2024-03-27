@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.climber.SetClimberPosition;
+import frc.robot.commands.climber.StopClimber;
 import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.JogDeck;
 import frc.robot.commands.deck.SetDeckPosition;
@@ -105,6 +106,7 @@ public class TeleopCommands {
         private Trigger intakeAutoAim;
         private Trigger fullAutoShooting;
         private Trigger operatorPreClimb;
+        private Trigger raiseStabilizer;
 
         // Buttons for Drive Joystick
         private Trigger climb;
@@ -166,6 +168,7 @@ public class TeleopCommands {
                 intakeAutoAim = new JoystickButton(buttonBoard, 2);
                 fullAutoShooting = new JoystickButton(buttonBoard, 6);
                 operatorPreClimb = new JoystickButton(buttonBoard, 4);
+                raiseStabilizer = new JoystickButton(buttonBoard, 7);
 
                 // DRIVER
                 simpleshoot = driverController.button(1);
@@ -330,6 +333,8 @@ public class TeleopCommands {
                                 .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
                                 .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)));
 
+                raiseStabilizer.onTrue(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.zero));
+
         }
 
         private void SetupDriverCommands() {
@@ -372,10 +377,11 @@ public class TeleopCommands {
                 // Preclimb position
                 preclimb.onTrue(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb)
                                 .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
-                                .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)));
+                                .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb))
+                                .andThen(new SetClimberPosition(robot.getClimber(), ClimberPositions.zero)));
 
                 // Climb
-                climb.onTrue
+                /*climb.onTrue
                 (
                         new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
                         .alongWith
@@ -398,10 +404,36 @@ public class TeleopCommands {
                         (
                                 new ScoreTrap(robot.getIntake())
                         ) 
-                );
+                );*/
 
-                jogClimberUp.whileTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.climb));
-                jogClimberDown.whileTrue(new SetClimberPosition(robot.getClimber(), 0));
+                climb.onTrue
+                (
+                        new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
+                        .alongWith
+                        (
+                                new WaitCommand(1)
+                                .andThen(new SetDeckPosition(robot.getDeck(), 100))
+                        )      
+                                
+                        .andThen
+                        (
+                                new SetElevatorPosition(robot.getElevator(), 41.5)
+                        )
+                        .andThen
+                        (
+                                new WaitCommand(1)
+                        )
+                        .andThen
+                        (
+                                new ScoreTrap(robot.getIntake())
+                        ) 
+                )
+                .onFalse(new StopClimber(robot.getClimber()));
+
+                jogClimberUp.whileTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.climb))
+                .onFalse(new StopClimber(robot.getClimber()));
+                jogClimberDown.whileTrue(new SetClimberPosition(robot.getClimber(), 0))
+                .onFalse(new StopClimber(robot.getClimber()));
 
                 // Zero Gyro
                 zeroGyro.onTrue(new InstantCommand(robot.getDrivebase()::zeroGyro));

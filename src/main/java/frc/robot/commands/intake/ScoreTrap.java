@@ -35,7 +35,7 @@ public class ScoreTrap extends Command {
     
     counter++;
 
-    if (counter > 6){
+    if (counter > 28){ //6
       INTAKE_SUBSYSTEM.set(1.0, -1.0);
     }
     
