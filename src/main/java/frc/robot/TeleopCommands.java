@@ -30,6 +30,7 @@ import frc.robot.commands.intake.ScoreAmp;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.intake.TeleopShoot;
+import frc.robot.commands.limelight.ChangePipeline;
 import frc.robot.commands.reset.ResetRobot;
 import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.IntakeSequenceAutoAim;
@@ -423,6 +424,25 @@ public class TeleopCommands {
 
                 // Reset Robot
                 reset.onTrue(new ResetRobot(robot));
+
+                if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) 
+                {
+                       autoAmp.whileTrue
+                        (
+                                new ChangePipeline(robot.getLimelight(), "limelight-intake", 1)
+                        )
+                        .onFalse(new ChangePipeline(robot.getLimelight(), "limelight-intake", 0));  
+                } 
+                else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red)
+                {
+                        autoAmp.whileTrue
+                        (
+                                new ChangePipeline(robot.getLimelight(), "limelight-intake", 2)
+                        )
+                        .onFalse(new ChangePipeline(robot.getLimelight(), "limelight-intake", 0));    
+                }
+ 
+                
 
         }
 
