@@ -6,6 +6,7 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.leds.Leds;
 
 public class AmpDeckCommand extends Command {
   
@@ -34,6 +35,7 @@ public class AmpDeckCommand extends Command {
     hasSeenPiece = false;
     stageTwo = false;
     stageThree = false;
+    Leds.setAmpStatus(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -73,6 +75,6 @@ public class AmpDeckCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (counter > 4);
+    return (counter > 6);
   }
 }

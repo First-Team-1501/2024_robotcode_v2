@@ -40,6 +40,8 @@ public class Leds extends SubsystemBase {
 
   private CANdle candle1;
   private static boolean intaking;
+  private static boolean amping;
+  private static boolean climbing;
   ShooterSubsystem SHOOTER_SUBSYSTEM;
 
   /** Creates a new CANdle */
@@ -61,6 +63,8 @@ public class Leds extends SubsystemBase {
     strobeintakeAnimation = new StrobeAnimation(255, 255, 255, 255, STROBE_SPEED, 148, 0);
     // * This is for the intaking boolean
     intaking = false;
+    amping = false;
+    climbing = false;
     // * This is for the rainbow animation
     rainbowAnimation = new RainbowAnimation(1, .75, 148);
     // * This is for the strobe animation when ready for amp
@@ -84,7 +88,12 @@ public class Leds extends SubsystemBase {
       setLedsToStrobe();
     } else if (intaking) {
       setLedsIntake();
-    } else {
+    } else if (amping) {
+      setAmpReady();
+    } else if (climbing) {
+      setClimbing();
+    }
+    else {
       setLedsUsingAllianceColor();
     }
   }
@@ -115,6 +124,12 @@ public class Leds extends SubsystemBase {
 
   public static void setIntakeStatus(boolean status) {
     intaking = status;
+  }
+  public static void setAmpStatus(boolean status){
+    amping = status;
+  }
+  public static void setClimbingStatus(boolean status){
+    climbing = status;
   }
 
   public void setAmpReady() {

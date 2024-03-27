@@ -6,6 +6,7 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.leds.Leds;
 
 public class ScoreAmp extends Command {
   /** Creates a new ScoreAmp. */
@@ -32,6 +33,7 @@ public class ScoreAmp extends Command {
   public void end(boolean interrupted) 
   {
     INTAKE_SUBSYSTEM.stop();
+    Leds.setAmpStatus(false);
   }
 
   // Returns true when the command should end.
