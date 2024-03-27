@@ -14,23 +14,6 @@ import java.util.Optional;
 public class Limelight extends SubsystemBase {
 
   Optional<Alliance> alliance;
-  /* 
-  private double tx; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees / LL2: -29.8 to 29.8 degrees)
-  private double ty; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees / LL2: -24.85 to 24.85 degrees)
-  private double ta; //Target Area (0% of image to 100% of image)
-
-  private double pipelineIndex;
-  private boolean tv; //Whether the limelight has any valid targets (0 or 1)
-  private double cl; //Capture pipeline latency (ms). Time between the end of the exposure of the middle row of the sensor to the beginning of the tracking pipeline.
-
-  private double tx2; //Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees / LL2: -29.8 to 29.8 degrees)
-  private double ty2; //Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees / LL2: -24.85 to 24.85 degrees)
-  private double ta2; //Target Area (0% of image to 100% of image)
-
-  private double pipelineIndex2;
-  private boolean tv2; //Whether the limelight has any valid targets (0 or 1)
-  private double cl2; //Capture pipeline latency (ms). Time between the end of the exposure of the middle row of the sensor to the beginning of the tracking pipeline.
-*/
   // * This is for the Limelight going to Shuffleboard.
   GenericEntry limelightTX;
   GenericEntry limelightTY;
@@ -59,10 +42,6 @@ public class Limelight extends SubsystemBase {
   @Override
   public void periodic() {
     setPipelineUsingAllianceColor();
-    //tx = LimelightHelpers.getTX("limelight");
-    //ty = LimelightHelpers.getTY("limelight");
-    //tx = LimelightHelpers.getTX("limelight-intake");
-    //ty = LimelightHelpers.getTY("limelight-intake");
     updateShuffleboardLimelight();
     updateShuffleboardLimelightIntake();
   }
