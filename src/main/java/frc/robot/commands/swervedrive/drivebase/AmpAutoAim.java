@@ -4,10 +4,16 @@
 
 package frc.robot.commands.swervedrive.drivebase;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.limelight.LimelightHelpers;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class AmpAutoAim extends Command {
@@ -16,9 +22,13 @@ public class AmpAutoAim extends Command {
   CommandJoystick DRIVE_JOYSTICK;
   CommandJoystick ROTATION_JOYSTICK;
   Translation2d translation;
-  IntakeSubsystem INTAKE_SUBSYSTEM;
-  public AmpAutoAim() {
+  public AmpAutoAim(SwerveSubsystem drivebase, CommandJoystick drivejoystick, CommandJoystick rotationjoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
+    DRIVEBASE = drivebase;
+    DRIVE_JOYSTICK = drivejoystick;
+    ROTATION_JOYSTICK = rotationjoystick;
+    addRequirements(DRIVEBASE);
+    
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +37,36 @@ public class AmpAutoAim extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() 
+  {
+    var alliance = DriverStation.getAlliance();
+
+    if(LimelightHelpers.getTV("limelight-intake") && alliance.get() == Alliance.Blue)
+
+    {
+      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),true);
+    }
+
+    else if (!LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Blue)
+
+    {
+      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+    }
+
+    else if(LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Red)
+    {
+      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),true);
+    }
+    else if (!LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Red)
+    {
+
+      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -38,4 +77,29 @@ public class AmpAutoAim extends Command {
   public boolean isFinished() {
     return false;
   }
+
+  public double limelight_aim_proportional_note() {
+
+    double kP = 0.05;
+    double kI = 0;
+    double kD = 0.00000000000000000001;
+    double maxTolerance = 3;
+
+
+    try (PIDController pidCont = new PIDController(kP, kI, kD)) {
+      double targetingAngularVelocity = pidCont.calculate(-LimelightHelpers.getTX("limelight-intake"));
+
+
+      if (targetingAngularVelocity > maxTolerance) {
+        targetingAngularVelocity = maxTolerance;
+      } else if (targetingAngularVelocity < -maxTolerance) {
+        targetingAngularVelocity = -maxTolerance;
+      }
+
+      SmartDashboard.putNumber("NOTE PID CALC", targetingAngularVelocity);
+
+      return targetingAngularVelocity;
+    }
+  }
+
 }
