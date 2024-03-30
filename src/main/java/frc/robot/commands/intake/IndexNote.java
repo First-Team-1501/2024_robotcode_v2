@@ -5,7 +5,6 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.intake.IntakeConfig;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 
 
@@ -23,7 +22,7 @@ public class IndexNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    INTAKE_SUBSYSTEM.set( IntakeConfig.runningSpeed, IntakeConfig.runningSpeed); 
+    INTAKE_SUBSYSTEM.set( 0.6, 0.6); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.

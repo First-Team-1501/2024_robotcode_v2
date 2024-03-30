@@ -33,7 +33,25 @@ public class AmpAutoAim extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    var alliance = DriverStation.getAlliance();
+
+    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) {
+      LimelightHelpers.setPipelineIndex("limelight-intake", 1);
+    } else if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+      LimelightHelpers.setPipelineIndex("limelight-intake", 2);
+    }
+
+    if(alliance.get() == Alliance.Red){
+      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+    }
+    else{
+      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+    }
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -48,7 +66,7 @@ public class AmpAutoAim extends Command {
       DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),true);
     }
 
-    else if (!LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Blue)
+    else if (alliance.get() == Alliance.Blue)
 
     {
       translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
@@ -60,7 +78,7 @@ public class AmpAutoAim extends Command {
       translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),true);
     }
-    else if (!LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Red)
+    else if (alliance.get() == Alliance.Red)
     {
 
       translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);

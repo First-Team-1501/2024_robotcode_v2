@@ -17,20 +17,22 @@ import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.limelight.LimelightHelpers;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class NoteAutoAim extends Command {
+public class NoteAutoAimRobot extends Command {
   /** Creates a new NoteAutoAim. */
   SwerveSubsystem DRIVEBASE;
   CommandJoystick DRIVE_JOYSTICK;
   CommandJoystick ROTATION_JOYSTICK;
   Translation2d translation;
   IntakeSubsystem INTAKE_SUBSYSTEM;
-  public NoteAutoAim(SwerveSubsystem drivebase, CommandJoystick drivejoystick, CommandJoystick rotationjoystick, IntakeSubsystem intake) {
+  boolean robotOriented;
+  public NoteAutoAimRobot(SwerveSubsystem drivebase, CommandJoystick drivejoystick, CommandJoystick rotationjoystick, IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     DRIVEBASE = drivebase;
     INTAKE_SUBSYSTEM = intake;
     DRIVE_JOYSTICK = drivejoystick;
     ROTATION_JOYSTICK = rotationjoystick;
     addRequirements(DRIVEBASE);
+    robotOriented = DRIVEBASE.getRobotOriented();
   }
 
   // Called when the command is initially scheduled.
@@ -40,11 +42,11 @@ public class NoteAutoAim extends Command {
     var alliance = DriverStation.getAlliance();
     if(alliance.get() == Alliance.Red){
       translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
-      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,false);
     }
     else{
       translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
-      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,false);
     }
 
   }
@@ -54,12 +56,14 @@ public class NoteAutoAim extends Command {
   public void execute() 
   {
     var alliance = DriverStation.getAlliance();
+    robotOriented = DRIVEBASE.getRobotOriented();
+    
 
     if(LimelightHelpers.getTV("limelight-intake") && alliance.get() == Alliance.Blue)
 
     {
       translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
-      DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),true);
+      DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),!robotOriented);
     }
 
     else if (!LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Blue)
@@ -69,16 +73,21 @@ public class NoteAutoAim extends Command {
       DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
     }
 
-    else if(LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Red)
+    else if(LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Red && !robotOriented)
     {
       translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
-      DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),true);
+      DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),!robotOriented);
     }
     else if (!LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Red)
     {
 
       translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+    }
+    else if (LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Red && robotOriented)
+    {
+      translation = new Translation2d(MathUtil.applyDeadband(-DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(-DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),!robotOriented);
     }
     
   }

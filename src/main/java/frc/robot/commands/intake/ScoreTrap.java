@@ -25,7 +25,7 @@ public class ScoreTrap extends Command {
   @Override
   public void initialize() {
     //System.out.println("Starting RunOuttakeCommand");
-    INTAKE_SUBSYSTEM.set(-0.3, -0.8);
+    INTAKE_SUBSYSTEM.set(-0.7, -0.7);
     counter = 0;
   }
 
@@ -35,8 +35,8 @@ public class ScoreTrap extends Command {
     
     counter++;
 
-    if (counter > 28){ //6
-      INTAKE_SUBSYSTEM.set(1.0, -1.0);
+    if (counter > 7){ //6
+      INTAKE_SUBSYSTEM.set(0.75, -0.75);
     }
     
   }

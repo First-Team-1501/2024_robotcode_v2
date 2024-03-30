@@ -7,8 +7,7 @@ package frc.robot.subsystems.leds;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.StrobeAnimation;
 import com.ctre.phoenix.led.TwinkleAnimation;
-import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
-import com.ctre.phoenix.led.LarsonAnimation;
+import com.ctre.phoenix.led.TwinkleAnimation.TwinklePercent;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,7 +33,7 @@ public class Leds extends SubsystemBase {
   // * This if for the strobe animation when ready for amp
   private StrobeAnimation ampAnimation;
   // * This is for the Larson effect while climbing.
-  private LarsonAnimation climbingAnimation;
+  private TwinkleAnimation climbAnimation;
 
   private final double STROBE_SPEED = 98.0 / 256.0;
 
@@ -70,7 +69,7 @@ public class Leds extends SubsystemBase {
     // * This is for the strobe animation when ready for amp
     ampAnimation = new StrobeAnimation(255, 255, 0, 0, STROBE_SPEED, 148, 0);
     // * This is for the Larson effect while climbing.
-    climbingAnimation = new LarsonAnimation(127, 0, 255, 0, STROBE_SPEED, 147, BounceMode.Front, 7, 0);
+    climbAnimation = new TwinkleAnimation(255, 0, 255, 0, 1, 147, TwinklePercent.Percent76, 0);
   }
 
   @Override
@@ -137,6 +136,6 @@ public class Leds extends SubsystemBase {
   }
 
   public void setClimbing() {
-    candle1.animate(climbingAnimation);
+    candle1.animate(climbAnimation);
   }
 }

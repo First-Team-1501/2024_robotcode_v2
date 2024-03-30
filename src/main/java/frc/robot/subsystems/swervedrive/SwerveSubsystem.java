@@ -43,6 +43,8 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public double maximumSpeed = Units.feetToMeters(17.6);
 
+  private boolean robotOriented;
+
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
@@ -83,6 +85,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     setupPathPlanner();
     swerveDrive.setMotorIdleMode(false);
+
+    robotOriented = false;
 
   }
 
@@ -470,4 +474,14 @@ public class SwerveSubsystem extends SubsystemBase {
   public void addFakeVisionReading() {
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
+
+  public void setRobotOriented(boolean status){
+    robotOriented = status;
+  }
+
+  public boolean getRobotOriented(){
+    return robotOriented;
+  }
+
+
 }
