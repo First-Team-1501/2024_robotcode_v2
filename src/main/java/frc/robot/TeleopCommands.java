@@ -26,7 +26,6 @@ import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.IndexNote;
-import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ScoreAmp;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.StopIntake;
