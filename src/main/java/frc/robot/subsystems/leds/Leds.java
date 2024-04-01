@@ -20,6 +20,7 @@ import com.ctre.phoenix.led.RainbowAnimation;
 public class Leds extends SubsystemBase {
 
   Optional<Alliance> alliance;
+  // ! These are for creating the animations for the LEDs.
   // * This is for the blue alliance color
   private TwinkleAnimation twinkleblueAnimation;
   // * This is for the red alliance color
@@ -50,26 +51,34 @@ public class Leds extends SubsystemBase {
   }
 
   private void setupLeds() {
-    // * This is for the blue alliance color
-    twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
-    // * This is for the red alliance color
-    twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
     // * This creates the CANdle
     candle1 = new CANdle(48, "canivore");
+    
+    // ! These are for setting up the animations for the LEDs.
+    // * This is for the blue alliance color
+    //twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
+    twinkleblueAnimation = new TwinkleAnimation(0, 0, 255, 0, 1, 147, TwinklePercent.Percent76, 0);
+    // * This is for the red alliance color
+    //twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
+    twinkleredAnimation = new TwinkleAnimation(255, 0, 0, 0, 1, 147, TwinklePercent.Percent76, 0);
     // * This is for the strobe animation when locked onto the target
-    strobeimation = new StrobeAnimation(0, 255, 0, 255, 98.0 / 256.0, 68, 0);
+    strobeimation = new StrobeAnimation(0, 255, 0, 255, 60.0 / 256.0, 68, 0);
     // * This is for the strobe animation when intaking
     strobeintakeAnimation = new StrobeAnimation(255, 255, 255, 255, STROBE_SPEED, 148, 0);
-    // * This is for the intaking boolean
-    intaking = false;
-    amping = false;
-    climbing = false;
     // * This is for the rainbow animation
     rainbowAnimation = new RainbowAnimation(1, .75, 148);
     // * This is for the strobe animation when ready for amp
     ampAnimation = new StrobeAnimation(255, 255, 0, 0, STROBE_SPEED, 148, 0);
     // * This is for the Larson effect while climbing.
     climbAnimation = new TwinkleAnimation(255, 0, 255, 0, 1, 147, TwinklePercent.Percent76, 0);
+
+    // ! These are for setting up the booleans for the LEDs.
+    // * This is for the intaking boolean
+    intaking = false;
+    // * This is for the amping boolean
+    amping = false;
+    // * This is for the climbing boolean
+    climbing = false;
   }
 
   @Override
