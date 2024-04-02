@@ -13,31 +13,35 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.limelight.LimelightHelpers;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class NoteAutoAim extends Command {
-  /** Creates a new NoteAutoAim. */
+public class AmpAutoAim extends Command {
+  /** Creates a new AmpAutoAim. */
   SwerveSubsystem DRIVEBASE;
   CommandJoystick DRIVE_JOYSTICK;
   CommandJoystick ROTATION_JOYSTICK;
   Translation2d translation;
-  IntakeSubsystem INTAKE_SUBSYSTEM;
-  public NoteAutoAim(SwerveSubsystem drivebase, CommandJoystick drivejoystick, CommandJoystick rotationjoystick, IntakeSubsystem intake) {
+  public AmpAutoAim(SwerveSubsystem drivebase, CommandJoystick drivejoystick, CommandJoystick rotationjoystick) {
     // Use addRequirements() here to declare subsystem dependencies.
     DRIVEBASE = drivebase;
-    INTAKE_SUBSYSTEM = intake;
     DRIVE_JOYSTICK = drivejoystick;
     ROTATION_JOYSTICK = rotationjoystick;
     addRequirements(DRIVEBASE);
+    
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() 
-  {
+  public void initialize() {
     var alliance = DriverStation.getAlliance();
+
+    if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) {
+      LimelightHelpers.setPipelineIndex("limelight-intake", 1);
+    } else if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+      LimelightHelpers.setPipelineIndex("limelight-intake", 2);
+    }
+
     if(alliance.get() == Alliance.Red){
       translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
@@ -62,7 +66,7 @@ public class NoteAutoAim extends Command {
       DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),true);
     }
 
-    else if (!LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Blue)
+    else if (alliance.get() == Alliance.Blue)
 
     {
       translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
@@ -74,25 +78,22 @@ public class NoteAutoAim extends Command {
       translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),true);
     }
-    else if (!LimelightHelpers.getTV("limelight-intake")&& alliance.get() == Alliance.Red)
+    else if (alliance.get() == Alliance.Red)
     {
 
       translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
       DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
     }
-    
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    DRIVEBASE.drive(new Translation2d(), 0,true);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return INTAKE_SUBSYSTEM.readyToScoreTrap();
+    return false;
   }
 
   public double limelight_aim_proportional_note() {
@@ -118,4 +119,5 @@ public class NoteAutoAim extends Command {
       return targetingAngularVelocity;
     }
   }
+
 }

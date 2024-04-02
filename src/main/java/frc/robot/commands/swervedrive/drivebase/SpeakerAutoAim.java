@@ -31,11 +31,23 @@ public class SpeakerAutoAim extends Command {
     DRIVE_JOYSTICK = drivejoystick;
     ROTATION_JOYSTICK = rotationjoystick;
     addRequirements(DRIVEBASE);
+    
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    var alliance = DriverStation.getAlliance();
+    if(alliance.get() == Alliance.Red){
+      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+    }
+    else{
+      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+    }
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -44,33 +56,33 @@ public class SpeakerAutoAim extends Command {
     var alliance = DriverStation.getAlliance();
     if(LimelightHelpers.getTV("limelight")&& (alliance.get() == Alliance.Blue) && LimelightHelpers.getTA("limelight") > 0.2) 
     {
-      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY() * speedMultiplier(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX() * speedMultiplier(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*4,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX() * speedMultiplier(), OperatorConstants.LEFT_X_DEADBAND)*4);
       DRIVEBASE.drive(translation, -limelight_aim_proportional(),true);
     }
     else if(LimelightHelpers.getTV("limelight")&& (alliance.get() == Alliance.Blue))
     {
-      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
-      DRIVEBASE.drive(translation, -limelight_aim_proportional(),true);
+      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*4,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*4);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*4,true);
     }
     else if (!LimelightHelpers.getTV("limelight")&& alliance.get() == Alliance.Blue)
     {
-      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
-      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+      translation = new Translation2d(-MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*4,-MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*4);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*4,true);
     }
     else if(LimelightHelpers.getTV("limelight")&& alliance.get() == Alliance.Red && LimelightHelpers.getTA("limelight") > 0.2)
     {
-      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY() * speedMultiplier(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX() * speedMultiplier(), OperatorConstants.LEFT_X_DEADBAND)*3);
+      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*4,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX() * speedMultiplier(), OperatorConstants.LEFT_X_DEADBAND)*4);
       DRIVEBASE.drive(translation, -limelight_aim_proportional(),true);
     }
     else if(LimelightHelpers.getTV("limelight")&& (alliance.get() == Alliance.Red))
     {
-      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
-      DRIVEBASE.drive(translation, -limelight_aim_proportional(),true);
+      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*4,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*4);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*4,true);
     }
     else if (!LimelightHelpers.getTV("limelight")&& alliance.get() == Alliance.Red)
     {
-      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
-      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+      translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*4,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*4);
+      DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*4,true);
     }
 
   }
@@ -96,7 +108,7 @@ public class SpeakerAutoAim extends Command {
 
   public double limelight_aim_proportional() {
 
-    double kP = 0.05; //0.04 
+    double kP = 0.06; //0.04 
     double kI = 0.000001;
     double kD = 0.000000000000000000000000001; //0.00000000000001;
     double maxTolerance = 3;

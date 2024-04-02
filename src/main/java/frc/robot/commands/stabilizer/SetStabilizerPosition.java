@@ -5,6 +5,7 @@
 package frc.robot.commands.stabilizer;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.leds.Leds;
 import frc.robot.subsystems.stabilizer.StabilizerPositions;
 import frc.robot.subsystems.stabilizer.StabilizerSubsystem;
 
@@ -29,6 +30,12 @@ public class SetStabilizerPosition extends Command {
   {
     System.out.println("Starting SetStabilizerPosition Command - Target Position: " + stabilizerPosition);
     STABILIZER_SUBSYSTEM.set(stabilizerPosition);
+    if (stabilizerPosition > 5){
+      Leds.setClimbingStatus(true);
+    } else {
+      Leds.setClimbingStatus(false);
+    }
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

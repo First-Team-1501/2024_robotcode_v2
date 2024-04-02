@@ -26,12 +26,13 @@ import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.IndexNote;
-import frc.robot.commands.intake.RunOuttakeCommand;
 import frc.robot.commands.intake.ScoreAmp;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.intake.TeleopShoot;
+import frc.robot.commands.limelight.ChangePipeline;
 import frc.robot.commands.reset.ResetRobot;
+import frc.robot.commands.sequential.AutoAmpSequence;
 import frc.robot.commands.sequential.AutoNotePickup;
 import frc.robot.commands.sequential.IntakeSequenceAutoAim;
 import frc.robot.commands.sequential.IntakeSequenceTeleop;
@@ -39,7 +40,8 @@ import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.sequential.TeleopAimShoot;
 import frc.robot.commands.shooter.RevShooter;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
-import frc.robot.commands.swervedrive.drivebase.NoteAutoAim;
+import frc.robot.commands.swervedrive.drivebase.AmpAutoAim;
+import frc.robot.commands.swervedrive.drivebase.RobotOrientedMode;
 import frc.robot.commands.swervedrive.drivebase.SpeakerAutoAim;
 import frc.robot.subsystems.climber.ClimberPositions;
 import frc.robot.subsystems.deck.DeckPositions;
@@ -88,7 +90,7 @@ public class TeleopCommands {
         private Trigger jogIntake;
         private Trigger runIntake;
         private Trigger jogOutake;
-        private Trigger runOuttake;
+        private Trigger normalIntake;
         private Trigger closeShot;
         private Trigger mediumShot;
         private Trigger preAmp;
@@ -123,6 +125,7 @@ public class TeleopCommands {
         private Trigger autoSteerAlt;
         private Trigger notePickup;
         private Trigger headingMode;
+        private Trigger autoAmp;
 
         // Button for Roborio
         private Trigger reset;
@@ -149,7 +152,7 @@ public class TeleopCommands {
                 runIntake = new JoystickButton(operatorXbox, ControllerButton.RightBumper.value);
                 jogOutake = new JoystickButton(operatorXbox, ControllerButton.LeftTrigger.value);
                 jogIntake = new JoystickButton(operatorXbox, ControllerButton.RightTrigger.value);
-                runOuttake = new JoystickButton(operatorXbox, ControllerButton.LeftBumper.value);
+                normalIntake = new JoystickButton(operatorXbox, ControllerButton.LeftBumper.value);
                 preAmp = new JoystickButton(operatorXbox, ControllerButton.Y.value);
                 closeShot = new JoystickButton(operatorXbox, ControllerButton.A.value);
                 mediumShot = new JoystickButton(operatorXbox, ControllerButton.B.value);
@@ -185,6 +188,7 @@ public class TeleopCommands {
                 autoSteerAlt = rotationController.button(6);
                 notePickup = rotationController.button(7);
                 headingMode = rotationController.button(3);
+                autoAmp = rotationController.button(11);
 
                 // ROBORIO
                 reset = new Trigger(() -> RobotController.getUserButton());
@@ -246,7 +250,7 @@ public class TeleopCommands {
         private void SetupOperatorCommands() {
 
                 // Intake sequence: extend elevator, lower deck, and intake
-                runIntake.whileTrue
+                intakeAutoAim.whileTrue
                 (
                         new IntakeSequenceTeleop(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds())
                 )
@@ -267,7 +271,24 @@ public class TeleopCommands {
 
                 jogIntake.whileTrue(new IndexNote(robot.getIntake()));
 
-                runOuttake.whileTrue(new RunOuttakeCommand(robot.getIntake()));
+                normalIntake.whileTrue
+                (
+                        new IntakeSequenceTeleop(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds())
+                )
+                .onFalse
+                (
+                        new SetElevatorAmpLimit(robot.getElevator(), 30, 40)
+                        .alongWith(new StopIntake(robot.getIntake()))
+                        .andThen(new SetElevatorMaxOutput(robot.getElevator(), 1.0))
+                        .alongWith
+                        (
+                                new SetDeckPosition(robot.getDeck(), DeckPositions.home)
+                        )
+                        .andThen
+                        (
+                                new SetElevatorPosition(robot.getElevator(),ElevatorPositions.zero)
+                        )
+                );
 
                 // Outtake: Spits out the note
                 jogOutake.whileTrue(new ScoreAmp(robot.getIntake()));
@@ -284,15 +305,19 @@ public class TeleopCommands {
                                                 ShooterConfig.podiumRightSpeed)))
                                 .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
-                preAmp.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.amp)
-                                .alongWith(new AmpDeckCommand(robot.getIntake())));
 
-                autoAim.whileTrue(new AutoDeckAim(robot.getDeck(), robot.getLimelight())
+                preAmp.whileTrue
+                (
+                        new AutoAmpSequence(robot.getLimelight(), robot.getDeck(), robot.getIntake(), robot.getDrivebase(), driverController, rotationController) 
+                )
+                .onFalse(new ChangePipeline(robot.getLimelight(), "limelight-intake", 0));
+
+                fullAutoShooting.whileTrue(new AutoDeckAim(robot.getDeck(), robot.getLimelight())
                                 .alongWith(new RevShooter(robot.getShooter(), ShooterConfig.podiumLeftSpeed,
                                                 ShooterConfig.podiumRightSpeed)))
                                 .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
                 
-                fullAutoShooting.whileTrue(new TeleopAimShoot(robot.getShooter(), robot.getDeck(), robot.getLimelight(), robot.getDrivebase(), driverController, rotationController, robot.getIntake()))
+                autoAim.whileTrue(new TeleopAimShoot(robot.getShooter(), robot.getDeck(), robot.getLimelight(), robot.getDrivebase(), driverController, rotationController, robot.getIntake()))
                 .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
                 home.onTrue(new SetElevatorPosition(robot.getElevator(), 0)
@@ -326,14 +351,14 @@ public class TeleopCommands {
                         .alongWith(new RevShooter(robot.getShooter(),0.55 ,0.45)))
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
-                intakeAutoAim.whileTrue(new IntakeSequenceAutoAim(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds(), robot.getDrivebase(), driverController, rotationController))
+                runIntake.whileTrue(new IntakeSequenceAutoAim(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds(), robot.getDrivebase(), driverController, rotationController))
                 .onFalse(new RetractIntakeSequence(robot.getDeck(), robot.getElevator(), robot.getIntake()));
 
                 operatorPreClimb.onTrue(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.climb)
                                 .alongWith(new SetElevatorPosition(robot.getElevator(), ElevatorPositions.zero))
                                 .andThen(new SetDeckPosition(robot.getDeck(), DeckPositions.preClimb)));
 
-                raiseStabilizer.onTrue(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.zero));
+        raiseStabilizer.onTrue(new SetStabilizerPosition(robot.getStabilizer(), StabilizerPositions.zero));
 
         }
 
@@ -381,7 +406,7 @@ public class TeleopCommands {
                                 .andThen(new SetClimberPosition(robot.getClimber(), ClimberPositions.zero)));
 
                 // Climb
-                /*climb.onTrue
+                climb.onTrue
                 (
                         new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
                         .alongWith
@@ -394,7 +419,7 @@ public class TeleopCommands {
                         .andThen
                         (
                                 new SetElevatorPosition(robot.getElevator(), 45)
-                                .andThen(new SetDeckPosition(robot.getDeck(), 103))
+                                .andThen(new SetDeckPosition(robot.getDeck(), 104))
                         )
                         .andThen
                         (
@@ -404,31 +429,9 @@ public class TeleopCommands {
                         (
                                 new ScoreTrap(robot.getIntake())
                         ) 
-                );*/
-
-                climb.onTrue
-                (
-                        new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
-                        .alongWith
-                        (
-                                new WaitCommand(1)
-                                .andThen(new SetDeckPosition(robot.getDeck(), 100))
-                        )      
-                                
-                        .andThen
-                        (
-                                new SetElevatorPosition(robot.getElevator(), 41.5)
-                        )
-                        .andThen
-                        (
-                                new WaitCommand(1)
-                        )
-                        .andThen
-                        (
-                                new ScoreTrap(robot.getIntake())
-                        ) 
                 )
                 .onFalse(new StopClimber(robot.getClimber()));
+
 
                 jogClimberUp.whileTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.climb))
                 .onFalse(new StopClimber(robot.getClimber()));
@@ -442,7 +445,7 @@ public class TeleopCommands {
                 autoSteer.whileTrue(new SpeakerAutoAim(robot.getDrivebase(), driverController, rotationController));
                 autoSteerAlt.whileTrue(new SpeakerAutoAim(robot.getDrivebase(), driverController, rotationController));
 
-                notePickup.whileTrue(new NoteAutoAim(robot.getDrivebase(), driverController, rotationController, robot.getIntake()));
+                notePickup.whileTrue(new RobotOrientedMode(robot.getDrivebase()));
                 autoNotePickup.whileTrue(
                         new AutoNotePickup(robot.getDeck(), robot.getElevator(), robot.getIntake(),robot.getDrivebase(),robot.getLeds()))
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home)
@@ -454,7 +457,31 @@ public class TeleopCommands {
                 // Reset Robot
                 reset.onTrue(new ResetRobot(robot));
 
+                if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) 
+                {
+                       autoAmp.whileTrue
+                        (
+                                new ChangePipeline(robot.getLimelight(), "limelight-intake", 1)
+                                .andThen(new AmpAutoAim(robot.getDrivebase(), driverController, rotationController))
+                        )
+                        .onFalse(new ChangePipeline(robot.getLimelight(), "limelight-intake", 0));  
+                } 
+                else if(alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red)
+                {
+                        autoAmp.whileTrue
+                        (
+                                new ChangePipeline(robot.getLimelight(), "limelight-intake", 2)
+                                .andThen(new AmpAutoAim(robot.getDrivebase(), driverController, rotationController))
+                        )
+                        .onFalse(new ChangePipeline(robot.getLimelight(), "limelight-intake", 0));    
+                }
+                
+                
+                
+
         }
+
+        public Command setAmpPipelineCommand;
 
         public Command onTeleopInit() {
                 return new RetractIntakeSequence(robot.getDeck(), robot.getElevator(), robot.getIntake())

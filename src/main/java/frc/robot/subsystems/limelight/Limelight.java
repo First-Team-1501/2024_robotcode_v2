@@ -184,4 +184,9 @@ public class Limelight extends SubsystemBase {
     limelightIntakeCL.setDouble(LimelightHelpers.getLimelightNTDouble("limelight-intake", "cl"));
   }
 
+  public void changePipeline(String limelightName, int pipeline)
+  {
+    LimelightHelpers.setPipelineIndex(limelightName, pipeline);
+  }
+  
 }

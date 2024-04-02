@@ -2,27 +2,27 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.intake;
+package frc.robot.commands.limelight;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.intake.IntakeSubsystem;
-import frc.robot.subsystems.leds.Leds;
+import frc.robot.subsystems.limelight.Limelight;
 
-public class ScoreAmp extends Command {
-  /** Creates a new ScoreAmp. */
-  IntakeSubsystem INTAKE_SUBSYSTEM;
-  public ScoreAmp(IntakeSubsystem intake) {
+public class ChangePipeline extends Command {
+  /** Creates a new ChangePipeline. */
+  Limelight LIMELIGHT;
+  String PIPELINE_NAME;
+  int PIPELINE;
+  public ChangePipeline(Limelight limelight, String pipelineName, int pipeline) {
     // Use addRequirements() here to declare subsystem dependencies.
-    INTAKE_SUBSYSTEM = intake;
-    addRequirements(INTAKE_SUBSYSTEM);
+    LIMELIGHT = limelight;
+    PIPELINE_NAME = pipelineName;
+    PIPELINE = pipeline;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() 
-  {
-    INTAKE_SUBSYSTEM.set(-1.0, -.6);
-    Leds.setAmpStatus(false);
+  public void initialize() {
+    LIMELIGHT.changePipeline(PIPELINE_NAME, PIPELINE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,15 +31,11 @@ public class ScoreAmp extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) 
-  {
-    INTAKE_SUBSYSTEM.stop();
-    
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
