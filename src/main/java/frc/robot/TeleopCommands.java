@@ -419,7 +419,7 @@ public class TeleopCommands {
                         .andThen
                         (
                                 new SetElevatorPosition(robot.getElevator(), 45)
-                                .andThen(new SetDeckPosition(robot.getDeck(), 103))
+                                .andThen(new SetDeckPosition(robot.getDeck(), 104))
                         )
                         .andThen
                         (
@@ -432,30 +432,6 @@ public class TeleopCommands {
                 )
                 .onFalse(new StopClimber(robot.getClimber()));
 
-                /*climb.onTrue
-                (
-                        new SetClimberPosition(robot.getClimber(), ClimberPositions.climb)
-                        .alongWith
-                        (
-                                new WaitCommand(0.5)
-                                .andThen(new SetDeckPosition(robot.getDeck(), 102))
-                        )      
-                                
-                        .andThen
-                        (
-                                new SetElevatorPosition(robot.getElevator(), 41.5)
-                        )
-                        .andThen
-                        (
-                                new WaitCommand(0.5)
-                        )
-                        .andThen
-                        (
-                                new ScoreTrap(robot.getIntake())
-                        ) 
-                )
-                .onFalse(new StopClimber(robot.getClimber()));
-                */
 
                 jogClimberUp.whileTrue(new SetClimberPosition(robot.getClimber(), ClimberPositions.climb))
                 .onFalse(new StopClimber(robot.getClimber()));
