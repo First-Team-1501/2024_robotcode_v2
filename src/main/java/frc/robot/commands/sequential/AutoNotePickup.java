@@ -29,13 +29,19 @@ public class AutoNotePickup extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands
     (
-      new SetDeckPosition(deck, DeckPositions.home),
-      new SetElevatorPosition(elevator, ElevatorPositions.intake),
-      new SetDeckPosition(deck, DeckPositions.intake)
+      new AutoNoteAutoAim(drivebase, intake)
       .alongWith(
-      new RunIntakeCommand(intake, leds)
-      .raceWith(new AutoNoteAutoAim(drivebase, intake, 1.5))
-      ),
+                new SetDeckPosition(deck, DeckPositions.home)
+                    .andThen(
+                        new SetElevatorPosition(elevator, ElevatorPositions.intake)
+                    )
+                    .andThen(
+                        new SetDeckPosition(deck, DeckPositions.intake)
+                            .alongWith(
+                                new RunIntakeCommand(intake, leds)
+                            )
+                      )
+              ),
       new SetDeckPosition(deck, DeckPositions.home)
       .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.zero))
       .alongWith(new IndexNote(intake))

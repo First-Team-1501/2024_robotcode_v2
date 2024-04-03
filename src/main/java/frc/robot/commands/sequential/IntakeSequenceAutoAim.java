@@ -12,6 +12,7 @@ import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.IndexNote;
 import frc.robot.commands.intake.RunIntakeCommand;
+import frc.robot.commands.swervedrive.drivebase.NormalDrive;
 import frc.robot.commands.swervedrive.drivebase.NoteAutoAimRobot;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
@@ -25,31 +26,29 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class IntakeSequenceAutoAim extends SequentialCommandGroup {
-  /** Creates a new IntakeSequenceTeleop. */
-  public IntakeSequenceAutoAim(IntakeSubsystem intake, DeckSubsystem deck, ElevatorSubsystem elevator, Leds leds,
-      SwerveSubsystem drivebase, CommandJoystick driveStick, CommandJoystick rotStick) {
-    addCommands(
-        new NoteAutoAimRobot(drivebase, driveStick, rotStick, intake)
-            .alongWith(
-                new SetDeckPosition(deck, DeckPositions.home)
-                    .andThen(
-                        new SetElevatorPosition(elevator, ElevatorPositions.intake)
-                    )
-                    .andThen(
-                        new SetDeckPosition(deck, DeckPositions.intake)
-                            .alongWith(
-                                new RunIntakeCommand(intake, leds)
-                            )
-                      )
-              ),
-        new SetElevatorAmpLimit(elevator, 3, 3)
-            .alongWith(new SetElevatorMaxOutput(elevator, 0.2)),
+    /** Creates a new IntakeSequenceTeleop. */
+    public IntakeSequenceAutoAim(IntakeSubsystem intake, DeckSubsystem deck, ElevatorSubsystem elevator, Leds leds,
+            SwerveSubsystem drivebase, CommandJoystick driveStick, CommandJoystick rotStick) {
+        addCommands(
+                new NoteAutoAimRobot(drivebase, driveStick, rotStick, intake)
+                        .alongWith(
+                                new SetDeckPosition(deck, DeckPositions.home)
+                                        .andThen(
+                                                new SetElevatorPosition(elevator, ElevatorPositions.intake))
+                                        .andThen(
+                                                new SetDeckPosition(deck, DeckPositions.intake)
+                                                        .alongWith(
+                                                                new RunIntakeCommand(intake, leds)))),
+                new NormalDrive(drivebase, driveStick, rotStick)
+                        .alongWith(
+                                new SetElevatorAmpLimit(elevator, 3, 3)
+                                        .alongWith(new SetElevatorMaxOutput(elevator, 0.2)),
 
-        new SetElevatorAmpLimit(elevator, 30, 40)
-            .andThen(new SetElevatorMaxOutput(elevator, 1.0)),
+                                new SetElevatorAmpLimit(elevator, 30, 40)
+                                        .andThen(new SetElevatorMaxOutput(elevator, 1.0)),
 
-        new SetDeckPosition(deck, DeckPositions.home)
-            .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.zero))
-            .alongWith(new IndexNote(intake)));
-  }
+                                new SetDeckPosition(deck, DeckPositions.home)
+                                        .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.zero))
+                                        .alongWith(new IndexNote(intake))));
+    }
 }

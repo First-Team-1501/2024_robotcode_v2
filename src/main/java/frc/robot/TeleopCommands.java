@@ -26,7 +26,6 @@ import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.IndexNote;
-import frc.robot.commands.intake.ScoreAmp;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.intake.TeleopShoot;
@@ -291,7 +290,10 @@ public class TeleopCommands {
                 );
 
                 // Outtake: Spits out the note
-                jogOutake.whileTrue(new ScoreAmp(robot.getIntake()));
+                //jogOutake.whileTrue(new ScoreAmp(robot.getIntake()));
+                jogOutake.whileTrue(new ScoreTrap(robot.getIntake())
+                .alongWith(new SetElevatorPosition(robot.getElevator(), 9)))
+                .onFalse(new SetElevatorPosition(robot.getElevator(), 0));
 
                 // Close shot
                 closeShot.whileTrue(new SetDeckPosition(robot.getDeck(), DeckPositions.closeup)
@@ -308,7 +310,7 @@ public class TeleopCommands {
 
                 preAmp.whileTrue
                 (
-                        new AutoAmpSequence(robot.getLimelight(), robot.getDeck(), robot.getIntake(), robot.getDrivebase(), driverController, rotationController) 
+                        new AutoAmpSequence(robot.getLimelight(), robot.getDeck(), robot.getIntake(), robot.getDrivebase(), driverController, rotationController, robot.getElevator()) 
                 )
                 .onFalse(new ChangePipeline(robot.getLimelight(), "limelight-intake", 0));
 

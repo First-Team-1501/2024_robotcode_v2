@@ -3,34 +3,75 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.39,
-        "y": 5.53
+        "x": 0.7635575631511622,
+        "y": 4.326521085474604
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6787831773861743,
-        "y": 5.509843091758257
+        "x": 3.028509840803465,
+        "y": 1.5623548364213855
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.2981782900502736,
-        "y": 5.53
+        "x": 5.792676089856684,
+        "y": 0.8874915047127392
       },
       "prevControl": {
-        "x": 2.094794820220271,
-        "y": 5.537577201280529
+        "x": 3.2041592011111946,
+        "y": 1.1648325999354714
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "5.1End"
+      "linkedName": "1.1End"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": 2.025514941622043,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.7,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "intake",
+      "waypointRelativePos": 0.1,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "setDeckPosAuto1"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "getPiece"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "setDeckPosAuto1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 3.15,
@@ -38,14 +79,14 @@
     "maxAngularAcceleration": 360.0
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 0.0,
+    "velocity": 1.0,
+    "rotation": 8.275892827075236,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Path2",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -59.93141717813757,
     "velocity": 0
   },
   "useDefaultConstraints": true

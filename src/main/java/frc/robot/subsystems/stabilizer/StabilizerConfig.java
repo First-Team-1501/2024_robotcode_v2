@@ -51,8 +51,8 @@ public class StabilizerConfig {
     public static boolean softLimitRevEnabled = true;
 
     // Soft Limits
-    public static float softLimitFwd = 10;
-    public static float softLimitRev = 0;
+    public static float softLimitFwd = 29;
+    public static float softLimitRev = -5;
 
     // Analog for Hollow Bore
     public static double analogPositionConversion = 1;

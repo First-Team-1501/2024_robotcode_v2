@@ -3,34 +3,69 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.2519547741798185,
-        "y": 5.537577201280529
+        "x": 5.413643259718952,
+        "y": 1.4051948824618379
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7619855059529934,
-        "y": 5.324949028276436
+        "x": 3.7588413915566568,
+        "y": 2.1632605427373024
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.2519547741798185,
-        "y": 4.280297569604149
+        "x": 2.35,
+        "y": 3.62
       },
       "prevControl": {
-        "x": 1.7989643186493578,
-        "y": 4.6408409933937
+        "x": 3.25038271698165,
+        "y": 2.6254957014418534
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "2.2End"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.65,
+      "rotationDegrees": -45.704717325234576,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.35,
+      "rotationDegrees": -28.671067384825346,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "intake",
+      "waypointRelativePos": 0.25,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "getPiece"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "setDeckPosAuto1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 3.15,
@@ -39,13 +74,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -43.31531568210376,
+    "rotation": -47.93567344642126,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Path2",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -1.0809241866606305,
     "velocity": 0
   },
   "useDefaultConstraints": true

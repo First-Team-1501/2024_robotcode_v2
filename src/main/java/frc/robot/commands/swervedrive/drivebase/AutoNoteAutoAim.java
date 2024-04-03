@@ -18,13 +18,11 @@ public class AutoNoteAutoAim extends Command {
   IntakeSubsystem INTAKE;
   Translation2d translation;
   boolean stopDriving;
-  double SPEED;
-  public AutoNoteAutoAim(SwerveSubsystem drivebase, IntakeSubsystem intake, double speed) {
+  public AutoNoteAutoAim(SwerveSubsystem drivebase, IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     DRIVEBASE = drivebase;
     INTAKE = intake;
     addRequirements(DRIVEBASE);
-    SPEED = speed;
   }
 
   // Called when the command is initially scheduled.
@@ -57,7 +55,7 @@ public class AutoNoteAutoAim extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return INTAKE.readyToScoreTrap();
   }
 
   public double drive_speed()

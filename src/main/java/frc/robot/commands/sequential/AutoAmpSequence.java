@@ -8,10 +8,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.commands.deck.SetDeckPosition;
+import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.swervedrive.drivebase.AmpAutoAim;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
+import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.limelight.Limelight;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -23,7 +25,7 @@ public class AutoAmpSequence extends SequentialCommandGroup {
   /** Creates a new AutoAmpSequence. */
   Command ampPipeline;
 
-  public AutoAmpSequence(Limelight limelight, DeckSubsystem deck, IntakeSubsystem intake, SwerveSubsystem drivebase, CommandJoystick driveStick, CommandJoystick rotStick) {
+  public AutoAmpSequence(Limelight limelight, DeckSubsystem deck, IntakeSubsystem intake, SwerveSubsystem drivebase, CommandJoystick driveStick, CommandJoystick rotStick, ElevatorSubsystem elevator) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -38,6 +40,7 @@ public class AutoAmpSequence extends SequentialCommandGroup {
         new SetDeckPosition(deck, DeckPositions.amp)
             .alongWith(new AmpDeckCommand(intake))
             .alongWith(new AmpAutoAim(drivebase, driveStick, rotStick))
+            .alongWith(new SetElevatorPosition(elevator, 4))
     );
   }
 }
