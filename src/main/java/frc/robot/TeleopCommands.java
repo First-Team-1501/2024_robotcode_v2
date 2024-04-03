@@ -26,6 +26,7 @@ import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
 import frc.robot.commands.intake.AmpDeckCommand;
 import frc.robot.commands.intake.IndexNote;
+import frc.robot.commands.intake.ScoreAmp;
 import frc.robot.commands.intake.ScoreTrap;
 import frc.robot.commands.intake.StopIntake;
 import frc.robot.commands.intake.TeleopShoot;
@@ -249,24 +250,7 @@ public class TeleopCommands {
         private void SetupOperatorCommands() {
 
                 // Intake sequence: extend elevator, lower deck, and intake
-                intakeAutoAim.whileTrue
-                (
-                        new IntakeSequenceTeleop(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds())
-                )
-                .onFalse
-                (
-                        new SetElevatorAmpLimit(robot.getElevator(), 30, 40)
-                        .alongWith(new StopIntake(robot.getIntake()))
-                        .andThen(new SetElevatorMaxOutput(robot.getElevator(), 1.0))
-                        .alongWith
-                        (
-                                new SetDeckPosition(robot.getDeck(), DeckPositions.home)
-                        )
-                        .andThen
-                        (
-                                new SetElevatorPosition(robot.getElevator(),ElevatorPositions.zero)
-                        )
-                );
+                intakeAutoAim.whileTrue(new ScoreAmp(robot.getIntake()));;
 
                 jogIntake.whileTrue(new IndexNote(robot.getIntake()));
 

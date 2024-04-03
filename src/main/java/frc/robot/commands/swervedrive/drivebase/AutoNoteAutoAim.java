@@ -36,7 +36,7 @@ public class AutoNoteAutoAim extends Command {
   public void execute() 
   {
     if (INTAKE.readyToScoreTrap()) stopDriving = true;
-    if(LimelightHelpers.getTV("limelight-intake") && !stopDriving)
+    if(LimelightHelpers.getTV("limelight-intake") && !stopDriving && LimelightHelpers.getTA("limelight-intake") > 1.9)
     {
       translation = new Translation2d(drive_speed(),0);
       DRIVEBASE.drive(translation, -limelight_aim_proportional_note(),false);

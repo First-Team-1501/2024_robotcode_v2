@@ -35,7 +35,10 @@ public class NormalDrive extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    translation = new Translation2d(MathUtil.applyDeadband(DRIVE_STICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_STICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+    DRIVEBASE.drive(translation, -MathUtil.applyDeadband(DRIVE_STICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
