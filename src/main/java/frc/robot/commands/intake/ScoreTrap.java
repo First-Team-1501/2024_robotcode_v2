@@ -6,6 +6,7 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.leds.Leds;
 
 public class ScoreTrap extends Command {
 
@@ -27,6 +28,7 @@ public class ScoreTrap extends Command {
     //System.out.println("Starting RunOuttakeCommand");
     INTAKE_SUBSYSTEM.set(-0.7, -0.7);
     counter = 0;
+    Leds.setAmpStatus(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

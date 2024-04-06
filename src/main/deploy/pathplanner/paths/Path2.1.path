@@ -41,37 +41,7 @@
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "intake",
-      "waypointRelativePos": 0.1,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "setDeckPosAuto1"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "getPiece"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "setDeckPosAuto1"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 3.15,

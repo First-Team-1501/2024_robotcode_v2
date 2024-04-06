@@ -20,7 +20,6 @@ import frc.robot.commands.deck.AutoDeckAim;
 import frc.robot.commands.deck.JogDeck;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.JogElevator;
-import frc.robot.commands.elevator.ResetElevatorPosition;
 import frc.robot.commands.elevator.SetElevatorAmpLimit;
 import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
@@ -129,7 +128,7 @@ public class TeleopCommands {
 
         // Button for Roborio
         private Trigger reset;
-        private Trigger zeroElevator;
+        private Trigger zeroEverything;
 
         public TeleopCommands(RobotContainer container) {
                 robot = container;
@@ -158,7 +157,8 @@ public class TeleopCommands {
                 mediumShot = new JoystickButton(operatorXbox, ControllerButton.B.value);
                 autoAim = new JoystickButton(operatorXbox, ControllerButton.X.value);
                 home = new JoystickButton(operatorXbox, ControllerButton.Select.value);
-                zeroElevator = new JoystickButton(operatorXbox, ControllerButton.Back.value);
+                zeroEverything = new JoystickButton(operatorXbox, ControllerButton.Back.value);
+                
 
                 // BUTTON BOARD
                 jogDeckUp = new JoystickButton(buttonBoard, 11);
@@ -310,7 +310,7 @@ public class TeleopCommands {
                                         .andThen(new SetDeckPosition(robot.getDeck(), 0))
                                         .andThen(new SetStabilizerPosition(robot.getStabilizer(), 0)));
 
-                zeroElevator.onTrue(new ResetElevatorPosition(robot.getElevator()));
+                zeroEverything.onTrue(new ResetRobot(robot, false));
 
                 // Button Board Commands
 
@@ -441,7 +441,7 @@ public class TeleopCommands {
                 headingMode.whileTrue(headingDrive);
 
                 // Reset Robot
-                reset.onTrue(new ResetRobot(robot));
+                reset.onTrue(new ResetRobot(robot, true));
 
                 if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Blue) 
                 {

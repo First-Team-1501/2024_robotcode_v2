@@ -51,9 +51,11 @@ public class Leds extends SubsystemBase {
 
   private void setupLeds() {
     // * This is for the blue alliance color
-    twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
+    //twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
+    twinkleblueAnimation = new TwinkleAnimation(0, 0, 255, 0, 1, 147, TwinklePercent.Percent76, 0);
     // * This is for the red alliance color
-    twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
+    //twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
+    twinkleredAnimation = new TwinkleAnimation(255, 0, 0, 0, 1, 147, TwinklePercent.Percent76, 0);
     // * This creates the CANdle
     candle1 = new CANdle(48, "canivore");
     // * This is for the strobe animation when locked onto the target
@@ -67,7 +69,7 @@ public class Leds extends SubsystemBase {
     // * This is for the rainbow animation
     rainbowAnimation = new RainbowAnimation(1, .75, 148);
     // * This is for the strobe animation when ready for amp
-    ampAnimation = new StrobeAnimation(255, 255, 0, 0, STROBE_SPEED, 148, 0);
+    ampAnimation = new StrobeAnimation(224, 80, 255, 0, STROBE_SPEED, 148, 0);
     // * This is for the Larson effect while climbing.
     climbAnimation = new TwinkleAnimation(255, 0, 255, 0, 1, 147, TwinklePercent.Percent76, 0);
   }

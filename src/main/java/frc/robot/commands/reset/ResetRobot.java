@@ -16,10 +16,12 @@ import frc.robot.RobotContainer;
 public class ResetRobot extends InstantCommand {
   BooleanSupplier isRed;
   RobotContainer robot;
+  boolean resetDrivebase;
 
-  public ResetRobot(RobotContainer robot) {
+  public ResetRobot(RobotContainer robot, boolean resetDrivebase) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.robot = robot;
+    this.resetDrivebase = resetDrivebase;
     addRequirements(
       robot.getClimber(), 
       robot.getDeck(),
@@ -40,7 +42,10 @@ public class ResetRobot extends InstantCommand {
   public void execute()
   {
     System.err.println("Reset!!!!!!!!!!!!!!!!!!!!!");
-     robot.getDrivebase().resetOdometry(new Pose2d());
+    if(resetDrivebase){
+      robot.getDrivebase().resetOdometry(new Pose2d());
+    }
+  
      robot.getStabilizer().resetEncoder();
      robot.getElevator().resetEncoder();
      robot.getDeck().resetEncoder();

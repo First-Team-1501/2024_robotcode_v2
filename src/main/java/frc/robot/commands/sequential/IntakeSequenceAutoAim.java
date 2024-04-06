@@ -41,8 +41,8 @@ public class IntakeSequenceAutoAim extends SequentialCommandGroup {
                                                                 new RunIntakeCommand(intake, leds)))),
                 new NormalDrive(drivebase, driveStick, rotStick)
                         .alongWith(
-                                new SetElevatorAmpLimit(elevator, 3, 3)
-                                        .alongWith(new SetElevatorMaxOutput(elevator, 0.2)),
+                                new SetElevatorAmpLimit(elevator, 30, 40)
+                                        .alongWith(new SetElevatorMaxOutput(elevator, 1.0)),
 
                                 new SetElevatorAmpLimit(elevator, 30, 40)
                                         .andThen(new SetElevatorMaxOutput(elevator, 1.0)),

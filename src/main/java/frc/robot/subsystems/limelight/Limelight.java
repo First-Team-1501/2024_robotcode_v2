@@ -128,7 +128,7 @@ public class Limelight extends SubsystemBase {
       .getEntry();
     
       // ! This is the default tab that the shuffleboard will open to.
-    Shuffleboard.selectTab("Drive Tab");
+    
   }
 
   public void setPipelineUsingAllianceColor() {

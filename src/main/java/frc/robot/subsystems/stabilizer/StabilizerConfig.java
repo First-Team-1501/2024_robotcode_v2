@@ -28,7 +28,7 @@ public class StabilizerConfig {
 
     // Min + Max Output
     public static double outputMin = -1;
-    public static double outputMax = 1;
+    public static double outputMax = 0.5;
 
     // Ramp Rate
     public static double openRampRate = 0; // Time in seconds (1 is good for percent based stuff) (percent mode)
@@ -51,8 +51,8 @@ public class StabilizerConfig {
     public static boolean softLimitRevEnabled = true;
 
     // Soft Limits
-    public static float softLimitFwd = 29;
-    public static float softLimitRev = -5;
+    public static float softLimitFwd = 27;
+    public static float softLimitRev = -10;
 
     // Analog for Hollow Bore
     public static double analogPositionConversion = 1;
