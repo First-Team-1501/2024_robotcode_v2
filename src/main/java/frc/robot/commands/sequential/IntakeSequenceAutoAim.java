@@ -38,17 +38,8 @@ public class IntakeSequenceAutoAim extends SequentialCommandGroup {
                                         .andThen(
                                                 new SetDeckPosition(deck, DeckPositions.intake)
                                                         .alongWith(
-                                                                new RunIntakeCommand(intake, leds)))),
-                new NormalDrive(drivebase, driveStick, rotStick)
-                        .alongWith(
-                                new SetElevatorAmpLimit(elevator, 30, 40)
-                                        .alongWith(new SetElevatorMaxOutput(elevator, 1.0)),
-
-                                new SetElevatorAmpLimit(elevator, 30, 40)
-                                        .andThen(new SetElevatorMaxOutput(elevator, 1.0)),
-
-                                new SetDeckPosition(deck, DeckPositions.home)
-                                        .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.zero))
-                                        .alongWith(new IndexNote(intake))));
+                                                                new RunIntakeCommand(intake, leds))))
+        );
+                
     }
 }

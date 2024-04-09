@@ -7,7 +7,7 @@ package frc.robot.commands.sequential;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.deck.SetDeckPosition;
 import frc.robot.commands.elevator.SetElevatorPosition;
-import frc.robot.commands.intake.StopIntake;
+import frc.robot.commands.intake.IndexNote;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
 import frc.robot.subsystems.elevator.ElevatorPositions;
@@ -26,7 +26,9 @@ public class RetractIntakeSequence extends SequentialCommandGroup {
     addCommands(
       new SetDeckPosition(deckSubsystem, DeckPositions.home)
         .alongWith(new SetElevatorPosition(elevatorSubsystem, ElevatorPositions.zero)
-        .alongWith(new StopIntake(intake)))
+        .alongWith(new IndexNote(intake))
+        //.alongWith(new StopIntake(intake))
+        )
     );
   }
 }
