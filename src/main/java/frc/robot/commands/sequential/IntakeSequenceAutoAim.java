@@ -7,12 +7,8 @@ package frc.robot.commands.sequential;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.commands.deck.SetDeckPosition;
-import frc.robot.commands.elevator.SetElevatorAmpLimit;
-import frc.robot.commands.elevator.SetElevatorMaxOutput;
 import frc.robot.commands.elevator.SetElevatorPosition;
-import frc.robot.commands.intake.IndexNote;
 import frc.robot.commands.intake.RunIntakeCommand;
-import frc.robot.commands.swervedrive.drivebase.NormalDrive;
 import frc.robot.commands.swervedrive.drivebase.NoteAutoAimRobot;
 import frc.robot.subsystems.deck.DeckPositions;
 import frc.robot.subsystems.deck.DeckSubsystem;
@@ -38,17 +34,8 @@ public class IntakeSequenceAutoAim extends SequentialCommandGroup {
                                         .andThen(
                                                 new SetDeckPosition(deck, DeckPositions.intake)
                                                         .alongWith(
-                                                                new RunIntakeCommand(intake, leds)))),
-                new NormalDrive(drivebase, driveStick, rotStick)
-                        .alongWith(
-                                new SetElevatorAmpLimit(elevator, 30, 40)
-                                        .alongWith(new SetElevatorMaxOutput(elevator, 1.0)),
-
-                                new SetElevatorAmpLimit(elevator, 30, 40)
-                                        .andThen(new SetElevatorMaxOutput(elevator, 1.0)),
-
-                                new SetDeckPosition(deck, DeckPositions.home)
-                                        .alongWith(new SetElevatorPosition(elevator, ElevatorPositions.zero))
-                                        .alongWith(new IndexNote(intake))));
+                                                                new RunIntakeCommand(intake, leds))))
+        );
+                
     }
 }
