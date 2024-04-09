@@ -28,6 +28,10 @@ public class AutoCommands {
         private Command auto5;
         private Command auto6;
         private Command auto7;
+        private Command auto8;
+        private Command auto9;
+        private Command auto10;
+
 
         public AutoCommands(RobotContainer robot) {
                 this.robot = robot;
@@ -105,6 +109,10 @@ public class AutoCommands {
                 auto5 = robot.getDrivebase().getAutoCommand("Auto5");
                 auto6 = robot.getDrivebase().getAutoCommand("Auto6");
                 auto7 = robot.getDrivebase().getAutoCommand("Auto7");
+                auto8 = robot.getDrivebase().getAutoCommand("Auto8");
+                auto9 = robot.getDrivebase().getAutoCommand("Auto9");
+                auto10 = robot.getDrivebase().getAutoCommand("Auto10");
+
                 
                 
         }
@@ -126,6 +134,12 @@ public class AutoCommands {
                                 return auto6;
                         case 7:
                                 return auto7;
+                        case 8:
+                                return auto8;
+                        case 9:
+                                return auto9;
+                        case 10:
+                                return auto10;
 
                         default:
                                 return new InstantCommand();

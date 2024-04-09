@@ -1,0 +1,129 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.8005363758475263,
+        "y": 6.794856832956909
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.2334653678272876,
+        "y": 7.784040072583924
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.8605331264724323,
+        "y": 7.663858931317843
+      },
+      "prevControl": {
+        "x": 2.8605331264724323,
+        "y": 7.663858931317843
+      },
+      "nextControl": {
+        "x": 4.860533126472428,
+        "y": 7.663858931317843
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.071455914991601,
+        "y": 5.800300603450209
+      },
+      "prevControl": {
+        "x": 8.063081990572371,
+        "y": 6.068266184865562
+      },
+      "nextControl": {
+        "x": 8.080700618165693,
+        "y": 5.504470101879296
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.8605331264724323,
+        "y": 5.574556013980635
+      },
+      "prevControl": {
+        "x": 5.9314256520250925,
+        "y": 8.349626271902117
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "3.1End"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.5500000000000003,
+      "rotationDegrees": -27.305493379086073,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.1500000000000001,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 3.0,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.25,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "getPiece"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "setDeckPosAuto1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 3.15,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 360.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Path10",
+  "previewStartingState": {
+    "rotation": 60.35013649242445,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
