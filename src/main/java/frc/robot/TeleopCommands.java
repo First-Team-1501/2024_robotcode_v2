@@ -36,6 +36,7 @@ import frc.robot.commands.sequential.IntakeSequenceTeleop;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.sequential.TeleopAimShoot;
 import frc.robot.commands.shooter.RevShooter;
+import frc.robot.commands.shooter.ToggleForward;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
 import frc.robot.commands.swervedrive.drivebase.AmpAutoAim;
 import frc.robot.commands.swervedrive.drivebase.RobotOrientedMode;
@@ -324,9 +325,11 @@ public class TeleopCommands {
                         .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
                 //middle forwarding
-                middleForward.whileTrue(new SetDeckPosition(robot.getDeck(), 3)
+                /*middleForward.whileTrue(new SetDeckPosition(robot.getDeck(), 3)
                         .alongWith(new RevShooter(robot.getShooter(),0.55 ,0.45)))
-                        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+                        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));*/
+                // * This is for the forwarding boolean
+                middleForward.onTrue(new ToggleForward(robot.getShooter()));
 
                 runIntake.whileTrue(new IntakeSequenceAutoAim(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds(), robot.getDrivebase(), driverController, rotationController)
                 .andThen(new RetractIntakeSequence(robot.getDeck(), robot.getElevator(), robot.getIntake())))
