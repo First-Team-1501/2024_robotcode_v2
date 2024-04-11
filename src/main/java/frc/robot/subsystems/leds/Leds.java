@@ -160,6 +160,6 @@ public class Leds extends SubsystemBase {
   }
 
   public void setForwarding() {
-    candle1.animate(strobeimation);
+    candle1.animate(forwardingAnimation);
   }
 }
