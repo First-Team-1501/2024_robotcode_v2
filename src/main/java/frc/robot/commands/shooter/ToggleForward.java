@@ -6,8 +6,6 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.leds.Leds;
-//import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.subsystems.shooter.ShooterConfig;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 
@@ -28,9 +26,10 @@ public class ToggleForward extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Leds.setForwardingStatus(false);
+    
     forwardingStatus = !forwardingStatus;
-    Shuffleboard.getTab("Info").add("Forwarding", forwardingStatus);
+    Leds.setForwardingStatus(forwardingStatus);
+    //Shuffleboard.getTab("Info").add("Forwarding", forwardingStatus);
    if(forwardingStatus)
    {
     // When True 
