@@ -18,8 +18,8 @@ public class ShooterConfig {
     public static double farLeftSpeed = 1;
     public static double farRightSpeed = .9;
 
-    public static double forwardingLeftSpeed = 0.45; // ! 0.55
-    public static double forwardingRightSpeed = 0.35; // ! 0.45
+    public static double forwardingLeftSpeed = 0.55; // ! 0.55
+    public static double forwardingRightSpeed = 0.45; // ! 0.45
 
     // **** LEFT SHOOTER CONFIG ****
 
