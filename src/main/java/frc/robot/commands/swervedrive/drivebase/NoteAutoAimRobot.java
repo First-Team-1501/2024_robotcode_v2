@@ -95,7 +95,7 @@ public class NoteAutoAimRobot extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    translation = new Translation2d(MathUtil.applyDeadband(DRIVE_JOYSTICK.getY(), OperatorConstants.LEFT_Y_DEADBAND)*3,MathUtil.applyDeadband(DRIVE_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3);
+    translation = new Translation2d(0, 0);
       DRIVEBASE.drive(translation, -MathUtil.applyDeadband(ROTATION_JOYSTICK.getX(), OperatorConstants.LEFT_X_DEADBAND)*3,true);
   }
 
@@ -103,6 +103,7 @@ public class NoteAutoAimRobot extends Command {
   @Override
   public boolean isFinished() {
     return INTAKE_SUBSYSTEM.readyToScoreTrap();
+    
   }
 
   public double limelight_aim_proportional_note() {

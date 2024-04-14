@@ -34,13 +34,18 @@ public class Leds extends SubsystemBase {
   private StrobeAnimation ampAnimation;
   // * This is for the Larson effect while climbing.
   private TwinkleAnimation climbAnimation;
+  // * This is for the Strobe effect when forwarding
+  private StrobeAnimation forwardingAnimation;
 
   private final double STROBE_SPEED = 98.0 / 256.0;
+  private final double EPILEPSY_SPEED = 200.0 / 256.0;
+  private final double FAST_STROBE = 140.0/ 256.0;
 
   private CANdle candle1;
   private static boolean intaking;
   private static boolean amping;
   private static boolean climbing;
+  private static boolean forwarding;
   ShooterSubsystem SHOOTER_SUBSYSTEM;
 
   /** Creates a new CANdle */
@@ -50,28 +55,35 @@ public class Leds extends SubsystemBase {
   }
 
   private void setupLeds() {
+    // ? For future reference, Purple is 235, 15, 251 RGB
+    
     // * This is for the blue alliance color
-    //twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
-    twinkleblueAnimation = new TwinkleAnimation(0, 0, 255, 0, 1, 147, TwinklePercent.Percent76, 0);
+    twinkleblueAnimation = new TwinkleAnimation(0, 0, 255);
     // * This is for the red alliance color
-    //twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
-    twinkleredAnimation = new TwinkleAnimation(255, 0, 0, 0, 1, 147, TwinklePercent.Percent76, 0);
+    twinkleredAnimation = new TwinkleAnimation(255, 0, 0);
     // * This creates the CANdle
     candle1 = new CANdle(48, "canivore");
     // * This is for the strobe animation when locked onto the target
     strobeimation = new StrobeAnimation(0, 255, 0, 255, 98.0 / 256.0, 68, 0);
     // * This is for the strobe animation when intaking
     strobeintakeAnimation = new StrobeAnimation(255, 255, 255, 255, STROBE_SPEED, 148, 0);
-    // * This is for the intaking boolean
-    intaking = false;
-    amping = false;
-    climbing = false;
     // * This is for the rainbow animation
     rainbowAnimation = new RainbowAnimation(1, .75, 148);
     // * This is for the strobe animation when ready for amp
-    ampAnimation = new StrobeAnimation(224, 80, 255, 0, STROBE_SPEED, 148, 0);
+    ampAnimation = new StrobeAnimation(224, 80, 255, 0, EPILEPSY_SPEED, 148, 0);
     // * This is for the Larson effect while climbing.
     climbAnimation = new TwinkleAnimation(255, 0, 255, 0, 1, 147, TwinklePercent.Percent76, 0);
+    // * This is for the Strobe effect when forwarding
+    forwardingAnimation = new StrobeAnimation(231, 15, 251, 0, FAST_STROBE, 148, 0);
+    
+    // ! This is for the intaking boolean
+    intaking = false;
+    // ! This is for the amping boolean
+    amping = false;
+    // ! This is for the climbing boolean
+    climbing = false;
+    // ! This is for the forwarding boolean
+    forwarding = false;
   }
 
   @Override
@@ -93,8 +105,12 @@ public class Leds extends SubsystemBase {
       setAmpReady();
     } else if (climbing) {
       setClimbing();
+    } else if (forwarding) {
+      setForwarding();
     }
+    
     else {
+      candle1.setLEDs(0, 0, 0);
       setLedsUsingAllianceColor();
     }
   }
@@ -132,6 +148,9 @@ public class Leds extends SubsystemBase {
   public static void setClimbingStatus(boolean status){
     climbing = status;
   }
+  public static void setForwardingStatus(boolean status){
+    forwarding = status;
+  }
 
   public void setAmpReady() {
     candle1.animate(ampAnimation);
@@ -139,5 +158,9 @@ public class Leds extends SubsystemBase {
 
   public void setClimbing() {
     candle1.animate(climbAnimation);
+  }
+
+  public void setForwarding() {
+    candle1.animate(forwardingAnimation);
   }
 }

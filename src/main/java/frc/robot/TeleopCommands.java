@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -36,7 +37,9 @@ import frc.robot.commands.sequential.IntakeSequenceTeleop;
 import frc.robot.commands.sequential.RetractIntakeSequence;
 import frc.robot.commands.sequential.TeleopAimShoot;
 import frc.robot.commands.shooter.RevShooter;
+import frc.robot.commands.shooter.ToggleForward;
 import frc.robot.commands.stabilizer.SetStabilizerPosition;
+import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AmpAutoAim;
 import frc.robot.commands.swervedrive.drivebase.RobotOrientedMode;
 import frc.robot.commands.swervedrive.drivebase.SpeakerAutoAim;
@@ -319,14 +322,38 @@ public class TeleopCommands {
                 scoreTrap.whileTrue(new ScoreTrap(robot.getIntake()));
 
                 //source forwarding
-                sourceForward.whileTrue(new SetDeckPosition(robot.getDeck(), 3)
+                /*sourceForward.whileTrue(new SetDeckPosition(robot.getDeck(), 3)
                         .alongWith(new RevShooter(robot.getShooter(),0.5 ,0.4)))
-                        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+                        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));*/
+
+                var alliance = DriverStation.getAlliance();
+                boolean isBlue = (alliance.get() == DriverStation.Alliance.Blue);
+                
+                Command blueForwarding = new AbsoluteDrive(robot.getDrivebase(), 
+                        () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND), 
+                        () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND), 
+                        () -> -0.4, 
+                        () -> 0.4);
+
+                Command redForwarding = new AbsoluteDrive(robot.getDrivebase(), 
+                        () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND), 
+                        () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND), 
+                        () -> -0.4, 
+                        () -> -0.4);
+
+                ConditionalCommand forwardingDrive = new ConditionalCommand(blueForwarding, redForwarding, () -> isBlue);
+                
+                sourceForward.whileTrue(
+                        forwardingDrive.alongWith(
+                                new SetDeckPosition(robot.getDeck(), 7)))
+                .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
 
                 //middle forwarding
-                middleForward.whileTrue(new SetDeckPosition(robot.getDeck(), 3)
+                /*middleForward.whileTrue(new SetDeckPosition(robot.getDeck(), 3)
                         .alongWith(new RevShooter(robot.getShooter(),0.55 ,0.45)))
-                        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));
+                        .onFalse(new SetDeckPosition(robot.getDeck(), DeckPositions.home));*/
+                // * This is for the forwarding boolean
+                middleForward.onTrue(new ToggleForward(robot.getShooter()));
 
                 runIntake.whileTrue(new IntakeSequenceAutoAim(robot.getIntake(), robot.getDeck(), robot.getElevator(), robot.getLeds(), robot.getDrivebase(), driverController, rotationController)
                 .andThen(new RetractIntakeSequence(robot.getDeck(), robot.getElevator(), robot.getIntake())))
