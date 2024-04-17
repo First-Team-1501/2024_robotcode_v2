@@ -102,8 +102,8 @@ public class NoteAutoAimRobot extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return INTAKE_SUBSYSTEM.readyToScoreTrap();
-    
+    return false;
+
   }
 
   public double limelight_aim_proportional_note() {
