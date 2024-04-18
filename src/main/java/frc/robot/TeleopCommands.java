@@ -338,7 +338,7 @@ public class TeleopCommands {
                 Command redForwarding = new AbsoluteDrive(robot.getDrivebase(), 
                         () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND), 
                         () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND), 
-                        () -> 0.4, 
+                        () -> -0.4, 
                         () -> 0.4);
 
                 ConditionalCommand forwardingDrive = new ConditionalCommand(blueForwarding, redForwarding, () -> isBlue);
