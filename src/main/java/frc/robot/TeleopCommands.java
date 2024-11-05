@@ -463,6 +463,10 @@ public class TeleopCommands {
 
         }
 
+        //adding things
+        int a;
+        
+
         public Command setAmpPipelineCommand;
 
         public Command onTeleopInit() {
